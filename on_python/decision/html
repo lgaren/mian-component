@@ -1,0 +1,778 @@
+<!DOCTYPE HTML>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>ApplicationMaster是如何启动container并通信 - 博客园</title>
+<meta http-equiv="keywords" content="applicationmaster,如何,启动,container,通信"/>
+<meta http-equiv="description" content="★ApplicationMaster是如何启动container并通信★解决方案,解决方法,BUG处理,异常处理,怎么办?怎么弄?如何处理?如何解决?ApplicationMaster是如何启动container并通信,博客园 "/>
+<meta name="keywords" content="applicationmaster,如何,启动,container,通信" />
+<meta name="description" content="★ApplicationMaster是如何启动container并通信★解决方案,解决方法,BUG处理,异常处理,怎么办?怎么弄?如何处理?如何解决?ApplicationMaster是如何启动container并通信,博客园 "/>
+<meta name="author" content="ApplicationMaster是如何启动container并通信 博客园 马开东博客是自媒体(自明星)人 马开东 站长的个人独立博客网站,关注最新IT科技新闻资讯,知名博客聚合,编程,搜索引擎优化SEO,互联网, 马开东博客 免费提供程序员软件开发中遇到的Exception Error程序错误的解决方案方法.专注于IT圈的个性化阅读,科技,创业,编程,设计,产品,营销,专业而全面的内容,媒体博客,论坛,微博.值得收藏的IT最好最优秀的网站!" />
+<meta name="Subject" content="ApplicationMaster是如何启动container并通信 博客园 马开东博客是自媒体(自明星)人 马开东 站长的个人独立博客网站,关注最新IT科技新闻资讯,知名博客聚合,编程,搜索引擎优化SEO,互联网, 马开东博客 免费提供程序员软件开发中遇到的Exception Error程序错误的解决方案方法.专注于IT圈的个性化阅读,科技,创业,编程,设计,产品,营销,专业而全面的内容,媒体博客,论坛,微博.值得收藏的IT最好最优秀的网站!" />
+<meta name="Copyright" content="ApplicationMaster是如何启动container并通信 博客园 马开东博客是自媒体(自明星)人 马开东 站长的个人独立博客网站,关注最新IT科技新闻资讯,知名博客聚合,编程,搜索引擎优化SEO,互联网, 马开东博客 免费提供程序员软件开发中遇到的Exception Error程序错误的解决方案方法.专注于IT圈的个性化阅读,科技,创业,编程,设计,产品,营销,专业而全面的内容,媒体博客,论坛,微博.值得收藏的IT最好最优秀的网站!" />
+<meta name="robots" content="all" />
+<meta name="googlebot" content="index,follow" />
+<meta name="revisit-after" content="1 days" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<!--[if lt IE 9]>
+<script src="/r/cms/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link href="/r/cms/www/red/css/html5.css" rel="stylesheet" type="text/css"/>
+<script src="/r/cms/www/red/js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+Cms.attachment("","14322","0","attach");
+Cms.viewCount("","14322");
+Cms.siteFlow("", location.href, document.referrer);
+});
+</script>
+</head>
+<body>
+<div class="container">
+  <div class=main_top id=main_top >
+<div class="theTop">
+	<div class="theTopLeft">
+    <div id="loginCsiDiv"></div>
+<script type="text/javascript">
+$(function(){
+	Cms.loginCsi("","loginCsiDiv",{"returnUrl":"/博客园热文/14322.shtml"});
+});
+</script>
+    </div>
+    <div class="theTopRight">
+   <div class=c_top_dh id=c_top_dh><script type='text/javascript'> c_top_dh();</script> </div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+   //加入收藏
+       function AddFavorite(sURL, sTitle) {
+           sURL =encodeURI(sURL);
+       try{
+          window.external.addFavorite(sURL, sTitle);
+       }catch(e) {
+          try{
+              window.sidebar.addPanel(sTitle, sURL, "");
+           }catch (e){
+              alert("”！");
+          }
+       }
+   }
+
+   //设为首页
+   function SetHome(url){
+       if (document.all) {
+          document.body.style.behavior='url(#default#homepage)';
+             document.body.setHomePage(url);
+       }else{
+           alert("”！");
+       }
+   }
+</script>     <div class=tbstyle id=tbstyle >
+       <div class=tbstyle1 id=tbstyle1 >
+             <div class=c_a_tb1 id=c_a_tb1><script type='text/javascript'> c_a_tb1();</script> </div>
+             <div class=c_a_tb2 id=c_a_tb2><script type='text/javascript'> c_a_tb2();</script> </div>
+
+        </div>
+        <div class=tbstyle2 id=tbstyle2 >
+             <div class=c_a_tb3 id=c_a_tb3><script type='text/javascript'> c_a_tb3();</script> </div>
+             <div class=c_a_tb4 id=c_a_tb4><script type='text/javascript'> c_a_tb4();</script> </div>
+
+        </div>
+        <div class=tbstyle3 id=tbstyle3 >
+             <div class=c_a_tb5 id=c_a_tb5><script type='text/javascript'> c_a_tb5();</script> </div>
+             <div class=c_a_tb6 id=c_a_tb6><script type='text/javascript'> c_a_tb6();</script> </div>
+        </div>
+     </div>
+  </div>
+<div class="pageTitle">
+    <!-- LOGO_begin -->
+    <div class="webLogo" id=search1 style="width:230px;">
+        <img src="../../r/cms/www/red/img/index/webLogo.gif" />
+    </div>
+<div class=tbsearch1 id=tbsearch1 >
+   <div class=c_a_head1 id=c_a_head1><script type='text/javascript'> c_a_head1();</script> </div>
+   <div class=c_a_head2 id=c_a_head2><script type='text/javascript'> c_a_head2();</script> </div>
+</div>
+
+
+
+  <div class="webLogo" id=search2 >
+ <div class=dbsearch_code id=dbsearch_code><script type='text/javascript'> dbsearch_code();</script> </div>
+
+    </div>
+
+  <div class="search3" id=search3 >
+ <div class=bzsearch_code_content id=bzsearch_code_content><script type='text/javascript'> bzsearch_code_content();</script> </div>
+
+    </div>
+ <div class="search4" id=search4 >
+ <div class=bzsearch_code_channel id=bzsearch_code_channel><script type='text/javascript'> bzsearch_code_channel();</script> </div>
+
+    </div>
+
+
+ <div class=tbsearch2 id=tbsearch2 >
+    <div class=c_a_head3 id=c_a_head3><script type='text/javascript'> c_a_head3();</script> </div>
+    <div class=c_a_head4 id=c_a_head4><script type='text/javascript'> c_a_head4();</script> </div>
+ </div>
+</div>
+<div class="clear"></div><div class=m_a_main id=m_a_main >
+     <div class="m_a"><script language="javascript">m_a();</script></div>
+  <div class=tbdh id=tbdh >
+    <div class=tbdh1 id=tbdh1 >
+        <div class=c_a_tb7 id=c_a_tb7><script type='text/javascript'> c_a_tb7();</script> </div>
+        <div class=c_a_tb8 id=c_a_tb8><script type='text/javascript'> c_a_tb8();</script> </div>
+
+    <div>
+    <div class=tbdh2 id=tbdh2 >
+         <div class=c_a_tb9 id=c_a_tb9><script type='text/javascript'> c_a_tb9();</script> </div>
+         <div class=c_a_tb10 id=c_a_tb10><script type='text/javascript'> c_a_tb10();</script> </div>
+
+    <div>
+    <div class=tbdh3 id=tbdh3 >
+         <div class=c_a_tb11 id=c_a_tb11><script type='text/javascript'> c_a_tb11();</script> </div>
+         <div class=c_a_tb12 id=c_a_tb12><script type='text/javascript'> c_a_tb12();</script> </div>
+     <div>
+   <div>
+</div>
+<div id="menu_dh" >
+
+
+</div>
+
+<div class="clear"></div>
+	<!-- 左栏_begin -->
+     <div class="c_m_w980">
+
+        <!-- 左栏_begin -->
+	<div class="w670 mt10" style="float:left;">
+             <div class="website">当前位置：<a href="/index.shtml" target="_blank" title="马开东博客首页">首页</a> → <a target="_blank" href="/博客园热文/index.shtml" title="博客园热文,马开东博客">博客园热文</a> → ApplicationMaster是如何启动container并通信
+             </div>
+             <div class="clear"></div>
+
+                 <div class="newsTex">
+        	<h1>ApplicationMaster是如何启动container并通信</h1><!--：{content.author!'佚名'} &n$bsp;-->
+                 <div class="msgbar" > &nbsp; 作者及来源： 南国故人 - 博客园 &nbsp;<span id="views"></span>  &nbsp;<span class=colorred>收藏到</span><span class=colorblue>→_→：</span> <span style="float:right;" class="c_a_tbfx"><script language="javascript">c_a_tbfx();</script></span>
+
+                  </div>
+            </div>
+            <div class="summary">
+                <div class="summary_1" id="summary_1">
+                    <div class=c_a_8 id=c_a_8><script type='text/javascript'>c_a_8();</script> </div>
+                    <div class=c_a_8_1_1 id=c_a_8_1_1><script type='text/javascript'>c_a_8_1_1();</script> </div>
+                </div>
+                    <span style="color:#ff0000; font-weight:bold;">摘要:</span> ApplicationMaster是如何启动container并通信
+                     <div class=c_m_l_zy id=c_m_l_zy><script type='text/javascript'>c_m_l_zy();</script> </div>
+            </div>
+
+
+          <div class="c_l_newsCon" style="">
+
+
+                  <div class="newsCon_1">
+                      <div class="newsCon_2">
+                            <div class=c_a_newsCon1 id=c_a_newsCon1 ><script type='text/javascript'>c_a_newsCon1();</script> </div>
+                            <div class=c_a_newsCon2 id=c_a_newsCon2 ><script type='text/javascript'>c_a_newsCon2();</script> </div>
+                      </div>
+                      <div class="newsCon_3">
+                            <div class=c_a_newsCon3 id=c_a_newsCon3 ><script type='text/javascript'>c_a_newsCon3();</script> </div>
+                            <div class=c_a_newsCon4 id=c_a_newsCon4 ><script type='text/javascript'>c_a_newsCon4();</script> </div>
+                      </div>
+                       <div class="newsCon_4">
+                           <div class=c_a_newsCon5 id=c_a_newsCon5 ><script type='text/javascript'>c_a_newsCon5();</script> </div>
+                           "ApplicationMaster是如何启动container并通信"：<div class=fgline ></div><b><a href="http://www.makaidong.com/search.jspx?q=关键词"  target="_blank">关键词</a>：</b><a href='http://www.makaidong.com/search.jspx?q=applicationmaster' title='点击搜索：applicationmaster' class=tagcolor>applicationmaster</a>  <a href='http://www.makaidong.com/search.jspx?q=如何' title='点击搜索：如何' class=tagcolor>如何</a>  <a href='http://www.makaidong.com/search.jspx?q=启动' title='点击搜索：启动' class=tagcolor>启动</a>  <a href='http://www.makaidong.com/search.jspx?q=container' title='点击搜索：container' class=tagcolor>container</a>  <a href='http://www.makaidong.com/search.jspx?q=通信' title='点击搜索：通信' class=tagcolor>通信</a><div http://www.makaidong.com class=fgline ></div><p class=c_a_6 id=c_a_6><script type='text/javascript'>c_a_6();</script> </p><p>本文解释了applicationmaster启动container并与其通信的机制.</p>
+<p>hadoop 2.0的yarn 实现了mapreduce计算框架, 其中container进程运行着mapreduce的task进程, 即yarnchild. 相对于以前hadoop版本的child进程.</p>
+<p>&nbsp;</p>
+<p><span style="font-size: medium;">yarnchild主流程(main方法)</span></p>
+<p>&nbsp;&nbsp;&nbsp; 启动yarnchild的命令行会传递一些参数给yarnchild进程, 包括host, port, taskattemptid和jvmidint. 这里的host和port为该container需要汇报的am(applicationmaster)地址.</p>
+<p>&nbsp;&nbsp;&nbsp; 进程启动后, 首先获取命令行参数, 然后初始化metrics和安全相关的对象(可选).</p>
+<p>&nbsp;&nbsp;&nbsp; 创建taskumbilicalprotocol对象(使用hadoop-common的rpc), 使用taskumbilicalprotocol协议向am通信,&nbsp; 其实taskumbilicalprotocol存在于以前的hadoop版本中, 是task向tasktracker通信的协议. taskumbilicalprotocol接口提供的方法如下, 主要包括状态更新, 获取map结束事件等.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image002" src="http://images.cnblogs.com/cnblogs_com/shenh062326/201211/201211241353014983.jpg" alt="clip_image002" width="305" height="327" border="0" /></a></p>
+<p>&nbsp;&nbsp;&nbsp; 然后通过一系列的初始化后运行用户代码, 即map或reduce的run方法. 这和以前版本的代码类似, 不再赘述.</p>
+<p>&nbsp;&nbsp;&nbsp; 这里具体介绍一下yarnchild启动的参数host和port的来龙去脉, 是谁生成的, 又是怎么传到container的.</p>
+<p>&nbsp;&nbsp;&nbsp; 在mapreducechildjvm类中, 通过getvmcommand方法创建了container的启动命令, 在这里am使用把自己的host和port放到了启动命令行的参数中(即container直接向am汇报), 而这个方法只被taskattemptimpl类的createcontainerlaunchcontext调用, 也就是说, 是在创建containerlaunchcontext的时候赋值的. 这与官网(http://hadoop.apache.org/docs/r0.23.3/hadoop-yarn/hadoop-yarn-site/writingyarnapplications.html)中描述的类似</a>:</p>
+<p>转载请注明出处(http://www.cnblogs.com/shenh062326/archive/2012/11/24/2785694.html)</p>
+<blockquote>
+<p>after a container has been allocated to the applicationmaster, it needs to follow a similar process that the client followed in setting up the containerlaunchcontext for the eventual task that is going to be running on the allocated container. once the containerlaunchcontext is defined, the applicationmaster can then communicate with the containermanager to start its allocated container.</p>
+<p>也就是说创建containerlaunchcontext后交给nodemanager启动相应的container (yarnchild). yarnchild再向am汇报.</p>
+<p>下图展示了三者的关系:</p>
+<p>&nbsp;&nbsp;&nbsp; <img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="image" src="http://images.cnblogs.com/cnblogs_com/shenh062326/201211/201211241353028920.png" alt="image" width="714" height="286" border="0" /></a></p>
+<p>注: containermanager协议是applicationmaster向nodemanager通信的协议</p>
+</blockquote></div><br/><div   8siteurl=http://www.makaidong.com class=fgline></div>搜索此文相关文章：<a href='http://www.makaidong.com/search.jspx?q=ApplicationMaster是如何启动container并通信' title='ApplicationMaster是如何启动container并通信'><span class=colorblue >ApplicationMaster是如何启动container并通信</span></a><div class=fgline  ></div><script language="javascript">var url = window.location.href;document.write("此文链接：<a  href="+url+">"+url+"</a><div class=fgline  ></div>");document.write("转载请注明出处：<a href="+url+">"+document.title+"</a>");</script><div  class=fgline ></div><p class=c_a_5 id=c_a_5><script type='text/javascript'>c_a_5();</script></p><p>此文来自: <span ><b>马开东博客</b></span>  网址:<a href=http://www.makaidong.com>http://www.makaidong.com</a><span class=colorred > 站长QQ</span> <a href="javascript:if(confirm('站长QQ420434200,点击确定开始回话!'))window.location='http://wpa.qq.com/msgrd?v=3&uin=420434200&site=qq&menu=yes'" target='_blank'><img border='0'  width='20' height='20'  alt='站长QQ420434200,点击确定开始回话!' src='http://www.makaidong.com/r/cms/qq.gif ' ></a><span class=colorred > 赞助本站</span><a href="javascript:if(confirm('如果您想赞助本站长期发展,可以给站长 马开东 捐款,谢谢您的支持,我们会一如既往的努力,点击确认捐赠'))window.location='http://me.alipay.com/makaidong'" target='_blank'><img border='0'  alt='如果您想赞助本站长期发展,可以给站长 马开东 捐款,谢谢您的支持,我们会一如既往的努力,点击确认捐赠' src='http://www.makaidong.com/r/cms/zfb.png' width='86' height='20'></a></p><p class=c_a_7 id=c_a_7><script type='text/javascript'>c_a_7();</script></p><div class=fgline  site1url=http://www.makaidong.com></div>
+                            <div class=c_a_newsCon6 id=c_a_newsCon6 ><script type='text/javascript'>c_a_newsCon6();</script> </div>
+
+                       </div>
+                   </div>
+
+
+           <div class="txt_db" id="txt_db">
+                <div class="txt_db1" id="txt_db1">
+                     <div class=c_a_db1 id=c_a_db1><script type='text/javascript'>c_a_db1();</script> </div>
+                     <div class=c_a_db2 id=c_a_db2><script type='text/javascript'>c_a_db2();</script> </div>
+                </div>
+                <div class="txt_db2" id="txt_db2">
+                    <div class="pagebar"></div>
+                </div>
+                <div class="txt_db3" id="txt_db3">
+                    <div class=c_a_db3 id=c_a_db3><script type='text/javascript'>c_a_db3();</script> </div>
+                    <div class=c_a_db4 id=c_a_db1><script type='text/javascript'>c_a_db4();</script> </div>
+                </div>
+            </div>
+
+
+
+        <div class="other">
+                <div class="txt_db4_1_1" id="txt_db4_1_1">
+                      <div class=c_a_db5_1_1 id=c_a_db5_1_1><script type='text/javascript'>c_a_db5_1_1();</script> </div>
+                      <div class=c_a_db6_1_1 id=c_a_db6_1_1><script type='text/javascript'>c_a_db6_1_1();</script> </div>
+                </div>
+                 <div class=c_a_zan id=c_a_zan><script type='text/javascript'>c_a_zan();</script> </div>
+
+                <ul>
+                 <li><strong>上一篇：</strong><a href="/博客园热文/14318.shtml"> Hadoop启动Shell启动脚本分析--基于hadoop-0.20.2-cdh3u1</a></li>
+                <li><strong>下一篇：</strong> <span class=c_a_db10 id=c_a_db10><script type='text/javascript'>c_a_db10();</script> </span></li>
+
+                </ul>
+
+                <div class=c_a_zan_fx id=c_a_zan_fx><script type='text/javascript'>c_a_zan_fx();</script> </div>
+
+                <div class="txt_db4" id="txt_db4">
+                      <div class=c_a_db5 id=c_a_db5><script type='text/javascript'>c_a_db5();</script> </div>
+                      <div class=c_a_db6 id=c_a_db6><script type='text/javascript'>c_a_db6();</script> </div>
+                </div>
+
+
+<div class="hundred100" id="txt_db5_1_1" style="float:left;border:1px solid #999999;">
+     <div class="rim06" id="txt_db5_1_1_1">
+<h4><span style=" font-size:12px;font-weight:bold;">ApplicationMaster是如何启动container并通信_博客园</span><span style="background-color: #0000FF; color: #FFFFFF; font-size:18px;font-weight:bold;">相关文章</span></h4>
+
+<ul>
+<li><a href="/博客园热文/14318.shtml"  title=" Hadoop启动Shell启动脚本分析--基于hadoop-0.20.2-cdh3u1" target="_blank" >       Hadoop启动Shell启动脚本分析--基于hadoop..</a></li>
+<li><a href="/博客园热文/14268.shtml"  title="作了一个介绍和如何使用web-config文的报告" target="_blank" >      作了一个介绍和如何使用web-config文的报告..</a></li>
+<li><a href="/博客园热文/14231.shtml"  title="谈谈如何应对软件开发中的需求变更" target="_blank" >      谈谈如何应对软件开发中的需求变更..</a></li>
+<li><a href="/博客园热文/14105.shtml"  title="在网页上连接Microsoft PowerPoint文件,如何只能供浏览,而不能被下载" target="_blank" >      在网页上连接Microsoft PowerPoint文件,如..</a></li>
+<li><a href="/博客园热文/14102.shtml"  title="在网页上连接Microsoft PowerPoint文件,如何只能供浏览,而不能被下载ZT" target="_blank" >      在网页上连接Microsoft PowerPoint文件,如..</a></li>
+<li><a href="/博客园热文/14072.shtml"  title="php如何通过字符串获取域名URL地址" target="_blank" >      php如何通过字符串获取域名URL地址..</a></li>
+<li><a href="/博客园热文/13913.shtml"  title="如何成为高级程序员转" target="_blank" >      如何成为高级程序员转..</a></li>
+<li><a href="/博客园热文/13848.shtml"  title="Hadoop代码笔记Hadoop作业提交之Child启动map任务" target="_blank" >      Hadoop代码笔记Hadoop作业提交之Child启动m..</a></li>
+<li><a href="/博客园热文/13817.shtml"  title="祝贺WCF邮件通信系统在高阳市场研究汇编第五期发表" target="_blank" >      祝贺WCF邮件通信系统在高阳市场研究汇编第..</a></li>
+<li><a href="/博客园热文/13805.shtml"  title="如何修改 POWERPOINT2007 背景图片" target="_blank" >      如何修改 POWERPOINT2007 背景图片..</a></li>
+</ul>
+      </div>
+
+ <div class="rim06" id="txt_db5_1_1_2">
+ <div class=c_a_newsCon5_1 id=c_a_newsCon5_1 ><script type='text/javascript'>c_a_newsCon5_1();</script> </div>
+ </div>
+</div>
+
+
+             <div class="txt_db5" id="txt_db5">
+                      <div class=c_a_db7 id=c_a_db7><script type='text/javascript'>c_a_db7();</script> </div>
+                      <div class=c_a_db8 id=c_a_db8><script type='text/javascript'>c_a_db8();</script> </div>
+             </div>
+
+
+
+
+                <div class="txt_db6" id="txt_db6">
+                      <div class=c_a_db9 id=c_a_db9><script type='text/javascript'>c_a_db9();</script> </div>
+
+                </div>
+         </div>
+        <div class="clear-10"></div>
+                <div class="txt_db6" id="txt_db6">
+                       <div class=c_a_db11 id=c_a_db11><script type='text/javascript'>c_a_db11();</script> </div>
+                       <div class=c_a_db12 id=c_a_db12><script type='text/javascript'>c_a_db12();</script> </div>
+                </div>
+         <div class="hundred100">
+            <div class="rim06">
+                    <span style="background-color: #CC0000; color: #FFFFFF; font-size:18px;font-weight:bold;">热门评论:</span>
+                    <div class=c_a_cy id=c_a_cy><script type='text/javascript'>c_a_cy();</script> </div>
+            </div>
+        </div>
+                <div class="txt_db7" id="txt_db7">
+                       <div class=c_a_db13 id=c_a_db13><script type='text/javascript'>c_a_db13();</script> </div>
+                       <div class=c_a_db14 id=c_a_db14><script type='text/javascript'>c_a_db14();</script> </div>
+                </div>
+
+
+
+
+
+
+          </div>
+
+        </div>
+           <!-- 左栏_end -->
+<div class="c_r_w300" ><!---style="border:1px solid #00f;"-->
+    <div class="r0">
+        <div class="c_r_a c_r_1_a"><script language="javascript">c_r_1_a();</script></div>
+        <div class="c_r_a c_r_2_a"><script language="javascript">c_r_2_a();</script></div>
+    </div>
+
+ <!--总最热_begin -->
+    <div class="rim04 mt10">
+        <div class="cjbdCon">
+            <div class="titleBg1">
+                <h1>博客园</h1><h2>_总排行榜</h2>
+<em>
+<a href="/博客园热文/index_2.shtml" target="_blank" title="博客园总排行榜">
+更多>></a>
+</em>
+
+            </div>
+            <div class="clear"></div>
+            <div class="cjbdPic">
+            </div>
+            <div class="jrhtList">
+                <ul>
+                  <li>
+                <a href="/博客园热文/14299.shtml" title="经典ASP.NET视频教程分享" target="_blank">
+经典ASP.NET视频教程分享                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/13803.shtml" title="WindowsCommunicationFoundation之旅系列之一" target="_blank">
+WindowsCommunicationFoundation之旅系列之                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14133.shtml" title="windows8认识及使用" target="_blank">
+windows8认识及使用                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/6865.shtml" title="今天写一个读卡器程序,操作AD时的一个Exception:The authentication mechanism is unknown" target="_blank">
+今天写一个读卡器程序,操作AD时的一个Excep                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14105.shtml" title="在网页上连接Microsoft PowerPoint文件,如何只能供浏览,而不能被下载" target="_blank">
+在网页上连接Microsoft PowerPoint文件,如                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14282.shtml" title="ESRI今年的Dev Summit的幻灯片" target="_blank">
+ESRI今年的Dev Summit的幻灯片                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14143.shtml" title="activemq配置详解" target="_blank">
+activemq配置详解                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/13972.shtml" title="Java高手真经.系统架构卷:JavaWeb系统设计与架构:UML建模+设计模式+面向服务架构" target="_blank">
+Java高手真经.系统架构卷:JavaWeb系统设计                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14272.shtml" title="关于WAP测试方法的演讲胶片" target="_blank">
+关于WAP测试方法的演讲胶片                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14303.shtml" title="架构设计:进程还是线程转" target="_blank">
+架构设计:进程还是线程转                </a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--总最热_end -->
+
+
+
+
+
+
+
+<div class="r">
+    <div class="r0_0">
+        <div class="c_r_a c_r_1_a_0"><script language="javascript">c_r_1_a_0_0();</script></div>
+        <div class="c_r_a c_r_2_a_1"><script language="javascript">c_r_2_a_1_1();</script></div>
+
+
+    <!--最新_begin -->
+    <div class="rim04 mt10">
+        <div class="cjbdCon">
+            <div class="titleBg1">
+                <h1>博客园</h1><h2>_最新</h2>
+<em>
+
+<a href="/博客园热文/index.shtml" target="_blank" title="博客园最新发布排行榜">
+
+
+  更多>></a>
+</em>
+
+            </div>
+            <div class="clear"></div>
+            <div class="cjbdPic">
+            </div>
+            <div class="jrhtList">
+                <ul>
+                  <li>
+                <a href="/博客园热文/14322.shtml" title="ApplicationMaster是如何启动container并通信" target="_blank">
+ApplicationMaster是如何启动container并通                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14318.shtml" title=" Hadoop启动Shell启动脚本分析--基于hadoop-0.20.2-cdh3u1" target="_blank">
+ Hadoop启动Shell启动脚本分析--基于hadoop                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14317.shtml" title="DotNet入门介绍" target="_blank">
+DotNet入门介绍                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14316.shtml" title="转WindowsCommunicationFoundation介绍一" target="_blank">
+转WindowsCommunicationFoundation介绍一                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14315.shtml" title="Embedded Visual Basic PocketPC2.0 与PC端的安装" target="_blank">
+Embedded Visual Basic PocketPC2.0 与PC端                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14313.shtml" title="面向服务的体系结构SOA概述转" target="_blank">
+面向服务的体系结构SOA概述转                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14312.shtml" title="2007-12-23成都俱乐部活动" target="_blank">
+2007-12-23成都俱乐部活动                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14311.shtml" title="libhdfs编译,安装,配置,使用" target="_blank">
+libhdfs编译,安装,配置,使用                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14310.shtml" title="当代第一IT诗人代腾飞在线互动访谈精彩问答上转" target="_blank">
+当代第一IT诗人代腾飞在线互动访谈精彩问答                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14309.shtml" title="分享视频下载11月29日高阳和我在北京邮电大学的演讲IT职业规划和软件加服务" target="_blank">
+分享视频下载11月29日高阳和我在北京邮电大                </a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--最新_end -->
+
+  </div>
+ <div class="r1_1">
+        <div class="c_r_a c_r_1_a_0"><script language="javascript">c_r_1_a_1_1_1();</script></div>
+        <div class="c_r_a c_r_2_a_1"><script language="javascript">c_r_2_a_1_1_2();</script></div>
+
+
+    <!--月最热_begin -->
+    <div class="rim04 mt10">
+        <div class="cjbdCon">
+            <div class="titleBg1">
+                <h1>博客园</h1><h2>_月排行榜</h2>
+<em>
+
+<a href="/博客园热文/index_3.shtml" target="_blank" title="博客园月排行榜">
+
+
+  更多>></a>
+</em>
+
+            </div>
+            <div class="clear"></div>
+            <div class="cjbdPic">
+            </div>
+            <div class="jrhtList">
+                <ul>
+                  <li>
+                <a href="/博客园热文/14202.shtml" title="一个有关忆阻器/Memristor的小介绍" target="_blank">
+一个有关忆阻器/Memristor的小介绍                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14258.shtml" title="同学帮忙做的关于以前项目的一些介绍" target="_blank">
+同学帮忙做的关于以前项目的一些介绍                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14184.shtml" title="使用Hive UDF和GeoIP库为Hive加入IP识别功能" target="_blank">
+使用Hive UDF和GeoIP库为Hive加入IP识别功能                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/13608.shtml" title="网站架构,从小型到支持高负载的大型网站发展之路" target="_blank">
+网站架构,从小型到支持高负载的大型网站发                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14286.shtml" title="广州第一次.NET会议的资料" target="_blank">
+广州第一次.NET会议的资料                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14223.shtml" title="Hadoop单机伪分布的搭建" target="_blank">
+Hadoop单机伪分布的搭建                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14281.shtml" title="基于hadoop+nutch+solr的搜索引擎环境搭载&lt;二&gt;nutch+solr整合以及搭载在hadoop上" target="_blank">
+基于hadoop+nutch+solr的搜索引擎环境搭载&                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/13848.shtml" title="Hadoop代码笔记Hadoop作业提交之Child启动map任务" target="_blank">
+Hadoop代码笔记Hadoop作业提交之Child启动m                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14307.shtml" title="OO思想的多态接口与委托" target="_blank">
+OO思想的多态接口与委托                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14082.shtml" title="火狐最实用的几款插件介绍含附件" target="_blank">
+火狐最实用的几款插件介绍含附件                </a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--月最热_end -->
+
+  </div>
+  <div class="r2">
+
+     <div class="c_r_a c_r_5_a"><script language="javascript">c_r_5_a();</script></div>
+     <div class="c_r_a c_r_6_a"><script language="javascript">c_r_6_a();</script></div>
+     <div class="clear-10"></div>
+       <!--周最热_begin -->
+    <div class="rim04 mt10">
+        <div class="cjbdCon">
+            <div class="titleBg1">
+                <h1>博客园</h1><h2>_周排行榜</h2>
+ <em>
+
+<a href="/博客园热文/index_4.shtml" target="_blank" title="博客园周排行榜">
+
+
+  更多>></a>
+</em>
+
+            </div>
+            <div class="clear"></div>
+            <div class="cjbdPic">
+            </div>
+            <div class="jrhtList">
+                <ul>
+                  <li>
+                <a href="/博客园热文/14191.shtml" title="Hibernate开发配置文件和开发全面流程大全" target="_blank">
+Hibernate开发配置文件和开发全面流程大全                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14296.shtml" title="实体框架之领域驱动实践一:从DataTable到EntityObject" target="_blank">
+实体框架之领域驱动实践一:从DataTable到En                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14318.shtml" title=" Hadoop启动Shell启动脚本分析--基于hadoop-0.20.2-cdh3u1" target="_blank">
+ Hadoop启动Shell启动脚本分析--基于hadoop                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14130.shtml" title="安卓开发简单介绍" target="_blank">
+安卓开发简单介绍                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14166.shtml" title="&lt;转&gt;Hadoop入门总结" target="_blank">
+&lt;转&gt;Hadoop入门总结                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/13531.shtml" title="2011年12月技术活动分享及.NET Gadgeteer介绍" target="_blank">
+2011年12月技术活动分享及.NET Gadgeteer介                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14297.shtml" title="基于Hadoop的云盘系统客户端技术难点之三小文件存储优化" target="_blank">
+基于Hadoop的云盘系统客户端技术难点之三小                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14284.shtml" title="成功解决flash添加3dmax作的动画问题" target="_blank">
+成功解决flash添加3dmax作的动画问题                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14279.shtml" title="文摘20100706软件架构师应该知道的97件事" target="_blank">
+文摘20100706软件架构师应该知道的97件事                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14303.shtml" title="架构设计:进程还是线程转" target="_blank">
+架构设计:进程还是线程转                </a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--周最热_end -->
+
+  </div>
+  <div class="r3">
+     <div class="c_r_a c_r_7_a"><script language="javascript">c_r_7_a();</script></div>
+     <div class="c_r_a c_r_8_a"><script language="javascript">c_r_8_a();</script></div>
+
+      <!--日最热_begin -->
+    <div class="rim04 mt10">
+        <div class="cjbdCon">
+            <div class="titleBg1">
+                <h1>博客园</h1><h2>_日排行榜</h2>
+<em>
+
+<a href="/博客园热文/index_5.shtml" target="_blank" title="博客园日排行榜">
+
+
+  更多>></a>
+</em>
+
+            </div>
+            <div class="clear"></div>
+            <div class="cjbdPic">
+            </div>
+            <div class="jrhtList">
+                <ul>
+                  <li>
+                <a href="/博客园热文/303.shtml" title="一步一步学Silverlight2系列31:图形图像综合实例—实现水中倒影效果转" target="_blank">
+一步一步学Silverlight2系列31:图形图像综                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14322.shtml" title="ApplicationMaster是如何启动container并通信" target="_blank">
+ApplicationMaster是如何启动container并通                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14318.shtml" title=" Hadoop启动Shell启动脚本分析--基于hadoop-0.20.2-cdh3u1" target="_blank">
+ Hadoop启动Shell启动脚本分析--基于hadoop                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14317.shtml" title="DotNet入门介绍" target="_blank">
+DotNet入门介绍                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14316.shtml" title="转WindowsCommunicationFoundation介绍一" target="_blank">
+转WindowsCommunicationFoundation介绍一                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14315.shtml" title="Embedded Visual Basic PocketPC2.0 与PC端的安装" target="_blank">
+Embedded Visual Basic PocketPC2.0 与PC端                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14313.shtml" title="面向服务的体系结构SOA概述转" target="_blank">
+面向服务的体系结构SOA概述转                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14312.shtml" title="2007-12-23成都俱乐部活动" target="_blank">
+2007-12-23成都俱乐部活动                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14311.shtml" title="libhdfs编译,安装,配置,使用" target="_blank">
+libhdfs编译,安装,配置,使用                </a>
+                </li>
+                  <li>
+                <a href="/博客园热文/14310.shtml" title="当代第一IT诗人代腾飞在线互动访谈精彩问答上转" target="_blank">
+当代第一IT诗人代腾飞在线互动访谈精彩问答                </a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--日最热_end -->
+  </div>
+  <div class="r4">
+     <div class="c_r_a c_r_9_a"><script language="javascript">c_r_9_a();</script></div>
+     <div class="c_r_a c_r_10_a"><script language="javascript">c_r_10_a();</script></div>
+
+  </div>
+  <div class="r5">
+     <div class="c_r_a c_r_11_a"><script language="javascript">c_r_11_a();</script></div>
+     <div class="c_r_a c_r_12_a"><script language="javascript">c_r_12_a();</script></div>
+
+  </div>
+
+  <div class="r6">
+     <div class="c_r_a c_r_13_a"><script language="javascript">c_r_13_a();</script></div>
+     <div class="c_r_a c_r_14_a"><script language="javascript">c_r_14_a();</script></div>
+
+  </div>
+  <div class="r7">
+     <div class="c_r_a c_r_15_a"><script language="javascript">c_r_15_a();</script></div>
+     <div class="c_r_a c_r_16_a"><script language="javascript">c_r_16_a();</script></div>
+
+  </div>
+  <div class="r8">
+     <div class="c_r_a c_r_17_a"><script language="javascript">c_r_17_a();</script></div>
+     <div class="c_r_a c_r_18_a"><script language="javascript">c_r_18_a();</script></div>
+
+  </div>
+  <div class="r9">
+     <div class="c_r_a c_r_19_a"><script language="javascript">c_r_19_a();</script></div>
+     <div class="c_r_a c_r_20_a"><script language="javascript">c_r_20_a();</script></div>
+
+  </div>
+  <div class="r10">
+     <div class="c_r_a c_r_21_a"><script language="javascript">c_r_21_a();</script></div>
+     <div class="c_r_a c_r_22_a"><script language="javascript">c_r_22_a();</script></div>
+
+  </div>
+
+</div>
+
+
+
+</div><div class="clear"></div>
+
+              <div class="txt_db7_1_0" id="txt_db7_1_0">
+                       <div class=c_a_db13_1_0 id=c_a_db13_1_0><script type='text/javascript'>c_a_db13_1_0();</script> </div>
+                       <div class=c_a_db14_1_0 id=c_a_db14_1_0><script type='text/javascript'>c_a_db14_1_0();</script> </div>
+              </div>
+
+<div class="m_t" id="m_t">
+    <div class="m_t_h"><span class="m_t_h_s"><a href="/IT各类解决方案.html"  target="_blank" title="查看'马开东博客'所有,IT各类解决方案"><span class=colorwhite
+
+>IT各类解决方案</span></a></span><a href="/IT热门搜索方案.html" title="查看'马开东博客'所有,IT热门搜索排行榜方案" target="_blank" class="m_t_h_a" id="colorred">>>IT热门搜
+
+索排行榜</a></div>
+
+ <div class=dbflfx id=dbflfx><script type='text/javascript'>dbflfx();</script> </div>
+
+              <div class="txt_db7_1_1" id="txt_db7_1_1">
+                       <div class=c_a_db13_1_1 id=c_a_db13_1_1><script type='text/javascript'>c_a_db13_1_1();</script> </div>
+                       <div class=c_a_db14_1_1 id=c_a_db14_1_1><script type='text/javascript'>c_a_db14_1_1();</script> </div>
+              </div>
+              <div class="txt_db7_1_2" id="txt_db7_1_2">
+                       <div class=c_a_db13_1_2 id=c_a_db13_1_2><script type='text/javascript'>c_a_db13_1_2();</script> </div>
+                       <div class=c_a_db14_1_2 id=c_a_db14_1_2><script type='text/javascript'>c_a_db14_1_2();</script> </div>
+              </div>
+
+</div><div class="clear-10">
+
+</div>
+<div class="footBg">
+    <div class="footBglm">
+    <a target="_blank" href="/about.html">关于我们</a> -
+    <a target="_blank" href="/联系我们.html">联系我们</a> -
+    <a target="_blank" href="/rss.jspx">RSS</a> -
+    <a target="_blank" href="/网站地图.html">网站地图</a> -
+    <a target="_blank" href="/TAG.html">TAG</a> -
+    <a target="_blank" href="/guestbook.jspx">意见建议</a> -
+    <a target="_blank" href="/诚聘英才.html">诚聘英才</a> -
+    <a target="_blank" href="/友情链接.html">友情链接</a> -
+
+    <a target="_blank" href="/合作服务.html">合作服务</a> -
+    <a target="_blank" href="/许可协议.html">许可协议</a>  -
+    <a target="_blank" href="/投放广告.html"><span style="color:red;">投放广告</span></a> -
+   <a target="_blank" href="/购买本站程序.html"><span style="color:red;">购买本站程序</span></a>
+
+
+    </div>
+    <div class="clear-10"></div>
+   <span class=c_db_lxfs id=c_db_lxfs ><script type='text/javascript'>c_db_lxfs();</script></span>   <span class=c_a_dbbdtj id=c_a_dbbdtj ><script
+
+type='text/javascript'>c_a_dbbdtj();</script> </span>
+ <span class=c_a_dbtj id=c_a_dbtj ><script type='text/javascript'>c_a_dbtj();</script> </span>  <span class=c_db_lxzz id=c_db_lxzz ><script
+
+type='text/javascript'>c_db_lxzz();</script> </span>
+<a target="_blank" href="/sitemap.xml"><span class=colorwhite>1</span></a>
+<a target="_blank" href="/sitemap_bd.html"><span class=colorwhite>2</span></a>
+<a target="_blank" href="/sitemap_gg..html"><span class=colorwhite>3</span></a>
+    <a target="_blank" href="/tag..html"><span class=colorwhite>4</span></a>
+ <a target="_blank" href="/more..html"><span class=colorwhite>5</span></a>
+ <a target="_blank" href="/fl..html"><span class=colorwhite>6</span></a> <br />
+  <span class=c_db_qq id=c_db_qq ><script type='text/javascript'>c_db_qq();</script>
+
+<span class="c_a_mkd"><script language="javascript">c_a_mkd();</script></span>
+<br />
+   <span class="c_db_bq"><script language="javascript">c_db_bq();</script></span>
+<div class=c_a_dbfx id=c_a_dbfx><script type='text/javascript'>c_a_dbfx();</script> </div>
+<div class=c_a_dbbdfx id=c_a_dbbdfx><script type='text/javascript'>c_a_dbbdfx();</script> </div>
+</div>     </div>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+在HBase查询的时候，有以下几种方式：
+通过get方式，指定rowkey获取唯一一条记录
+通过scan方式，设置startRow和stopRow参数进行范围匹配
+全表扫描，即直接扫描整张表中所有行记录
+
+不要将时间放在二进制码的前面，建议将rowkey的高位作为散列字段，由程序随机生成，低位放时间字段，这样将提高数据均衡分布在每个RegionServer，
+以实现负载均衡的几率。如果没有散列字段，首字段直接是时间信息，所有的数据都会集中在一个RegionServer上，这样在数据检索的时候负载会集中在个别的RegionServer上，
+造成热点问题，会降低查询效率。
+
+必须在设计上保证其唯一性，rowkey是按照字典顺序排序存储的，因此，设计rowkey的时候，要充分利用这个排序的特点，将经常读取的数据存储到一块，
+将最近可能会被访问的数据放到一块。
+
+而是在rowkey的前面增加随机数，具体就是给rowkey分配一个随机前缀以使得它和之前的rowkey的开头不同。
+分配的前缀种类数量应该和你想使用数据分散到不同的region的数量一致。
+哈希会使同一行永远用一个前缀加盐。哈希也可以使负载分散到整个集群，但是读却是可以预测的。使用确定的哈希可以让客户端重构完整的rowkey，
+可以使用get操作准确获取某一个行数据
+
+这样可以使得rowkey中经常改变的部分（最没有意义的部分）放在前面。这样可以有效的随机rowkey，但是牺牲了rowkey的有序性。
+反转rowkey的例子以手机号为rowkey，可以将手机号反转后的字符串作为rowkey，这样的就避免了以手机号那样比较固定开头导致热点问题
+
+一个常见的数据处理问题是快速获取数据的最近版本，使用反转的时间戳作为rowkey的一部分对这个问题十分有用，可以用 Long.Max_Value - timestamp 追加到key的末尾，例如 [key][reverse_timestamp] , [key] 的最新值可以通过scan [key]获得[key]的第一条记录，因为HBase中rowkey是有序的，第一条记录是最后录入的数据。
+比如需要保存一个用户的操作记录，按照操作时间倒序排序，在设计rowkey的时候，可以这样设计
+[userId反转][Long.Max_Value - timestamp]，在查询用户的所有操作记录数据的时候，直接指定反转后的userId，startRow是[userId反转][000000000000],stopRow是[userId反转][Long.Max_Value - timestamp]
+如果需要查询某段时间的操作记录，startRow是[user反转][Long.Max_Value - 起始时间]，stopRow是[userId反转][Long.Max_Value - 结束时间]
+
+
+scan可以通过setFilter方法添加过滤器，这也是分页、多条件查询的基础。
+
+在满足长度、三列、唯一原则后，我们需要考虑如何通过巧妙设计RowKey以利用scan方法的范围功能，使得获取一批记录的查询速度能提高。
+下例就描述如何将多个列组合成一个RowKey，使用scan的range来达到较快查询速度。
+
+同时对于统计数据我们也缺省采用按天数据分表，这样设计的好处无需多说。按天分表后，时间信息只需要保留小时分钟
+
+1、Table中所有行都按照row key的字典序排列；
+2、Table在行的方向上分割为多个Region；
+3、Region按大小分割的，每个表开始只有一个region，随着数据增多，region不断增大，当增大到一个阀值的时候，region就会等分会两个新的region，之后会有越来越多的region；
+4、Region是Hbase中分布式存储和负载均衡的最小单元，不同Region分布到不同RegionServer上。
+
+随机数 不同的按照不同的 区间 ，这样也可以使用 scan + star + stop
+
+Hmaster
+管理HRegionServer，实现其负载均衡。
+管理和分配HRegion，比如在HRegion split时分配新的HRegion；在HRegionServer退出时迁移其内的HRegion到其他HRegionServer上。
+实现DDL操作（Data Definition Language，namespace和table的增删改，column familiy的增删改等）。
+管理namespace和table的元数据（实际存储在HDFS上）。
+权限控制（ACL）。
+
+HRegionServer节点用于：
+存放和管理本地HRegion。
+读写HDFS，管理Table中的数据。
+Client直接通过HRegionServer读写数据（从HMaster中获取元数据，找到RowKey所在的HRegion/HRegionServer后）。
+
+ZooKeeper集群是协调系统，用于：
+存放整个 HBase集群的元数据以及集群的状态信息。
+实现HMaster主从节点的failover。
