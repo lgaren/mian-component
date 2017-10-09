@@ -20,9 +20,7 @@ public class LambdaFunctional <T>{
 //        fun.accept();
         test3(e -> {System.out.println("包装函数测试");
             System.out.println(e[0]);
-
         }).accept("测试参数");
-
 
     }
 

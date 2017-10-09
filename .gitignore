@@ -1,4 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
+/mian-component.iml
 /machine-learning-course.iml
 /python_test/python_test.iml
 /jvm_test/jvm_test.iml
@@ -6,3 +7,7 @@
 /auto_deployment/auto_deployment.iml
 /on_python/on_python.iml
 /.idea/
+/on_jvm/on_jvm.iml
+/jvm_test/target/
+/framework/target/
+/on_jvm/target/
