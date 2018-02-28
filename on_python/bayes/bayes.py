@@ -1,13 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
+* ━━━━━━神兽出没━━━━━━
+* 　　　┏┓　　　┏┓
+* 　　┏┛┻━━━┛┻┓
+* 　　┃　　　　　　　┃
+* 　　┃　　　━　　　┃
+* 　　┃　┳┛　┗┳　┃
+* 　　┃　　　　　　　┃
+* 　　┃　　　┻　　　┃
+* 　　┃　　　　　　　┃
+* 　　┗━┓　　　┏━┛
+* 　　　　┃　　　┃神兽保佑, 永无BUG!
+* 　　　　┃　　　┃Code is far away from bug with the animal protecting
+* 　　　　┃　　　┗━━━┓
+* 　　　　┃　　　　　　　┣┓
+* 　　　　┃　　　　　　　┏┛
+* 　　　　┗┓┓┏━┳┓┏┛
+* 　　　　　┃┫┫　┃┫┫
+* 　　　　　┗┻┛　┗┻┛
+* ━━━━━━━━━━━━━━━━
+*
 Created on 2017/7/25
 
 machine-learning-test
 
 @author: DSG
 """
+
 # train  : 训练
 import re
 from numpy import *

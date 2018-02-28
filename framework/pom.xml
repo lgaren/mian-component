@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>framework</artifactId>
+    <dependencies>
+    <!-- https://mvnrepository.com/artifact/ojdbc/ojdbc -->
+        <!-- https://mvnrepository.com/artifact/oracle/ojdbc6 -->
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.1.0</version>
+        </dependency>
 
-
+    </dependencies>
 </project>

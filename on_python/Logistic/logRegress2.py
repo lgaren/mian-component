@@ -8,9 +8,10 @@ machine-learning-test
 
 @author: DSG
 """
-from numpy import *
 import matplotlib.pyplot as plt
-import common.params as params
+from numpy import *
+
+from on_python.common import common as params
 
 # http://blog.csdn.net/whai362/article/details/51860379
 # http://blog.csdn.net/ariessurfer/article/details/41310525
@@ -56,7 +57,7 @@ def plotBestFit(weights):
 def loadDataSet():
     dataMat = [];
     labelMat = []
-    fr = open('../../resource/com.dsglyy.logistic/testSet.txt')  # 数据中每一条数据包含两个特征 一个类别
+    fr = open('../../resource/logistic/testSet.txt')  # 数据中每一条数据包含两个特征 一个类别
     for line in fr.readlines():
         lineArr = line.strip().split()
         dataMat.append([1.0, float(lineArr[0]), float(lineArr[1])])  # [[1.0, shape1, shape2],.....]

@@ -11,3 +11,7 @@
 /jvm_test/target/
 /framework/target/
 /on_jvm/target/
+test/ebk3.py
+test/launcher.py
+test/rtyi.ebk3
+

@@ -10,12 +10,12 @@ public class LambdaFunctional <T>{
 
     public static void main(String[] args) {
         List sd = Arrays.asList("a", "b", "d");
-//        sd.forEach(e -> System.out.println(e));
+        sd.forEach(e -> System.out.println(e));
 //        test((e,c) -> {System.out.println(c);return"";},"out Lambda");
 //        test2(new FunctionalInter[]{(e ->System.out.println("saf")),(e ->System.out.println("saf"))});
 //      test2(new FunctionalInter[]{(e ->System.out.println("saf")),(e ->System.out.println("saf"))});
 //        test((e,c) -> {System.out.println(c),"out Lambda");
-
+//
 //        FunctionalInter fun = (() -> System.out.println("saf"));
 //        fun.accept();
         test3(e -> {System.out.println("包装函数测试");

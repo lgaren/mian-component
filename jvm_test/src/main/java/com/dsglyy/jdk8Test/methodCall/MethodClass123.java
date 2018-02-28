@@ -15,6 +15,10 @@ public class MethodClass123 {
         return supplier.get();
     }
 
+//    MethodClass123(String name){
+//        this.name = name;
+//    }
+
     public static String collide( ) {
         System.out.println( "Collided ");
         return "";
@@ -42,7 +46,7 @@ public class MethodClass123 {
 
     public static void main(String[] args) {
 
-//        ClassName :: new 其实返回一个函数接口对象。这个和构造函数有点像，不过和构造函数冲突，有构造函数不能这么用
+//        ClassName :: new 其实返回一个函数接口对象。这个和构造函数有点像
         MethodClass123 met = MethodClass123.create(MethodClass123 :: new);
         Supplier123<MethodClass123> fun = MethodClass123 :: new;
         MethodClass123 insta = ((Supplier123<MethodClass123>) MethodClass123 :: new).get();
@@ -60,13 +64,12 @@ public class MethodClass123 {
 //        ClassNeam :: methodName 这种方式有严格的限制，首先接口函数的第一个参数类型必须是和这里的class一样，其余任意
 //        而且参数的个数必须比 class 里面的 方法多一个 ，再者这个方法不是静态的。
 //        在这个函数执行的时候，最终走入到类的方法里面，由于非静态的方法只能用对象来调用，那么这种情况的实质就是，
-//        用函数的第一感参数来执行函数  ，把其余的参数作为参数传递给类方法
+//        用函数的第一个参数来执行函数  ，把其余的参数作为参数传递给类方法
         Functional2<MethodClass123> dsg1 =  MethodClass123::follow;
         dsg1.accept(new MethodClass123().setName("aqfqagh"),new MethodClass123().setName("ageg65"));
 
         Functional3<MethodClass123> dsg2 =  MethodClass123::follow2;
         dsg2.accept(new MethodClass123().setName("aqfqagh"),"asfghjhdf");
-
     }
 
     public static  void test(Supplier123<MethodClass123> ins){

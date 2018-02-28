@@ -8,9 +8,10 @@ machine-learning-test
 
 @author: DSG
 """
-from numpy import *
 import matplotlib.pyplot as plt
-import common.common as params
+from numpy import *
+
+from on_python.common import common as params
 
 # http://blog.csdn.net/whai362/article/details/51860379
 # http://blog.csdn.net/ariessurfer/article/details/41310525

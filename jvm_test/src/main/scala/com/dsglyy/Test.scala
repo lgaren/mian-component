@@ -5,7 +5,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by admin on 2017/5/3.
   */
-object test {
+object testFun {
   def main(args: Array[String]) {
 
     //    把函数赋值给变量注意后面的  _ ，没有 _ 会报错
@@ -23,6 +23,7 @@ object test {
     //    println(fun(layout,3))
 
     //    动态包装一个函数
+
     val fun1 = returnFun1((x,y) => {
       val  y = x + 12
       y*10

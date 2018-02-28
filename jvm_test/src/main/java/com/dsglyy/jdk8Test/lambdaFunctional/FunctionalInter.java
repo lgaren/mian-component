@@ -24,4 +24,14 @@ public class FunctionalInter {
 
 //    void accept();
     }
+    @FunctionalInterface
+    public interface Functionally<R,T,E> {
+
+//
+//    T accept(Object t,String args);
+
+         R accept(T arg1,E arg2);
+
+//    void accept();
+    }
 }
