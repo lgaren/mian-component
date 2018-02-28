@@ -12,6 +12,7 @@
         <module>framework</module>
         <module>on_jvm</module>
         <module>jvm_test</module>
+        <module>common</module>
     </modules>
 
     <dependencies>
