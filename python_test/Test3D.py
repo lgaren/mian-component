@@ -8,6 +8,7 @@ machine-learning-course
 
 @author: DSG
 """
+
 import matplotlib.pyplot as plt
 from matplotlib import *
 from numpy import *

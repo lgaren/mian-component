@@ -46,7 +46,6 @@ public class DSGConfig extends Configuration {
         }
     }
 
-
 //    System.getProperty("user.dir") + File.separator + "conf" + File.separator
 //                + "log4j.properties"
     /**
@@ -61,13 +60,24 @@ public class DSGConfig extends Configuration {
     public static enum ConfVars {
 
         /** 某些资源对象在内存最大的闲置时间，超过这些时间没有被访问或者被使用，将会被清理掉，在这个项目中hive接口的Session,元数据库的JDBC对象会被当做是一种资源来处理。 */
-        RESOURCE_LIMIT_UNUSEDTIME("com.lvmama.seagull.resource.aliveTime", "600s",
+        RESOURCE_LIMIT_UNUSEDTIME("com.dsglyy.common.resource.aliveTime", "600s",
         		"某些资源对象在内存最大的闲置时间，超过这些时间没有被访问或者被使用，将会被清理掉，" +
                         "在这个项目中hive接口的Session,元数据库的JDBC对象会被当做是一种资源来处理。"),
 
         /** 项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次 */
-        RESOURCE_CLEANER_RUN_INTERVAL("com.lvmama.seagull.resource.cleaner.runInterval", "10s",
-        		"项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次"),;
+        RESOURCE_CLEANER_RUN_INTERVAL("com.dsglyy.common.resource.cleaner.runInterval", "10s",
+        		"项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次"),
+        DATABASE_USER("javax.jdo.option.ConnectionUserName", "bigdata_admin", "关系行数据库访问用户名, (包括mysql和 oracle )"),
+        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "fmdGDSAC9AGc", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
+        DATABASE_HOST("javax.jdo.option.host", "172.20.7.51", "关系行数据库HOST， (包括mysql和 oracle )"),
+        DATABASE_PORT("javax.jdo.option.port", 3306, "关系行数据库PORT， (包括mysql和 oracle )"),
+        DATABASE_DRIVER("javax.jdo.option.ConnectionDriverName", "com.mysql.jdbc.Driver", "关系行数据库驱动CLASS， (包括mysql和 oracle )"),
+        HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2的访问端口"),
+        HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2的主机"),
+        HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2客户端访问用户"),
+        HIVE_SERVER2_PASSWORD("hive.server2.thrift.client.password", "", "hive server2客户端访问用户密码"),
+        HIVE_SERVER2_DRIVWE("hive.server2.thrift.jdbc.ConnectionDriverName", "org.apache.hive.jdbc.HiveDriver", "hive server2客户端的jdbc驱动")
+        ;
 //  hive.server2.thrift.port
 //  hive.server2.thrift.bind.host
 
@@ -157,7 +167,6 @@ public class DSGConfig extends Configuration {
     }
 
     public static String getVar(ConfVars var) {
-        System.out.println(var.varname+"dsssss");
         return getConf().get(var.varname, getConf().get(var.varname)) == null ?
                 var.defaultStrVal : getConf().get(var.varname);
     }
