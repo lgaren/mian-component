@@ -59,5 +59,4 @@ public enum DatabaseConfig {
     @Deprecated
     public int port(){throw new AbstractMethodError();}
 
-
 }

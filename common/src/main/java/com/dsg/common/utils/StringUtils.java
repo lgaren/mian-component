@@ -4328,7 +4328,6 @@ public class StringUtils {
 		return join(array, separator, 0, array.length);
 	}
 	
-	
 	  /**
 	   * Interns and returns a reference to the representative instance 
 	   * for any of a collection of string instances that are equal to each other.
@@ -4466,7 +4465,6 @@ public class StringUtils {
 	   * @return Constants.EMPTY string if strs.length is 0, comma separated list of strings
 	   * otherwise
 	   */
-	  
 	  public static String arrayToString(String[] strs) {
 	    if (strs.length == 0) { return ""; }
 	    StringBuilder sbuf = new StringBuilder();
@@ -4477,7 +4475,7 @@ public class StringUtils {
 	    }
 	    return sbuf.toString();
 	  }
-	
+
 	/**
 	 * <p>
 	 * Joins the elements of the provided array into a single String containing the

@@ -1,5 +1,7 @@
 package com.dsg.common.conf;
 
+import com.dsg.common.utils.StringUtils;
+
 import java.util.concurrent.TimeUnit;
 
 
@@ -67,11 +69,11 @@ public class DSGConfig extends Configuration {
         /** 项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次 */
         RESOURCE_CLEANER_RUN_INTERVAL("com.dsglyy.common.resource.cleaner.runInterval", "10s",
         		"项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次"),
-        DATABASE_USER("javax.jdo.option.ConnectionUserName", "bigdata_admin", "关系行数据库访问用户名, (包括mysql和 oracle )"),
-        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "fmdGDSAC9AGc", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
-        DATABASE_HOST("javax.jdo.option.host", "172.20.7.51", "关系行数据库HOST， (包括mysql和 oracle )"),
-        DATABASE_PORT("javax.jdo.option.port", 3306, "关系行数据库PORT， (包括mysql和 oracle )"),
-        DATABASE_DRIVER("javax.jdo.option.ConnectionDriverName", "com.mysql.jdbc.Driver", "关系行数据库驱动CLASS， (包括mysql和 oracle )"),
+        DATABASE_USER("javax.jdo.option.ConnectionUserName", "lvmama_super", "关系行数据库访问用户名, (包括mysql和 oracle )"),
+        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "iJPUYLIZpI", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
+        DATABASE_HOST("javax.jdo.option.host", "172.20.7.20", "关系行数据库HOST， (包括mysql和 oracle )"),
+        DATABASE_PORT("javax.jdo.option.port", 1521, "关系行数据库PORT， (包括mysql和 oracle )"),
+        DATABASE_DRIVER("javax.jdo.option.ConnectionDriverName", "oracle.jdbc.driver.OracleDriver", "关系行数据库驱动CLASS， (包括mysql和 oracle )"),
         HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2的访问端口"),
         HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2的主机"),
         HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2客户端访问用户"),
@@ -145,8 +147,6 @@ public class DSGConfig extends Configuration {
         throw new IllegalArgumentException("Invalid size unit " + unit);
     }
 
-
-
     /**
      * Description: 获取配置文件中的数据大小的相关配置，配置文件中支持 {@code k,m,g,y,p,kb,mb,gb,tb,pb} 不区分大小写的配置
      * <br/> 
@@ -199,11 +199,11 @@ public class DSGConfig extends Configuration {
     }
 
 
-//    public static String[] getTrimmedStringsVar(ConfVars var) {
-//        String[] result = getConf().getTrimmedStrings(var.varname, (String[]) null);
-//        if (result != null) return result;
-//        return StringUtils.getTrimmedStrings(var.defaultStrVal);
-//    }
+    public static String[] getTrimmedStringsVar(ConfVars var) {
+        String[] result = getConf().getTrimmedStrings(var.varname, (String[]) null);
+        if (result != null) return result;
+        return StringUtils.getTrimmedStrings(var.defaultStrVal);
+    }
 
     public static int getTTLTime(ConfVars var) {
         long time = getTimeVar(var, TimeUnit.SECONDS);

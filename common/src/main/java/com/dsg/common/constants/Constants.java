@@ -1,6 +1,5 @@
 package com.dsg.common.constants;
 
-import java.io.File;
 import java.nio.charset.Charset;
 
 /**
@@ -14,15 +13,11 @@ import java.nio.charset.Charset;
  */
 public class Constants {
 
-    public final static String CONF_DIR = System.getProperty("project.configuration") + File.separator;
-
-//    public final static String CONF_DIR = HOME_DIR + ".." + File.separator + "conf" + File.separator;
-
     public final static String LEFT = "{";
+
     public final static String RIGHT = "}";
 
     public final static String TRAN = "-";
-
 
     public static final String SPACE = " ";
 
@@ -42,14 +37,7 @@ public class Constants {
 
     public static final String  confFile= "dsg-site.xml";
 
-    /** 最大的字符数量 */
     final public static String[] emptyStringArray = {};
 
-    //	 private final static Interner<String> strongInterner;
     private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
-
-//    public final static String HIVESERVER2_URL = "jdbc:hive2://10.201.4.51:10000/ods";
-
-//    public final static String HIVE_SERVER2_DRIVERNAME = "org.apache.hive.jdbc.HiveDriver";
-
 }

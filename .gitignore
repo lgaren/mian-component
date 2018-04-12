@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-/mian-component.iml
+mian-component.iml
 /machine-learning-course.iml
 /python_test/python_test.iml
 /jvm_test/jvm_test.iml
@@ -14,5 +14,4 @@
 test/ebk3.py
 test/launcher.py
 test/rtyi.ebk3
-
 /common/common.iml

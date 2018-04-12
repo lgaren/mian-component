@@ -1,5 +1,6 @@
 package com.test;
 
+import com.dsg.common.constants.DatabaseType;
 import com.dsg.common.utils.JDBC;
 
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ public class Test {
 
     public static void main(String[] dsg){
         try {
-            JDBC jdbc = new JDBC(JDBC.DatabaseType.HIVE_SERVER2,"ods");
+            JDBC jdbc = new JDBC(DatabaseType.HIVE_SERVER2,"ods");
             jdbc.execute("", 8);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
