@@ -20,7 +20,6 @@ k 临近算法 ，分类 ，属于有监督学习
 
 """
 
-
 def classify0(inX, dataSet, labels, k):
     dataSetSize = dataSet.shape[0]
     diffMat = tile(inX, (dataSetSize, 1)) - dataSet
