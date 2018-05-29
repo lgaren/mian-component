@@ -7,7 +7,7 @@ import com.dsg.common.constants.DatabaseType;
 
 import java.sql.*;
 import java.util.Arrays;
-
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 /**
  * Created on 2018/3/132018 三月 星期二下午 17:12
  * mian-component
@@ -17,15 +17,13 @@ import java.util.Arrays;
  */
 public class JDBC {
 
-
-
-
     private Connection con = null;
     private Statement stmt = null;
 
     public JDBC(DatabaseType serverName, String schema) throws ClassNotFoundException, SQLException {
+//        Class clz = SQLServerDriver.class;
         Class.forName(DSGConfig.getVar(serverName.driverName));
-        con = DriverManager.getConnection(serverName.urlPrefix + DSGConfig.getVar(serverName.host) + Constants.SPLIT +DSGConfig.getIntVar(serverName.port) + Constants.URL_PARAMS_SPLIT +  schema,
+        con = DriverManager.getConnection(serverName.urlPrefix + DSGConfig.getVar(serverName.host) + Constants.SPLIT +DSGConfig.getIntVar(serverName.port) + serverName.urlSplit +  schema,
                 DSGConfig.getVar(serverName.userName), DSGConfig.getVar(serverName.password));
         stmt = con.createStatement();
     }

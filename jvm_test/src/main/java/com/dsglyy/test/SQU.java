@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Created on 2017/12/192017 十二月 星期二下午 19:22
- * mian-component
+ * mian-component   用于将两个sql 文件里面的注释中和，同时处理一些字段类型的错误
  *
  * @author: <a href="mailto:(liuyuanyuan@lvmama.com)">Liu Yuanyuan</a>
  * Version:  SQU, V 0.0  2017/12/19 下午 19:22 DSG Exp$$
@@ -52,6 +52,10 @@ public class SQU {
         fileUtils((table_name, line) -> {
                     String[] split = line.split(" ");
                     String commont = old.get((table_name + split[0]).toLowerCase());
+                    System.out.println( split[0]);
+                    if ( split[0].toLowerCase().indexOf("id") >= 0 ) {
+                        return split[0] + " " + "string COMMENT " + commont;
+                    }
                     if (split[0].indexOf("amount") >= 0 && split[0].toLowerCase().indexOf("id") == -1 && line.indexOf("金额") >= 0 && line.indexOf("类型") == -1) {
                         return split[0] + " " + "DECIMAL (28, 10) COMMENT " + commont;
                     }
@@ -80,7 +84,7 @@ public class SQU {
 //                    String new_line = split[0] + " " + split[1] + " " + split[2] + " " + commont;
                     }
                     return new_line;
-                }, "D:\\Program_Data\\IdeaProjects\\mian-component\\jvm_test\\src\\main\\java\\com\\dsglyy\\test\\new_sql", true
+                }, "D:\\Program_Data\\IdeaProjects\\mian-component\\jvm_test\\src\\main\\java\\com\\dsglyy\\test\\old_sql", true
         );
 
         write.forEach(e -> System.out.println(e));
@@ -98,6 +102,7 @@ public class SQU {
             boolean flag = false;
             String table_name = null;
             while ((line = br.readLine()) != null) {
+//                System.out.println(line);
                 if (line.indexOf("ROW FORMAT DELIMITED FIELDS TERMINATED BY") >= 0) {
                     flag = false;
                     line = fun2.accept(table_name, line);
@@ -108,7 +113,9 @@ public class SQU {
                     flag = true;
                     table_name = line.split(" ")[3];
                 }
+
                 if (wFlag) write.add(line);
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

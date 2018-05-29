@@ -26,13 +26,6 @@ public class DSGConfig extends Configuration {
 
     private DSGConfig() {
         super();
-//        addResource(getVar(ConfVars.HADOOP_CORE_SITE_XML));
-//        addResource(getVar(ConfVars.HADOOP_HDFS_SITE_XML));
-//        addResource(getVar(this,ConfVars.HIVE_SITE_XML));
-//        addResource("../conf/conf.xml");
-//        set(ConfVars.HDFS_KEYTAB_FILE.varname,DSGConfig.getVar(this ,ConfVars.HDFS_KEYTAB_FILE));
-//dsg-site.xml
-//        set(ConfVars.HDFS_KERBEROS_PRINCIPAL.varname,DSGConfig.getVar(this ,ConfVars.HDFS_KERBEROS_PRINCIPAL));
     }
 
     public synchronized static DSGConfig getConf() {
@@ -60,7 +53,7 @@ public class DSGConfig extends Configuration {
      * <br/>
      */
     public static enum ConfVars {
-
+//com.mysql.jdbc.Driver
         /** 某些资源对象在内存最大的闲置时间，超过这些时间没有被访问或者被使用，将会被清理掉，在这个项目中hive接口的Session,元数据库的JDBC对象会被当做是一种资源来处理。 */
         RESOURCE_LIMIT_UNUSEDTIME("com.dsglyy.common.resource.aliveTime", "600s",
         		"某些资源对象在内存最大的闲置时间，超过这些时间没有被访问或者被使用，将会被清理掉，" +
@@ -69,11 +62,11 @@ public class DSGConfig extends Configuration {
         /** 项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次 */
         RESOURCE_CLEANER_RUN_INTERVAL("com.dsglyy.common.resource.cleaner.runInterval", "10s",
         		"项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次"),
-        DATABASE_USER("javax.jdo.option.ConnectionUserName", "lvmama_super", "关系行数据库访问用户名, (包括mysql和 oracle )"),
-        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "iJPUYLIZpI", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
-        DATABASE_HOST("javax.jdo.option.host", "172.20.7.20", "关系行数据库HOST， (包括mysql和 oracle )"),
-        DATABASE_PORT("javax.jdo.option.port", 1521, "关系行数据库PORT， (包括mysql和 oracle )"),
-        DATABASE_DRIVER("javax.jdo.option.ConnectionDriverName", "oracle.jdbc.driver.OracleDriver", "关系行数据库驱动CLASS， (包括mysql和 oracle )"),
+        DATABASE_USER("javax.jdo.option.ConnectionUserName", "bigdata_admin", "关系行数据库访问用户名, (包括mysql和 oracle )"),
+        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "BIGdata12345688", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
+        DATABASE_HOST("javax.jdo.option.host", "10.17.1.7", "关系行数据库HOST， (包括mysql和 oracle )"),
+        DATABASE_PORT("javax.jdo.option.port", 1433, "关系行数据库PORT， (包括mysql和 oracle )"),
+        DATABASE_DRIVER("javax.jdo.option.ConnectionDriverName", "com.microsoft.sqlserver.jdbc.SQLServerDriver", "关系行数据库驱动CLASS， (包括mysql和 oracle )"),
         HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2的访问端口"),
         HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2的主机"),
         HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2客户端访问用户"),
