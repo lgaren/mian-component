@@ -18,7 +18,7 @@ public class MetaAnnotationTestClass {
     public static class Target_TypeTest {
 
         @TargetTest.TargetTypeTest(enumField = DSGEnum.DSG2, stringField = "MetaAnnotationTestClass.Target_TypeTest.TargetTypeClassTest", value = 0)
-        public class TargetClassTest <@TargetTest.TargetType_ParameterTest  T> extends DSGClass {
+        public class TargetClassTest < @TargetTest.TargetType_ParameterTest  T> extends DSGClass {
 
             @TargetTest.TargetFieldTest('d')
             String field;

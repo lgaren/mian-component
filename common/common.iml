@@ -258,5 +258,7 @@
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-annotations:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: oracle:ojdbc6:11.2.0.1.0" level="project" />
     <orderEntry type="library" name="sqljdbc42" level="project" />
+    <orderEntry type="library" name="R User Library" level="project" />
+    <orderEntry type="library" name="R Skeletons" level="application" />
   </component>
 </module>

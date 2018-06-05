@@ -35,7 +35,7 @@ public class DataTest {
     static XSSFWorkbook workbook;
     static XSSFSheet sheet;
 
-    static String sql_data_count =  "select count(1) from ? ";
+    static String sql_data_count =  "select count(1) from {table} ";
     static String sql_coln_max = "select max(?) from {table}  " ;
     static String sql_coln_min = "select min(?) from {table}  ";
     static String sql_coln_null_count = "select count(1) from {table} where ? is null " ;
@@ -91,7 +91,7 @@ public class DataTest {
 //    }
     public static void parseValue(String[] stream, XSSFRow row,Function21<String,String,String> funVal, String... values) {
         Arrays.stream(stream).forEach(col -> {
-            Arrays.stream(values).forEach(value -> writeToExce(row, funVal.apply(col,value)));
+            Arrays.stream(values).forEach(value -> writeToExce(row, ((Function<String,String>) value1 ->funVal.apply(col,value1)).apply(value)));
         });
     }
 
@@ -134,7 +134,6 @@ public class DataTest {
 
             if (result.next()) return result.getObject(1).toString();
         } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             try {
                 result.close();

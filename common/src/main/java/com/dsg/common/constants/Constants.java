@@ -20,6 +20,7 @@ public class Constants {
     public final static String TRAN = "-";
 
     public static final String SPACE = " ";
+    public static final String COMMA = ",";
 
     public static final String EMPTY = "";
 
@@ -37,7 +38,7 @@ public class Constants {
 
     public static final String SPLIT = ":";
 
-    public static final String SQL_PH = "?";
+    public static final String SQL_PH = "\\?";
 
     public static final String  confFile= "dsg-site.xml";
 
