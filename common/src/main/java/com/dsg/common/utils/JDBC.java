@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 import com.dsg.common.funct.Function21;
 import com.dsg.common.funct.Function31;
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
+//import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 /**
  * Created on 2018/3/132018 三月 星期二下午 17:12
  * mian-component
@@ -33,6 +33,7 @@ public class JDBC {
     }
 
     public <T> ResultSet executeQuery(String sql , T replce) throws SQLException {
+        System.out.println(sql.replace(Constants.SQL_PH, replce.toString()) + "==============");
         return stmt.executeQuery(sql.replace(Constants.SQL_PH, replce.toString()));
     }
 //    Function31<Integer,Function<Integer,Boolean>,Function<Integer,Integer>,String > rep = (index, judge, direction) ->{

@@ -30,34 +30,29 @@ public class DataTestHive {
     static XSSFWorkbook workbook;
     static XSSFSheet sheet;
 
-    public static String DATA = "supp_goods_time_price\n" +
-            "prod_product_branch_prop\n" +
-            "com_photo\n" +
-            "dist_distributor_goods\n" +
-            "prod_product_prop\n" +
-            "prod_product_attr\n" +
-            "o_simple_supp_goods_time_price\n" +
-            "prod_product_branch\n" +
-            "prod_hotel_group_date\n" +
-            "dist_channel_goods\n" +
-            "supp_goods\n" +
-            "prod_product\n" +
-            "ebk_prod_apply\n" +
-            "prod_subject\n" +
-            "supp_goods_rebate\n" +
-            "goods_sale_plan_info\n" +
-            "product_log\n" +
-            "productn_log\n" +
-            "prod_tag\n" +
-            "hotel_foreigh_time_price\n" +
-            "prod_dest_re\n" +
-            "supp_goods_time_p170425\n" +
-            "prod_product_brand\n" +
-            "prom_presnet_goods\n" +
-            "exchange_rate_info\n" +
-            "res_precontrol_time_price\n" +
-            "supp_goods_group_stock\n" +
-            "ebk_prod_price";
+    public static String DATA = "a_associater\n" +
+            "t_order_tour\n" +
+            "t_dept_link\n" +
+            "t_role_access\n" +
+            "t_teamask\n" +
+            "t_teamask_price\n" +
+            "t_invoice_fk\n" +
+            "t_invoice\n" +
+            "t_member\n" +
+            "t_customer\n" +
+            "t_supplier\n" +
+            "t_line_price\n" +
+            "t_line\n" +
+            "t_accesscount\n" +
+            "kd_voucher\n" +
+            "t_invoice_aheadapply\n" +
+            "t_modulegroup_module\n" +
+            "t3\n" +
+            "t_code\n" +
+            "t_role_modulegroup\n" +
+            "t2\n" +
+            "t4\n" +
+            "t_module\n";
 
     public static void main(String[] dsg) {
         //创建工作簿
@@ -81,17 +76,16 @@ public class DataTestHive {
 
         String sql_count = "select count(1) from ? ";
 
-        String sql_test = "SELECT count(1) FROM ? where  update_time >= DATE_FORMAT('20150618','%Y-%m-%d')  and update_time < DATE_FORMAT('20180315','%Y-%m-%d');";
+        String sql_test = "SELECT count(1) FROM ? ;";
         String all_sql_test = "SELECT count(1) FROM ? ;";
-        String hive_sql = "select count(1) from ods.ods_lvmama_hotel_? ";
+        String hive_sql = "select count(1) from ods.ods_lvmama_plam_? ";
         String[] tables = DATA.replace("'", "").split("\n");
         JDBC hive_jdbc = null;
         JDBC mysql_jdbc = null;
         try {
             hive_jdbc = new JDBC(DatabaseType.HIVE_SERVER2, "ods");
-
 //            hive_jdbc.getStatement();
-            mysql_jdbc = new JDBC(DatabaseType.MYSQL, "db0");
+            mysql_jdbc = new JDBC(DatabaseType.SQL_SERVER, "joyu");
 //            System.out.println(tables.length);
             for (int i = 0; i < tables.length; i++) {
                 String table_name = tables[i];

@@ -45,6 +45,7 @@ public class DataTest {
      * 获取一个库的所有表格的语句
      */
     static String sql_get_table = "select name from sysobjects where xtype='u' ";
+//  SELECT t.table_name FROM all_tables  t WHERE   t.OWNER='BI_USER'
 
     //        多个db 用逗号隔开；
     static String db = "joyu" ;

@@ -2,3 +2,7 @@
 *.iml
 .idea
 */target
+/auto_deployment/auto_deployment.iml
+/ApiDemo/ApiDemo.iml
+/common/common.iml
+/framework/framework.iml
