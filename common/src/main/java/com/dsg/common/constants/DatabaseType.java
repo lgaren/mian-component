@@ -12,27 +12,27 @@ import com.dsg.common.conf.DSGConfig;
 public enum DatabaseType {
 
     HIVE_SERVER2(
-        "jdbc:hive2://",
+            "jdbc:hive2://",
             Constants.URL_PARAMS_SPLIT,
-        DSGConfig.ConfVars.HIVE_SERVER2_DRIVWE,
-        DSGConfig.ConfVars.HIVE_SERVER2_USER,
-        DSGConfig.ConfVars.HIVE_SERVER2_PASSWORD,
-        DSGConfig.ConfVars.HIVE_SERVER2_HOST,
-        DSGConfig.ConfVars.HIVE_SERVER2_PORT
+            "org.apache.hive.jdbc.HiveDriver",
+            DSGConfig.ConfVars.HIVE_SERVER2_USER,
+            DSGConfig.ConfVars.HIVE_SERVER2_PASSWORD,
+            DSGConfig.ConfVars.HIVE_SERVER2_HOST,
+            DSGConfig.ConfVars.HIVE_SERVER2_PORT
     ),
 
     MYSQL("jdbc:mysql://",
             Constants.URL_PARAMS_SPLIT,
-        DSGConfig.ConfVars.DATABASE_DRIVER,
-        DSGConfig.ConfVars.DATABASE_USER,
-        DSGConfig.ConfVars.DATABASE_PASSWORD,
-        DSGConfig.ConfVars.DATABASE_HOST,
-        DSGConfig.ConfVars.DATABASE_PORT
+            "com.mysql.jdbc.Driver",
+            DSGConfig.ConfVars.DATABASE_USER,
+            DSGConfig.ConfVars.DATABASE_PASSWORD,
+            DSGConfig.ConfVars.DATABASE_HOST,
+            DSGConfig.ConfVars.DATABASE_PORT
     ),
     SQL_SERVER(
             "jdbc:sqlserver://",
             ";dbname=",
-            DSGConfig.ConfVars.DATABASE_DRIVER,
+            "com.microsoft.sqlserver.jdbc.SQLServerDriver",
             DSGConfig.ConfVars.DATABASE_USER,
             DSGConfig.ConfVars.DATABASE_PASSWORD,
             DSGConfig.ConfVars.DATABASE_HOST,
@@ -40,22 +40,22 @@ public enum DatabaseType {
     ),
     ORACLE("jdbc:oracle:thin:@//",
             Constants.URL_PARAMS_SPLIT,
-        DSGConfig.ConfVars.DATABASE_DRIVER,
-        DSGConfig.ConfVars.DATABASE_USER,
-        DSGConfig.ConfVars.DATABASE_PASSWORD,
-        DSGConfig.ConfVars.DATABASE_HOST,
-        DSGConfig.ConfVars.DATABASE_PORT
+            "oracle.jdbc.driver.OracleDriver",
+            DSGConfig.ConfVars.DATABASE_USER,
+            DSGConfig.ConfVars.DATABASE_PASSWORD,
+            DSGConfig.ConfVars.DATABASE_HOST,
+            DSGConfig.ConfVars.DATABASE_PORT
     );
 
     public final String urlPrefix;
     public final String urlSplit;
-    public final DSGConfig.ConfVars driverName;
+    public final String driverName;
     public final DSGConfig.ConfVars userName;
     public final DSGConfig.ConfVars password;
     public final DSGConfig.ConfVars host;
     public final DSGConfig.ConfVars port;
 
-    DatabaseType(String urlPrefix,String urlSplit, DSGConfig.ConfVars driverName, DSGConfig.ConfVars userName, DSGConfig.ConfVars password, DSGConfig.ConfVars host, DSGConfig.ConfVars port) {
+    DatabaseType(String urlPrefix,String urlSplit, String driverName, DSGConfig.ConfVars userName, DSGConfig.ConfVars password, DSGConfig.ConfVars host, DSGConfig.ConfVars port) {
         this.urlPrefix = urlPrefix;
         this.urlSplit = urlSplit ;
         this.driverName = driverName;

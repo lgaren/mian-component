@@ -13,7 +13,7 @@ public enum DatabaseConfig {
 
     @Deprecated
     HIVE_SERVER2{
-        public String driverName(){return DSGConfig.getVar(DSGConfig.ConfVars.HIVE_SERVER2_DRIVWE);}
+        public String driverName(){return "";}
         public String urlPrefix(){return "jdbc:hive2://";}
         public String userName(){return DSGConfig.getVar(DSGConfig.ConfVars.HIVE_SERVER2_USER);}
         public String password(){return DSGConfig.getVar(DSGConfig.ConfVars.HIVE_SERVER2_PASSWORD);}
@@ -23,7 +23,7 @@ public enum DatabaseConfig {
 
     @Deprecated
     MYSQL{
-        public String driverName(){return DSGConfig.getVar(DSGConfig.ConfVars.DATABASE_DRIVER);}
+        public String driverName(){return "";}
         public String urlPrefix(){return "jdbc:mysql://";}
         public String userName(){return DSGConfig.getVar(DSGConfig.ConfVars.DATABASE_USER);}
         public String password(){return DSGConfig.getVar(DSGConfig.ConfVars.DATABASE_PASSWORD);}
@@ -33,7 +33,7 @@ public enum DatabaseConfig {
 
     @Deprecated
     ORACLE{
-        public String driverName(){return DSGConfig.getVar(DSGConfig.ConfVars.DATABASE_DRIVER);}
+        public String driverName(){return "";}
         public String urlPrefix(){return "jdbc:oracle:thin:@//";}
         public String userName(){return DSGConfig.getVar(DSGConfig.ConfVars.DATABASE_USER);}
         public String password(){return DSGConfig.getVar(DSGConfig.ConfVars.DATABASE_PASSWORD);}
