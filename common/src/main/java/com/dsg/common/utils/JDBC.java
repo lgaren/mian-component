@@ -26,12 +26,18 @@ public class JDBC {
 
     public JDBC(DatabaseType serverName, String schema) throws ClassNotFoundException, SQLException {
 //        Class clz = SQLServerDriver.class;
-        Class.forName(DSGConfig.getVar(serverName.driverName));
+        Class.forName(serverName.driverName);
         con = DriverManager.getConnection(serverName.urlPrefix + DSGConfig.getVar(serverName.host) + Constants.SPLIT +DSGConfig.getIntVar(serverName.port) + serverName.urlSplit +  schema,
                 DSGConfig.getVar(serverName.userName), DSGConfig.getVar(serverName.password));
         stmt = con.createStatement();
     }
 
+    public JDBC(DatabaseType serverName, String schema,String host,int port,String user,String pasword) throws ClassNotFoundException, SQLException {
+        Class.forName(serverName.driverName);
+        con = DriverManager.getConnection(serverName.urlPrefix + host + Constants.SPLIT + port + serverName.urlSplit +  schema, user, pasword);
+        stmt = con.createStatement();
+    }
+    
     public <T> ResultSet executeQuery(String sql , T replce) throws SQLException {
         System.out.println(sql.replace(Constants.SQL_PH, replce.toString()) + "==============");
         return stmt.executeQuery(sql.replace(Constants.SQL_PH, replce.toString()));
