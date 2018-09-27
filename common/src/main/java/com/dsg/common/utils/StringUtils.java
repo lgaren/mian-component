@@ -47,6 +47,11 @@ public class StringUtils {
 		super();
 	}
 
+
+	public  static String getUUID(){
+	  	return  UUID.randomUUID().toString().replace(Constants.TRAN, Constants.EMPTY);
+	}
+
 	class StringSet {
 
 		private final boolean caseSensitive;

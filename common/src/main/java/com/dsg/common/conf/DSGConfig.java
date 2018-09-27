@@ -1,8 +1,13 @@
 package com.dsg.common.conf;
 
 import com.dsg.common.utils.StringUtils;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -31,14 +36,87 @@ public class DSGConfig extends Configuration {
     public synchronized static DSGConfig getConf() {
         if (null == conf) {
             conf = new DSGConfig();
-
-            conf.addResource( "dsg-site.xml");
-
-//            System.out.println( System.getProperty("project.configuration"));
-            return conf;
+            try {
+                Arrays.stream(System.getProperty("project.configuration").split(";")).forEach(fileName -> {
+                    String suffix = StringUtils.substringAfterLast(fileName, ".");
+                    try {
+                        if (suffix.equals("yaml") || suffix.equals("yml"))
+                            loadYmal(fileName);
+                        else if (suffix.equals("xml"))
+                            conf.addResource(new FileInputStream(new File(fileName)));
+                        else if (suffix.equals("properties"))
+                            loadProperties(fileName);
+                        String pattern = "\\$\\{(.*)\\}";
+                        Pattern r = Pattern.compile(pattern);
+                        java.util.Iterator<Map.Entry<String, String>> ite = conf.iterator();
+                        while (ite.hasNext()) {
+                            Map.Entry<String, String> popr = ite.next();
+                            String vlaue = popr.getValue();
+                            Matcher mat = r.matcher(vlaue);
+                            if (mat.find()) {
+                                conf.set(popr.getKey(), vlaue.replace(mat.group(0), conf.get(mat.group(1))));
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return conf;
+            } catch (NullPointerException e) {
+                return conf;
+            }
         } else {
             return conf;
         }
+    }
+
+    private static void loadProperties(String fileName) throws FileNotFoundException {
+        Properties props = new Properties();
+        FileInputStream fis = new FileInputStream(fileName);
+        try {
+            //File file = new File(fileName);
+            //FileInputStream fis = new FileInputStream(file);
+            props.load(fis);
+
+            Set<Object> keySet = props.keySet();
+            Iterator<Object> it = keySet.iterator();
+            while (it.hasNext()) {
+                String key = (String)it.next();
+                conf.set(key,props.getProperty(key));
+            }
+            fis.close();
+        } catch (IOException e) {
+
+        }
+        finally {
+
+        }
+    }
+
+    private static void loadYmal(String file) throws FileNotFoundException {
+        Yaml yaml = new Yaml();
+        InputStream in = new FileInputStream(file);
+        Object ret = yaml.load(in);
+        getValue("", ret);
+        try {
+            in.close();
+        } catch (IOException e) {
+        }
+    }
+
+    private static void getValue(String keyPre, Object obj) {
+        if (obj instanceof Map) ((Map) obj).forEach((key, value) -> {
+            if (keyPre.equals("")) getValue(keyPre + key, value);
+            else getValue(keyPre + "." + key, value);
+        });
+        else {
+            try {
+                conf.set(keyPre, obj.toString());
+            } catch (NullPointerException e) {
+                conf.set(keyPre, "");
+            }
+        }
+
     }
 
 //    System.getProperty("user.dir") + File.separator + "conf" + File.separator
@@ -71,7 +149,9 @@ public class DSGConfig extends Configuration {
         HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2的访问端口"),
         HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2的主机"),
         HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2客户端访问用户"),
-        HIVE_SERVER2_PASSWORD("hive.server2.thrift.client.password", "", "hive server2客户端访问用户密码")
+        HIVE_SERVER2_PASSWORD("hive.server2.thrift.client.password", "", "hive server2客户端访问用户密码"),
+        REDIS_SERVER_CLUSTER("redis.server.cluster", "10.200.2.105:7000,10.200.2.105:7001,10.200.2.105:7002,10.200.2.105:7003,10.200.2.105:7004,10.200.2.105:7005", "Redis 访问地址，为ip加端口，多节点用\",\"分隔。"),
+
 //        HIVE_SERVER2_DRIVWE("hive.server2.thrift.jdbc.ConnectionDriverName", "org.apache.hive.jdbc.HiveDriver", "hive server2客户端的jdbc驱动")
         ;
 //  hive.server2.thrift.port

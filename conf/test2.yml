@@ -1,0 +1,13 @@
+common:
+    mysqlSchema: cep_test
+
+order:
+    conf:
+        kafkaTopic:
+        sparkAppName: order_anler
+        viewname: order
+    sparksql:
+        paidOrderCountSql: SELECT  istnt,category_id,a.category_name,bu,distributor,count(1) as paid_order_count FROM ${order.conf.viewname} a WHERE a.order_status = 'NORMAL' and (a.payment_status = 'PAYED' or a.payment_status = 'PART_PAY') GROUP BY istnt,a.category_id,a.category_name,a.bu,a.distributor
+        paidUserCountSql: SELECT c.istnt,c.category_id,c.category_name,c.bu,c.distributor,count(1) as paid_count FROM (SELECT istnt,category_id,a.category_name,bu,distributor, a.user_no FROM order a WHERE a.order_status = 'NORMAL' and (a.payment_status = 'PAYED' or a.payment_status = 'PART_PAY') GROUP BY istnt,a.category_id,a.category_name,a.bu,a.distributor,a.user_no ) as c GROUP BY c.istnt,c.category_id,c.category_name,c.bu,c.distributor
+        unpaidOrderCountSql: SELECT t.category_id, t.bu, t.distributor, t.distribution_id, t.istnt, count(1) as unpaid_count, t.category_name, t.order_id FROM order t where t.payment_status = 'UNPAY' AND t.order_id is NULL GROUP BY t.category_id, t.bu, t.distributor, t.distribution_id, t.istnt, t.category_name, t.order_id
+        saleVolumeSql: SELECT t.istnt, t.category_id, t.category_name, t.bu, t.distributor, sum(t.actual_amount)as saleamount, sum(t.refunded_amount) as refunamount FROM 	order t  GROUP BY 	t.istnt, 	t.category_id, 	t.category_name, 	t.bu, 	t.distributor

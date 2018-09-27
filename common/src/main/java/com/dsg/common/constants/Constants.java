@@ -38,7 +38,7 @@ public class Constants {
 
     public static final String SPLIT = ":";
 
-    public static final String SQL_PH = "?";
+    public static final String SQL_PH = "\\?";
 
     public static final String  confFile= "dsg-site.xml";
 

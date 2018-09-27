@@ -18,16 +18,16 @@ public class MetaAnnotationTestClass {
     public static class Target_TypeTest {
 
         @TargetTest.TargetTypeTest(enumField = DSGEnum.DSG2, stringField = "MetaAnnotationTestClass.Target_TypeTest.TargetTypeClassTest", value = 0)
-        public class TargetClassTest < @TargetTest.TargetType_ParameterTest  T> extends DSGClass {
-
+        public class TargetClassTest < T> extends DSGClass {
+//            @TargetTest.TargetType_ParameterTest
             @TargetTest.TargetFieldTest('d')
             String field;
 
             @TargetTest.TargetConstuctorTest(1.3f)
             TargetClassTest (){}
-
+//            @TargetTest.TargetType_ParameterTest        @TargetTest.TargetType_UseTest
             @TargetTest.TargetMethodTest
-           <@TargetTest.TargetType_ParameterTest T>  @TargetTest.TargetType_UseTest DSGClass testMethod(@TargetTest.TargetParameterTest T  field) throws DSGException {
+           < T>  DSGClass testMethod(@TargetTest.TargetParameterTest T  field) throws DSGException {
                 @TargetTest.TargetLocal_VariableTest
                 String var =  "DSGClass";
 //                可以早包名右边类名左边
