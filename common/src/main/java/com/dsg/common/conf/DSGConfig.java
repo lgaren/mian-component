@@ -145,7 +145,6 @@ public class DSGConfig extends Configuration {
         DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "BIGdata12345688", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
         DATABASE_HOST("javax.jdo.option.host", "10.17.1.7", "关系行数据库HOST， (包括mysql和 oracle )"),
         DATABASE_PORT("javax.jdo.option.port", 1433, "关系行数据库PORT， (包括mysql和 oracle )"),
-//        DATABASE_DRIVER("javax.jdo.option.ConnectionDriverName", "com.microsoft.sqlserver.jdbc.SQLServerDriver", "关系行数据库驱动CLASS， (包括mysql和 oracle )"),
         HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2的访问端口"),
         HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2的主机"),
         HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2客户端访问用户"),

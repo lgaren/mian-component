@@ -30,7 +30,19 @@
             <artifactId>hive-beeline</artifactId>
             <version>${hive.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-common -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-common</artifactId>
+            <version>${hive.version}</version>
+        </dependency>
 
+
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-service</artifactId>
+            <version>1.1.0-cdh5.7.2</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -45,18 +57,8 @@
             <version>3.9</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-common -->
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-common</artifactId>
-            <version>${hive.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-service</artifactId>
-            <version>1.1.0-cdh5.7.2</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.slf4j</groupId>
