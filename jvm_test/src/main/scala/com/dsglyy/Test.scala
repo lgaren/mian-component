@@ -9,8 +9,8 @@ object testFun {
   def main(args: Array[String]) {
 
     //    把函数赋值给变量注意后面的  _ ，没有 _ 会报错
-    //    val asd = layout _
-    //    println(asd(12))
+//        val asd = layout _
+//        println(asd(12,13))
 
     //    最终结果多打出来一个括号的原因是 apply 返回值为空,这里打印一个空返回值的函数，就打赢出来了一个（）tuple
     //    当 apply 返回值不为空的时候，就会不会打印出一个空tuple
@@ -19,22 +19,22 @@ object testFun {
 
 
     //    静态返回一个函数
-    //    val fun = returnFun(5)
-    //    println(fun(layout,3))
+//        val fun = returnFun(5)
+//        println(fun(layout,3))
 
     //    动态包装一个函数
 
-    val fun1 = returnFun1((x,y) => {
-      val  y = x + 12
-      y*10
-    },5)
-    print(fun1._1(10))
+//    val fun1 = returnFun1((x,y) => {
+//      val  y = x + 12
+//      y*10
+//    },5)
+//    print(fun1._1(10))
     //    println(fun1(10))
 
     //    动态返回一个函数包装外壳
-    //    val fun2 = returnFun2(5)
+//        val fun2 = returnFun2(5)
     //    在使用这个返回函数的时候需要给他传进去一个函数，然后这个外壳会包装传进去的函数
-    //    println(fun2(layout,10))
+//        println(fun2(layout,10))
 
     //    函数柯里化的两种使用  注意右面的 _
     //    val kl = add(12) _
@@ -83,6 +83,10 @@ object testFun {
   //  def this() = this(new SparkConf())
   //  用private修饰的时候可以指定package
   //  private[spark] def this(master: String, appName: String) =this(master, appName, null, Nil, Map())
+
+  def test()={
+    "asdaff"
+  }
 
   //=============================================高阶函数测试====================================
 

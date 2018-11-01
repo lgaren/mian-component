@@ -42,7 +42,7 @@ names = """adodbapi   alabaster   asn1crypto   astroid\
 #  ls | while read LINE ;do ln -s /usr/share/java-1.8.0/bin/$LINE /usr/bin/ ;done
 # yum tkinter tk-devel
 # jupyter   jupyter_client   jupyter_console   jupyter_core
-# yum install unixODBC Freetds mysql-connector-odbc
+# yum install unixODBC Freetds mysql-connector-odbc unixODBC-devel
 # xlwings only windows
 list = names.split("   ")
 # out = open('C:\\Users\\1\\Desktop\\output', 'a')

@@ -1,14 +1,21 @@
 package com.dsg.common.conf;
 
+import com.dsg.common.utils.StringUtils;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
- * Descriptionï¼šç»§æ‰¿è‡ª Hadoop {@link Configuration}ï¼Œå†…éƒ¨æšä¸¾{@link ConfVars} åˆ—ä¸¾äº†æ‰€æœ‰éœ€è¦çš„é…ç½®é¡¹åŠå…¶é»˜è®¤å€¼ï¼Œ
- * ä»£ç æµ‹è¯•æ—¶åªéœ€è¦ä¿®æ”¹æšä¸¾çš„ç¬¬äºŒä¸ªå€¼ã€‚
+ * Description£º¼Ì³Ğ×Ô Hadoop {@link Configuration}£¬ÄÚ²¿Ã¶¾Ù{@link ConfVars} ÁĞ¾ÙÁËËùÓĞĞèÒªµÄÅäÖÃÏî¼°ÆäÄ¬ÈÏÖµ£¬
+ * ´úÂë²âÊÔÊ±Ö»ĞèÒªĞŞ¸ÄÃ¶¾ÙµÄµÚ¶ş¸öÖµ¡£
  *  <p/>
  * 
- * Projectï¼š seagull 
+ * Project£º seagull 
  * <p/>
  * Version: Session V 0.0, 2017/11/17
  * @author: <a href="mailto liuyuanyuan@lvmama.com">Liu Yuanyuan</a>
@@ -24,50 +31,128 @@ public class DSGConfig extends Configuration {
 
     private DSGConfig() {
         super();
-//        addResource(getVar(ConfVars.HADOOP_CORE_SITE_XML));
-//        addResource(getVar(ConfVars.HADOOP_HDFS_SITE_XML));
-//        addResource(getVar(this,ConfVars.HIVE_SITE_XML));
-//        addResource("../conf/conf.xml");
-//        set(ConfVars.HDFS_KEYTAB_FILE.varname,DSGConfig.getVar(this ,ConfVars.HDFS_KEYTAB_FILE));
-//dsg-site.xml
-//        set(ConfVars.HDFS_KERBEROS_PRINCIPAL.varname,DSGConfig.getVar(this ,ConfVars.HDFS_KERBEROS_PRINCIPAL));
     }
 
     public synchronized static DSGConfig getConf() {
         if (null == conf) {
             conf = new DSGConfig();
-
-            conf.addResource( "dsg-site.xml");
-
-//            System.out.println( System.getProperty("project.configuration"));
-            return conf;
+            try {
+                Arrays.stream(System.getProperty("project.configuration").split(";")).forEach(fileName -> {
+                    String suffix = StringUtils.substringAfterLast(fileName, ".");
+                    try {
+                        if (suffix.equals("yaml") || suffix.equals("yml"))
+                            loadYmal(fileName);
+                        else if (suffix.equals("xml"))
+                            conf.addResource(new FileInputStream(new File(fileName)));
+                        else if (suffix.equals("properties"))
+                            loadProperties(fileName);
+                        String pattern = "\\$\\{(.*)\\}";
+                        Pattern r = Pattern.compile(pattern);
+                        java.util.Iterator<Map.Entry<String, String>> ite = conf.iterator();
+                        while (ite.hasNext()) {
+                            Map.Entry<String, String> popr = ite.next();
+                            String vlaue = popr.getValue();
+                            Matcher mat = r.matcher(vlaue);
+                            if (mat.find()) {
+                                conf.set(popr.getKey(), vlaue.replace(mat.group(0), conf.get(mat.group(1))));
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return conf;
+            } catch (NullPointerException e) {
+                return conf;
+            }
         } else {
             return conf;
         }
     }
 
+    private static void loadProperties(String fileName) throws FileNotFoundException {
+        Properties props = new Properties();
+        FileInputStream fis = new FileInputStream(fileName);
+        try {
+            //File file = new File(fileName);
+            //FileInputStream fis = new FileInputStream(file);
+            props.load(fis);
+
+            Set<Object> keySet = props.keySet();
+            Iterator<Object> it = keySet.iterator();
+            while (it.hasNext()) {
+                String key = (String)it.next();
+                conf.set(key,props.getProperty(key));
+            }
+            fis.close();
+        } catch (IOException e) {
+
+        }
+        finally {
+
+        }
+    }
+
+    private static void loadYmal(String file) throws FileNotFoundException {
+        Yaml yaml = new Yaml();
+        InputStream in = new FileInputStream(file);
+        Object ret = yaml.load(in);
+        getValue("", ret);
+        try {
+            in.close();
+        } catch (IOException e) {
+        }
+    }
+
+    private static void getValue(String keyPre, Object obj) {
+        if (obj instanceof Map) ((Map) obj).forEach((key, value) -> {
+            if (keyPre.equals("")) getValue(keyPre + key, value);
+            else getValue(keyPre + "." + key, value);
+        });
+        else {
+            try {
+                conf.set(keyPre, obj.toString());
+            } catch (NullPointerException e) {
+                conf.set(keyPre, "");
+            }
+        }
+
+    }
 
 //    System.getProperty("user.dir") + File.separator + "conf" + File.separator
 //                + "log4j.properties"
     /**
-     * Descriptionï¼šæ‰€æœ‰éœ€è¦çš„é…ç½®é¡¹æšä¸¾ï¼Œç¬¬ä¸€ä¸ªå€¼ä¸ºé…ç½®é¡¹çš„  {@code key},ç¬¬äºŒä¸ªå€¼ä¸ºé…ç½®çš„å…·ä½“å€¼ï¼Œç¬¬ä¸‰ä¸ªå€¼ä¸ºè¯¥é…ç½®é¡¹çš„æè¿°ã€‚
-     * å¦‚æœå¯¹åº”çš„é…ç½®é¡¹åœ¨é…ç½®æ–‡ä»¶ä¸­æ²¡æœ‰æŒ‡å®šæˆ–è€…å€¼ä¸ºç©ºæ—¶ï¼Œåˆ™æ‹¿å–æšä¸¾ä¸­çš„é»˜è®¤å€¼ã€‚
+     * Description£ºËùÓĞĞèÒªµÄÅäÖÃÏîÃ¶¾Ù£¬µÚÒ»¸öÖµÎªÅäÖÃÏîµÄ  {@code key},µÚ¶ş¸öÖµÎªÅäÖÃµÄ¾ßÌåÖµ£¬µÚÈı¸öÖµÎª¸ÃÅäÖÃÏîµÄÃèÊö¡£
+     * Èç¹û¶ÔÓ¦µÄÅäÖÃÏîÔÚÅäÖÃÎÄ¼şÖĞÃ»ÓĞÖ¸¶¨»òÕßÖµÎª¿ÕÊ±£¬ÔòÄÃÈ¡Ã¶¾ÙÖĞµÄÄ¬ÈÏÖµ¡£
      *  <br/> 
-     * Created on 2017/11/17ï¼ŒProjectï¼š seagullã€‚ <br/> 
+     * Created on 2017/11/17£¬Project£º seagull¡£ <br/> 
      * @author: <a href="mailto liuyuanyuan@lvmama.com">Liu Yuanyuan</a>
      * @version: DSGConfig.ConfVars V 0.0, 2017/11/17 11:47:12
      * <br/>
      */
     public static enum ConfVars {
+//com.mysql.jdbc.Driver
+        /** Ä³Ğ©×ÊÔ´¶ÔÏóÔÚÄÚ´æ×î´óµÄÏĞÖÃÊ±¼ä£¬³¬¹ıÕâĞ©Ê±¼äÃ»ÓĞ±»·ÃÎÊ»òÕß±»Ê¹ÓÃ£¬½«»á±»ÇåÀíµô£¬ÔÚÕâ¸öÏîÄ¿ÖĞhive½Ó¿ÚµÄSession,ÔªÊı¾İ¿âµÄJDBC¶ÔÏó»á±»µ±×öÊÇÒ»ÖÖ×ÊÔ´À´´¦Àí¡£ */
+        RESOURCE_LIMIT_UNUSEDTIME("com.dsglyy.common.resource.aliveTime", "600s",
+        		"Ä³Ğ©×ÊÔ´¶ÔÏóÔÚÄÚ´æ×î´óµÄÏĞÖÃÊ±¼ä£¬³¬¹ıÕâĞ©Ê±¼äÃ»ÓĞ±»·ÃÎÊ»òÕß±»Ê¹ÓÃ£¬½«»á±»ÇåÀíµô£¬" +
+                        "ÔÚÕâ¸öÏîÄ¿ÖĞhive½Ó¿ÚµÄSession,ÔªÊı¾İ¿âµÄJDBC¶ÔÏó»á±»µ±×öÊÇÒ»ÖÖ×ÊÔ´À´´¦Àí¡£"),
 
-        /** æŸäº›èµ„æºå¯¹è±¡åœ¨å†…å­˜æœ€å¤§çš„é—²ç½®æ—¶é—´ï¼Œè¶…è¿‡è¿™äº›æ—¶é—´æ²¡æœ‰è¢«è®¿é—®æˆ–è€…è¢«ä½¿ç”¨ï¼Œå°†ä¼šè¢«æ¸…ç†æ‰ï¼Œåœ¨è¿™ä¸ªé¡¹ç›®ä¸­hiveæ¥å£çš„Session,å…ƒæ•°æ®åº“çš„JDBCå¯¹è±¡ä¼šè¢«å½“åšæ˜¯ä¸€ç§èµ„æºæ¥å¤„ç†ã€‚ */
-        RESOURCE_LIMIT_UNUSEDTIME("com.lvmama.seagull.resource.aliveTime", "600s",
-        		"æŸäº›èµ„æºå¯¹è±¡åœ¨å†…å­˜æœ€å¤§çš„é—²ç½®æ—¶é—´ï¼Œè¶…è¿‡è¿™äº›æ—¶é—´æ²¡æœ‰è¢«è®¿é—®æˆ–è€…è¢«ä½¿ç”¨ï¼Œå°†ä¼šè¢«æ¸…ç†æ‰ï¼Œ" +
-                        "åœ¨è¿™ä¸ªé¡¹ç›®ä¸­hiveæ¥å£çš„Session,å…ƒæ•°æ®åº“çš„JDBCå¯¹è±¡ä¼šè¢«å½“åšæ˜¯ä¸€ç§èµ„æºæ¥å¤„ç†ã€‚"),
+        /** ÏîÄ¿ÖĞÓĞÒ»¸öºóÌ¨Ïß³ÌÀ´¹ÜÀí×ÊÔ´£¬¹ÜÀí×ÊÔ´¶ÔÏóµÄ»ñÈ¡£¬ÏûÍö£¬ÇåÀí£¬²»¹ÜÀí×ÊÔ´¶ÔÏóµÄ´´½¨£¬Õâ¸öÅäÖÃÊÇÏß³ÌµÄ¹¤×÷¼ä¸ôÊ±¼ä£¬Ä¬ÈÏÃ¿¸ô10Ãë¹¤×÷Ò»´Î */
+        RESOURCE_CLEANER_RUN_INTERVAL("com.dsglyy.common.resource.cleaner.runInterval", "10s",
+        		"ÏîÄ¿ÖĞÓĞÒ»¸öºóÌ¨Ïß³ÌÀ´¹ÜÀí×ÊÔ´£¬¹ÜÀí×ÊÔ´¶ÔÏó" +
+                        "µÄ»ñÈ¡£¬ÏûÍö£¬ÇåÀí£¬²»¹ÜÀí×ÊÔ´¶ÔÏóµÄ´´½¨£¬Õâ¸öÅäÖÃÊÇÏß³ÌµÄ¹¤×÷¼ä¸ôÊ±¼ä£¬Ä¬ÈÏÃ¿¸ô10Ãë¹¤×÷Ò»´Î"),
+        DATABASE_USER("javax.jdo.option.ConnectionUserName", "bigdata_admin", "¹ØÏµĞĞÊı¾İ¿â·ÃÎÊÓÃ»§Ãû, (°üÀ¨mysqlºÍ oracle )"),
+        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "BIGdata12345688", "¹ØÏµĞĞÊı¾İ¿â·ÃÎÊÓÃ»§ÃÜÂë£¬ (°üÀ¨mysqlºÍ oracle )"),
+        DATABASE_HOST("javax.jdo.option.host", "10.17.1.7", "¹ØÏµĞĞÊı¾İ¿âHOST£¬ (°üÀ¨mysqlºÍ oracle )"),
+        DATABASE_PORT("javax.jdo.option.port", 1433, "¹ØÏµĞĞÊı¾İ¿âPORT£¬ (°üÀ¨mysqlºÍ oracle )"),
+        HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2µÄ·ÃÎÊ¶Ë¿Ú"),
+        HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2µÄÖ÷»ú"),
+        HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2¿Í»§¶Ë·ÃÎÊÓÃ»§"),
+        HIVE_SERVER2_PASSWORD("hive.server2.thrift.client.password", "", "hive server2¿Í»§¶Ë·ÃÎÊÓÃ»§ÃÜÂë"),
+        REDIS_SERVER_CLUSTER("redis.server.cluster", "10.200.2.105:7000,10.200.2.105:7001,10.200.2.105:7002,10.200.2.105:7003,10.200.2.105:7004,10.200.2.105:7005", "Redis ·ÃÎÊµØÖ·£¬Îªip¼Ó¶Ë¿Ú£¬¶à½ÚµãÓÃ\",\"·Ö¸ô¡£"),
 
-        /** é¡¹ç›®ä¸­æœ‰ä¸€ä¸ªåå°çº¿ç¨‹æ¥ç®¡ç†èµ„æºï¼Œç®¡ç†èµ„æºå¯¹è±¡çš„è·å–ï¼Œæ¶ˆäº¡ï¼Œæ¸…ç†ï¼Œä¸ç®¡ç†èµ„æºå¯¹è±¡çš„åˆ›å»ºï¼Œè¿™ä¸ªé…ç½®æ˜¯çº¿ç¨‹çš„å·¥ä½œé—´éš”æ—¶é—´ï¼Œé»˜è®¤æ¯éš”10ç§’å·¥ä½œä¸€æ¬¡ */
-        RESOURCE_CLEANER_RUN_INTERVAL("com.lvmama.seagull.resource.cleaner.runInterval", "10s",
-        		"é¡¹ç›®ä¸­æœ‰ä¸€ä¸ªåå°çº¿ç¨‹æ¥ç®¡ç†èµ„æºï¼Œç®¡ç†èµ„æºå¯¹è±¡çš„è·å–ï¼Œæ¶ˆäº¡ï¼Œæ¸…ç†ï¼Œä¸ç®¡ç†èµ„æºå¯¹è±¡çš„åˆ›å»ºï¼Œè¿™ä¸ªé…ç½®æ˜¯çº¿ç¨‹çš„å·¥ä½œé—´éš”æ—¶é—´ï¼Œé»˜è®¤æ¯éš”10ç§’å·¥ä½œä¸€æ¬¡"),;
+//        HIVE_SERVER2_DRIVWE("hive.server2.thrift.jdbc.ConnectionDriverName", "org.apache.hive.jdbc.HiveDriver", "hive server2¿Í»§¶ËµÄjdbcÇı¶¯")
+        ;
 //  hive.server2.thrift.port
 //  hive.server2.thrift.bind.host
 
@@ -135,16 +220,14 @@ public class DSGConfig extends Configuration {
         throw new IllegalArgumentException("Invalid size unit " + unit);
     }
 
-
-
     /**
-     * Description: è·å–é…ç½®æ–‡ä»¶ä¸­çš„æ•°æ®å¤§å°çš„ç›¸å…³é…ç½®ï¼Œé…ç½®æ–‡ä»¶ä¸­æ”¯æŒ {@code k,m,g,y,p,kb,mb,gb,tb,pb} ä¸åŒºåˆ†å¤§å°å†™çš„é…ç½®
+     * Description: »ñÈ¡ÅäÖÃÎÄ¼şÖĞµÄÊı¾İ´óĞ¡µÄÏà¹ØÅäÖÃ£¬ÅäÖÃÎÄ¼şÖĞÖ§³Ö {@code k,m,g,y,p,kb,mb,gb,tb,pb} ²»Çø·Ö´óĞ¡Ğ´µÄÅäÖÃ
      * <br/> 
      * Liu Yuanyuan Nov 24, 2017  <br/> 
      * <br/> 
      *
-     * @param var å¯¹åº”çš„é…ç½®é¡¹ï¼Œ{@link ConfVars}ã€‚
-     * @return longå‹ï¼Œä¼šå°†é…ç½®é¡¹çš„å€¼è½¬åŒ–ä¸ºå­—èŠ‚æ•°è¿”å›ã€‚
+     * @param var ¶ÔÓ¦µÄÅäÖÃÏî£¬{@link ConfVars}¡£
+     * @return longĞÍ£¬»á½«ÅäÖÃÏîµÄÖµ×ª»¯Îª×Ö½ÚÊı·µ»Ø¡£
      *
      */
     public static long getSizeVar(ConfVars var) {
@@ -157,7 +240,6 @@ public class DSGConfig extends Configuration {
     }
 
     public static String getVar(ConfVars var) {
-        System.out.println(var.varname+"dsssss");
         return getConf().get(var.varname, getConf().get(var.varname)) == null ?
                 var.defaultStrVal : getConf().get(var.varname);
     }
@@ -190,11 +272,11 @@ public class DSGConfig extends Configuration {
     }
 
 
-//    public static String[] getTrimmedStringsVar(ConfVars var) {
-//        String[] result = getConf().getTrimmedStrings(var.varname, (String[]) null);
-//        if (result != null) return result;
-//        return StringUtils.getTrimmedStrings(var.defaultStrVal);
-//    }
+    public static String[] getTrimmedStringsVar(ConfVars var) {
+        String[] result = getConf().getTrimmedStrings(var.varname, (String[]) null);
+        if (result != null) return result;
+        return StringUtils.getTrimmedStrings(var.defaultStrVal);
+    }
 
     public static int getTTLTime(ConfVars var) {
         long time = getTimeVar(var, TimeUnit.SECONDS);
@@ -248,14 +330,14 @@ public class DSGConfig extends Configuration {
     }
 
     /**
-     * Description:è·å–é…ç½®ä»¥æ–‡ä»¶ä¸­æ—¶é—´çš„ç›¸å…³é…ç½®ï¼Œé…ç½®æ–‡ä»¶ä¸­æ”¯æŒ {@code d,h,m,s,ms,us,ns,day...,hour..., min..., ... }ä¸åŒºåˆ†å¤§å°å†™çš„é…ç½®ã€‚
+     * Description:»ñÈ¡ÅäÖÃÒÔÎÄ¼şÖĞÊ±¼äµÄÏà¹ØÅäÖÃ£¬ÅäÖÃÎÄ¼şÖĞÖ§³Ö {@code d,h,m,s,ms,us,ns,day...,hour..., min..., ... }²»Çø·Ö´óĞ¡Ğ´µÄÅäÖÃ¡£
      * <br/> 
      * Liu Yuanyuan Nov 24, 2017  <br/> 
      * <br/> 
      *
-     * @param var å¯¹åº”çš„é…ç½®é¡¹æšä¸¾ï¼Œ{@link ConfVars}ã€‚
-     * @param outUnit æšä¸¾  {@link TimeUnit} è¡¨ç¤ºæœŸæœ›åå›çš„æ—¶é—´å•ä½ 
-     * @return long å‹ï¼Œå°†é…ç½®é¡¹ä¸­çš„å€¼è½¬åŒ–ä¸ºæœŸæœ›çš„æ—¶é—´å•ä½è¿”å›ã€‚
+     * @param var ¶ÔÓ¦µÄÅäÖÃÏîÃ¶¾Ù£¬{@link ConfVars}¡£
+     * @param outUnit Ã¶¾Ù  {@link TimeUnit} ±íÊ¾ÆÚÍû·´»ØµÄÊ±¼äµ¥Î» 
+     * @return long ĞÍ£¬½«ÅäÖÃÏîÖĞµÄÖµ×ª»¯ÎªÆÚÍûµÄÊ±¼äµ¥Î»·µ»Ø¡£
      *
      */
     public static long getTimeVar( ConfVars var, TimeUnit outUnit) {

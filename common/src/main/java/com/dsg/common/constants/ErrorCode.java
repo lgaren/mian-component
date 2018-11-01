@@ -10,6 +10,7 @@ package com.dsg.common.constants;
  * Description:
  */
 public  enum ErrorCode {
+
     AUTHEN_FAIL(1000,"access denied!"),
     FILE_ONT_FOUND(1001,"The file you visited does not exist! "),
     FILE_TOO_LARGE(1002,"The file size you visited exceeds limit!"),
