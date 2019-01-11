@@ -31,7 +31,7 @@ machine-learning-test
 # train  : 训练
 import re
 from numpy import *
-import feedparser
+# import feedparser
 
 
 def loadDtaSet():
@@ -57,8 +57,6 @@ def createVocabList(dataSet):
     for document in dataSet:
         vocabSet = vocabSet | set(document)
     return list(vocabSet)
-
-
 """
 输入一个词汇向量，以及文档，然后返回一个向量，返回的向量中与词汇向量具有相同的维度，如果词汇的向量中的
 某个词出现在了输入文档中，则在返回向量的对应维度就会是1，其余的维度为0

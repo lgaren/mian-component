@@ -20,7 +20,7 @@ Producer将消息发布到指定的Topic中,同时Producer也能决定将此消�
 本质上kafka只支持Topic.每个consumer属于一个consumer group;反过来说,每个group中可以有多个consumer.发送到Topic的消息,
 只会被订阅此Topic的每个group中的一个consumer消费. 消息被消费够就没了，所以被一个消费了就没有了
 
-kafka的消息消费针对consumers group而言，每一条消息只能被一个goup消费一次。
+kafka的消息消费针对consumers group而言，每一条消息只能被同一个goup消费一次。
 
 如果所有的consumer都具有相同的group,这种情况和queue模式很像;消息将会在consumers之间负载均衡.
 如果所有的consumer都具有不同的group,那这就是"发布-订阅";消息将会广播给所有的消费者.
