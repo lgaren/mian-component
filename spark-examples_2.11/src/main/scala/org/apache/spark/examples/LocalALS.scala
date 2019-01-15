@@ -18,6 +18,7 @@
 // scalastyle:off println
 package org.apache.spark.examples
 
+import org.apache.commons.math.linear._
 import org.apache.commons.math3.linear._
 
 /**
