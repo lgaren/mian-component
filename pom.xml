@@ -14,7 +14,7 @@
         <module>jvm_test</module>
         <module>common</module>
         <module>ApiDemo</module>
-        <module>spark-examples_211</module>
+        <module>spark-examples_2.11</module>
     </modules>
     <!-- 版本控制 -->
     <properties>

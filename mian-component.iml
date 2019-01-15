@@ -11,8 +11,55 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 2.7.5 (/usr/bin/python2.7)" jdkType="Python SDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-core_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.twitter:chill_2.10:0.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-launcher_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-network-common_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-network-shuffle_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-unsafe_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: net.java.dev.jets3t:jets3t:0.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.3.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.3.6" level="project" />
+    <orderEntry type="library" name="Maven: mx4j:mx4j:3.0.2" level="project" />
+    <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.51" level="project" />
+    <orderEntry type="library" name="Maven: com.jamesmurty.utils:java-xmlbuilder:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.json4s:json4s-jackson_2.10:3.2.11" level="project" />
+    <orderEntry type="library" name="Maven: org.json4s:json4s-core_2.10:3.2.11" level="project" />
+    <orderEntry type="library" name="Maven: org.json4s:json4s-ast_2.10:3.2.11" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scalap:2.10.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-scala_2.10:2.6.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-tags_2.10:2.2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-streaming_2.10:2.2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-mllib_2.10:2.2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-graphx_2.10:2.2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-mllib-local_2.10:2.2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.scalanlp:breeze_2.10:0.13.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.scalanlp:breeze-macros_2.10:0.13.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.scalamacros:quasiquotes_2.10:2.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spire-math:spire_2.10:0.13.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spire-math:spire-macros_2.10:0.13.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.typelevel:machinist_2.10:0.6.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.chuusai:shapeless_2.10:2.3.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.typelevel:macro-compat_2.10:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-mllib-local_2.11:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-tags_2.11:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-sql_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-sketch_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.spark:spark-catalyst_2.10:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.5" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-client:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-app:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-common:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-yarn-client:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-yarn-server-common:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-shuffle:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-yarn-api:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-annotations:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.scalanlp:breeze-natives_2.11:0.13" level="project" />
     <orderEntry type="library" name="Maven: org.scalanlp:breeze_2.11:0.13" level="project" />
     <orderEntry type="library" name="Maven: org.scalanlp:breeze-macros_2.11:0.13" level="project" />
@@ -286,6 +333,11 @@
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-core:1.10.6" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-sts:1.10.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-annotations:2.6.0-cdh5.10.2" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" name="scala-sdk-2.11.12" level="application" />
+=======
+    <orderEntry type="library" name="R User Library" level="project" />
+    <orderEntry type="library" name="R Skeletons" level="application" />
+>>>>>>> origin/master
   </component>
 </module>

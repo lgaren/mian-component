@@ -25,7 +25,30 @@ import org.apache.spark.mllib.tree.model.DecisionTreeModel
 import org.apache.spark.mllib.util.MLUtils
 // $example off$
 
-object DecisionTreeRegressionExample {
+/**
+  * ━━━神兽当头  BUG不生━━━━━━━━━
+  * 　　　┏┓　　　┏┓
+  * 　　┏┛┻━━━┛┻┓
+  * 　　┃　　　　　　　┃
+  * 　　┃　　　━　　　┃
+  * 　　┃　┳┛　┗┳　┃
+  * 　　┃　　　　　　　┃
+  * 　　┃　　　┻　　　┃
+  * 　　┃　　　　　　　┃
+  * 　　┗━┓　　　┏━┛
+  * 　　　　┃　　　┃
+  * 　　　　┃　　　┃Code is far away from bug with the animal protecting
+  * 　　　　┃　　　┗━━━┓
+  * 　　　　┃　　　　　　　┣┓
+  * 　　　　┃　　　　　　　┏┛
+  * 　　　　┗┓┓┏━┳┓┏┛
+  * 　　　　　┃┫┫　┃┫┫
+  * 　　　　　┗┻┛　┗┻┛
+  * ━━━━━━━━━━━━━━━━
+  *
+  */
+
+object DecisionTreeRegression {
 
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("DecisionTreeRegressionExample")
