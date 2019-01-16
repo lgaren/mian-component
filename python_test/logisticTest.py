@@ -11,6 +11,7 @@ machine-learning-course
 
 
 #
+# noinspection PyInterpreter
 def f_prime(x_old):
     return -2 * x_old + 3
 
