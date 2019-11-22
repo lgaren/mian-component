@@ -15,6 +15,7 @@ Version:  functiongraph V 0.0, Jan 08, 2019 DSG Exp$$
 import numpy as np
 import matplotlib.pyplot as plt
 from RandomWalk import RandomWalk
+import math
 
 """
 绘制函数图像
@@ -50,10 +51,10 @@ plt.show()
 自动函数计算
 """
 x_values = np.arange(-50, 50, 0.001)
-y_values = [3 * (x*x) + x - 3 for x in x_values]
-plt.scatter(x_values,y_values,s=0.01)
+y_values = [ - 0.05 * x ** 2 + 10 for x in x_values]
+plt.scatter(x_values,y_values,s=1 )
 #设置每个坐标轴的取值范围（x轴取值，y轴取值）
-plt.axis([-10,10,-10,10])
+plt.axis([0,30,0,30])
 plt.show()
 
 

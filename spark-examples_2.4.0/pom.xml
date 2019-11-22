@@ -109,9 +109,17 @@
 
         <CodeCacheSize>512m</CodeCacheSize>
         <CodeCacheSize>512m</CodeCacheSize>
+
+        <examples.version>2.4.0</examples.version>
     </properties>
 
     <dependencies>
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-math3</artifactId>-->
+            <!--<version>${commons.math3.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -124,64 +132,59 @@
             <groupId>org.spark-project.spark</groupId>
             <artifactId>unused</artifactId>
             <version>1.0.0</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
+
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
+
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
+
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-graphx_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
+
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <version>${examples.version}</version>
+
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <scope>provided</scope>
+            <version>${commons.math3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.scalacheck</groupId>
             <artifactId>scalacheck_${scala.binary.version}</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.scopt</groupId>
@@ -191,7 +194,6 @@
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>parquet-hadoop-bundle</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

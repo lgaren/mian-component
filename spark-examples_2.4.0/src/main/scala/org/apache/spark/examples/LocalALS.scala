@@ -20,6 +20,7 @@ package org.apache.spark.examples
 
 import org.apache.commons.math3.linear._
 
+
 /**
  * Alternating least squares matrix factorization.
  *

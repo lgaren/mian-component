@@ -14,7 +14,7 @@
         <module>jvm_test</module>
         <module>common</module>
         <module>ApiDemo</module>
-        <module>spark-examples_2.11</module>
+        <module>spark-examples_2.4.0</module>
     </modules>
 
 
@@ -165,11 +165,11 @@
             <version>0.13</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.6.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-math3</artifactId>-->
+            <!--<version>3.4.1</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
