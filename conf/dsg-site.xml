@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<property>
+<name>com.lvmama.seagull.resource.aliveTime</name>
+<value>1000s</value>
+<description>某些资源对象在内存最大的闲置时间，超过这些时间没有被访问或者被使用，将会被清理掉，在这个项目中hive接口的Session,元数据库的JDBC对象会被当做是一种资源来处理。</description>
+</property>
+<property>
+<name>com.lvmama.seagull.resource.cleaner.runInterval</name>
+<value>10s</value>
+<description>项目中有一个后台线程来管理资源，管理资源对象的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次</description>
+</property>
+</configuration>

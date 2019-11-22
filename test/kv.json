@@ -1,0 +1,13 @@
+{
+  // 基于 scheme
+  "accessKey": ".......",
+  "time":12345678,  // long型时间,资源使用借宿的时间
+  "host":"hostname",
+  "accessType":[],
+  "sourceType": "",
+  "target":[{
+    "scheme ": "dbname",
+    "user":"....."
+  }
+  ]
+}

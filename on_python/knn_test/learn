@@ -1,0 +1,22 @@
+numpy.core.multiarray.zeros(shape, dtype=None, order='C')
+  zeros(shape, dtype=float, order='C')
+  Return a new array of given shape and type, filled with zeros.
+  shape : (维度0的阶数，维度1的阶数........)
+初始状态
+[[ 0.  0.  0.  0.  0.]
+[0.  0.  0.   0.   0.]]
+
+shape( Matrix ) 求矩阵的所有维度上的阶数
+
+Matrix。shape[1] 求矩阵某维度的阶数
+
+# tile(minVals,(m,1)) minVals 表示以minVals(矩阵)为元素，用这个元素拼成m * 1的矩阵
+# 如果 minVals 的行列为 4，3 则生成的新矩阵的行列就是 4000 ，3
+# tile(  {shape = (2,3)  },(4,3)) 返回shape = (8 , 9)
+# |  1  |
+# |     |   *  |  3   ,2  |   =  3 ,6
+# |  3  |
+#  如果参数 1 为 2 * 3 的矩阵, 参数2是一个（3,4）  则新矩阵就是 6 * 12 阶
+
+ knn.classify0(inX, dataSet, labels, k) inX 等待分类的数据， dataSet样本数据 ， 样本数据的类别 ， K值
+ inX 为一个向量 ，dataSet为一个矩阵，label是dataSet中每个向量所属的类别，

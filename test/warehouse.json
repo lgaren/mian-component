@@ -1,0 +1,15 @@
+{
+  //基于表
+  "accesskey" :"   ",
+  "time":"timestmp",
+  "host":"hostname",
+  "accessType":[],
+  "target":[{
+    "serverName":"hive/presto",
+    "table":"......",
+    "user":"hive",
+    "scheme ": "dbname",
+    "cloume":["远期","规划"]
+  }
+  ]
+}

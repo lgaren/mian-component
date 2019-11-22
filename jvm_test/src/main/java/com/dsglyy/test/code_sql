@@ -1,0 +1,2519 @@
+create external table
+if not exists ods.ods_lvmama_hotel_addit_supp_goods (
+	addit_supp_goods_id string comment '',
+	product_id string comment '',
+	addit_goods_name string comment '',
+	explains string comment '',
+	cancel_flag bigint comment '',
+	rec_level bigint comment '',
+	stock_flag bigint comment '',
+	addit_supp_goods_type string comment '',
+	prod_branch_id string comment '',
+	ticket_type string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_addit_supp_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_addit_supp_goods_relation (
+	relation_id string comment '',
+	supp_goods_id string comment '',
+	addit_supp_goods_id string comment '',
+	cancel_flag bigint comment '',
+	package_count bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_addit_supp_goods_relation';
+
+create external table
+if not exists ods.ods_lvmama_hotel_bak_prod_product_prop (
+	prod_prop_id string comment '',
+	product_id string comment '',
+	prop_id string comment '',
+	prop_value string comment '',
+	add_value string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_bak_prod_product_prop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_attribution (
+	attribution_id string comment '',
+	attribution_type string comment '',
+	attribution_name string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_attribution';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_branch (
+	branch_id string comment '',
+	category_id string comment '',
+	branch_code string comment '',
+	branch_name string comment '',
+	attach_flag string comment '',
+	cancel_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_branch';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_branch_prop (
+	prop_id string comment '',
+	branch_id string comment '',
+	prop_name string comment '',
+	prop_code string comment '',
+	input_type string comment '',
+	data_from string comment '',
+	max_length bigint comment '',
+	null_flag string comment '',
+	check_type string comment '',
+	check_value string comment '',
+	prop_desc string comment '',
+	prop_use string comment '',
+	cancel_flag string comment '',
+	seq bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_branch_prop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_brand (
+	brand_id string comment '',
+	brand_name string comment '',
+	brand_full_name string comment '',
+	brand_short_name string comment '',
+	brand_initial string comment '',
+	cancel_flag string comment '',
+	group_name string comment '',
+	brand_seq bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_brand';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_bu_enum (
+	bu_code string comment '',
+	cn_name string comment '',
+	sub_company_flag string comment '',
+	default_role_id string comment '',
+	valid string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_bu_enum';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_category (
+	category_id string comment '',
+	parent_id string comment '',
+	category_code string comment '',
+	category_name string comment '',
+	category_desc string comment '',
+	cancel_flag string comment '',
+	seq bigint comment '',
+	process_key string comment '',
+	prom_target string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_category';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_category_prop (
+	prop_id string comment '',
+	category_id string comment '',
+	group_id string comment '',
+	prop_name string comment '',
+	prop_code string comment '',
+	input_type string comment '',
+	data_from string comment '',
+	prop_default string comment '',
+	max_length bigint comment '',
+	null_flag string comment '',
+	check_type string comment '',
+	check_value string comment '',
+	prop_desc string comment '',
+	prop_use string comment '',
+	cancel_flag string comment '',
+	seq bigint comment '',
+	edit_flag string comment '',
+	suggestion_code string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_category_prop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_cate_prop_group (
+	group_id string comment '',
+	category_id string comment '',
+	group_name string comment '',
+	group_desc string comment '',
+	cancel_flag string comment '',
+	seq bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_cate_prop_group';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_dest (
+	dest_id string comment '',
+	parent_id string comment '',
+	district_id string comment '',
+	dest_type string comment '',
+	dest_name string comment '',
+	en_name string comment '',
+	pinyin string comment '',
+	short_pinyin string comment '',
+	dest_alias string comment '',
+	local_lang string comment '',
+	cancel_flag string comment '',
+	foreign_flag string comment '',
+	dest_mark string comment '',
+	update_time bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_dest';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_dest_shop (
+	dest_id string comment '',
+	main_products string comment '',
+	subjoin_products string comment '',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_dest_shop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_dict (
+	dict_id string comment '',
+	dict_def_id string comment '',
+	dict_name string comment '',
+	cancel_flag string comment '',
+	add_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_dict';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_dict_def (
+	dict_def_id string comment '',
+	dict_def_name string comment '',
+	dict_type string comment '',
+	cancel_flag string comment '',
+	dict_code string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_dict_def';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_dict_prop (
+	dict_prop_id string comment '',
+	dict_id string comment '',
+	dict_prop_def_id string comment '',
+	dict_def_id string comment '',
+	dict_prop_value string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_dict_prop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_dict_prop_blob (
+	dict_prop_id string comment '',
+	prop_value string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_dict_prop_blob';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_district (
+	district_id string comment '',
+	parent_id string comment '',
+	district_type string comment '',
+	district_name string comment '',
+	pinyin string comment '',
+	cancel_flag string comment '',
+	short_pinyin string comment '',
+	url_pin_yin string comment '',
+	province_name string comment '',
+	province_pin_yin string comment '',
+	city_name string comment '',
+	city_pin_yin string comment '',
+	hotel_num bigint comment '',
+	district_alias string comment '',
+	en_name string comment '',
+	local_lang string comment '',
+	foreign_flag string comment '',
+	update_time bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_district';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_district_sign (
+	sign_id string comment '',
+	district_id string comment '',
+	sign_type string comment '',
+	sign_name string comment '',
+	longitude decimal (28, 10) comment '',
+	latitude decimal (28, 10) comment '',
+	radius bigint comment '',
+	sign_desc string comment '',
+	cancel_flag string comment '',
+	short_pinyin string comment '',
+	pinyin string comment '',
+	en_name string comment '',
+	sign_alias string comment '',
+	local_lang string comment '',
+	update_time bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_district_sign';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_order_required (
+	req_id string comment '',
+	group_code string comment '',
+	need_trav_flag string comment '',
+	trav_num_type string comment '',
+	phone_num_type string comment '',
+	enname_type string comment '',
+	email_type string comment '',
+	occup_type string comment '',
+	id_num_type string comment '',
+	id_flag string comment '',
+	passprot_flag string comment '',
+	pass_flag string comment '',
+	ec_flag string comment '',
+	tw_pass_flag string comment '',
+	tw_resident_flag string comment '',
+	birth_cert_flag string comment '',
+	household_reg_flag string comment '',
+	soldier_flag string comment '',
+	officer_flag string comment '',
+	hk_resident_flag string comment '',
+	outbound_phone_type string comment '',
+	use_time_type string comment '',
+	local_hotel_address_type string comment '',
+	use_time_flag string comment '',
+	local_hotel_address_flag string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_order_required';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_subject (
+	subject_id string comment '',
+	subject_name string comment '',
+	pinyin string comment '',
+	subject_type string comment '',
+	red_flag string comment '',
+	cancel_flag string comment '',
+	seq bigint comment '',
+	create_time string comment '',
+	create_user string comment '',
+	update_time string comment '',
+	update_user string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_subject';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_suggestion (
+	sugg_id string comment '',
+	sugg_name string comment '',
+	sugg_code string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_suggestion';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_suggestion_detail (
+	detail_id string comment '',
+	group_id string comment '',
+	sugg_desc string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_suggestion_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_suggestion_group (
+	group_id string comment '',
+	sugg_id string comment '',
+	group_name string comment '',
+	seq bigint comment '',
+	select_type string comment '',
+	add_flag string comment '',
+	group_title string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_suggestion_group';
+
+create external table
+if not exists ods.ods_lvmama_hotel_biz_tag (
+	tag_id string comment '',
+	tag_name string comment '',
+	pinyin string comment '',
+	tag_group string comment '',
+	style string comment '',
+	memo string comment '',
+	cancel_flag string comment '',
+	seq bigint comment '',
+	create_time string comment '',
+	create_user string comment '',
+	update_time string comment '',
+	update_user string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_biz_tag';
+
+create external table
+if not exists ods.ods_lvmama_hotel_com_order_required (
+	req_id string comment '',
+	object_type string comment '',
+	object_id string comment '',
+	trav_num_type string comment '',
+	phone_type string comment '',
+	enname_type string comment '',
+	email_type string comment '',
+	occup_type string comment '',
+	cred_type string comment '',
+	id_flag string comment '',
+	passport_flag string comment '',
+	pass_flag string comment '',
+	tw_pass_flag string comment '',
+	tw_resident_flag string comment '',
+	birth_cert_flag string comment '',
+	household_reg_flag string comment '',
+	soldier_flag string comment '',
+	officer_flag string comment '',
+	hk_resident_flag string comment '',
+	outbound_phone_type string comment '',
+	use_time_flag string comment '',
+	local_hotel_address_flag string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_com_order_required';
+
+create external table
+if not exists ods.ods_lvmama_hotel_com_photo (
+	photo_id string comment '',
+	photo_url string comment '',
+	photo_size string comment '',
+	photo_content string comment '',
+	photo_display string comment '',
+	photo_type string comment '',
+	photo_seq bigint comment '',
+	object_id string comment '',
+	object_type string comment '',
+	last_update_time string comment '',
+	file_id string comment '',
+	ratio bigint comment '',
+	source string comment '',
+	quondam_photo_content string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_com_photo';
+
+create external table
+if not exists ods.ods_lvmama_hotel_dist_channel_goods (
+	id string comment '',
+	channel_ids string comment '',
+	supp_goods_id string comment '',
+	cancel_flag string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	category_id string comment '',
+	sub_category_id string comment '',
+	bak1 bigint comment '',
+	bak2 string comment '',
+	bak3 string comment '',
+	bak4 string comment '',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_dist_channel_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_dist_distributor (
+	distributor_id string comment '',
+	distributor_name string comment '',
+	distributor_key string comment '',
+	lvmama_flag string comment '',
+	sms_flag string comment '',
+	cancel_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_dist_distributor';
+
+create external table
+if not exists ods.ods_lvmama_hotel_dist_distributor_goods (
+	dist_goods_id string comment '',
+	distributor_id string comment '',
+	supp_goods_id string comment '',
+	cancel_flag string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_dist_distributor_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_dist_distributor_prod (
+	dist_prod_id string comment '',
+	product_id string comment '',
+	distributor_id string comment '',
+	cancel_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_dist_distributor_prod';
+
+create external table
+if not exists ods.ods_lvmama_hotel_ebk_hotel_user_supp_goods_re (
+	re_id string comment '',
+	user_id string comment '',
+	supp_goods_id string comment '',
+	product_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_ebk_hotel_user_supp_goods_re';
+
+create external table
+if not exists ods.ods_lvmama_hotel_ebk_prod_apply (
+	apply_id string comment '',
+	category_id string comment '',
+	supplier_id string comment '',
+	product_id string comment '',
+	apply_type string comment '',
+	audit_status string comment '',
+	audit_user_id string comment '',
+	audit_user_name string comment '',
+	audit_time string comment '',
+	create_time string comment '',
+	memo string comment '',
+	create_user string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_ebk_prod_apply';
+
+create external table
+if not exists ods.ods_lvmama_hotel_ebk_prod_price (
+	price_id string comment '',
+	apply_id string comment '',
+	supp_goods_id string comment '',
+	start_date string comment '',
+	end_date string comment '',
+	apply_week string comment '',
+	settlement_price bigint comment '',
+	market_price bigint comment '',
+	breakfast string comment '',
+	ahead_book_time bigint comment '',
+	stock_status string comment '',
+	stock bigint comment '',
+	state string comment '',
+	price_apply_date string comment '',
+	price_apply_week string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_ebk_prod_price';
+
+create external table
+if not exists ods.ods_lvmama_hotel_ebk_supplier_group (
+	group_id string comment '',
+	supplier_id string comment '',
+	level_code bigint comment '',
+	parent_id string comment '',
+	cancel_flag string comment '',
+	create_time string comment '',
+	create_user bigint comment '',
+	group_name string comment '',
+	update_time string comment '',
+	update_user bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_ebk_supplier_group';
+
+create external table
+if not exists ods.ods_lvmama_hotel_exchange_rate_info (
+	id string comment '',
+	currency_code string comment '',
+	currency_name string comment '',
+	buy_rate decimal (10, 5) comment '',
+	cash_buy_rate decimal (10, 5) comment '',
+	sell_rate decimal (10, 5) comment '',
+	cash_sell_rate decimal (10, 5) comment '',
+	boc_convert decimal (10, 5) comment '',
+	release_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_exchange_rate_info';
+
+create external table
+if not exists ods.ods_lvmama_hotel_goods_freebies_relation (
+	sf_id string comment '',
+	goods_id string comment '',
+	freebie_id string comment '',
+	create_time string comment '',
+	freebie_name string comment '',
+	relate_status bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_goods_freebies_relation';
+
+create external table
+if not exists ods.ods_lvmama_hotel_goods_sale_plan_info (
+	goods_sale_plan_info_id string comment '主键id',
+	goods_id string comment '商品id',
+	goods_inner_name string comment '商品内部名称',
+	sale_plan_code string comment '策略代码',
+	n bigint comment '基数，如连住3晚的3',
+	x bigint comment '变数，如住10晚送2晚中的2',
+	y bigint comment '系数，备用字段',
+	custom_desc string comment '自定义内容',
+	valid string comment '是否有效 y: 有效；n:无效',
+	update_time string comment '更新时间'
+) comment '商品策略信息' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_goods_sale_plan_info';
+
+create external table
+if not exists ods.ods_lvmama_hotel_goods_stock_lock (
+	id string comment '',
+	goods_id string comment '',
+	quantity bigint comment '库存锁定的数量',
+	created_time string comment '',
+	last_check_time string comment '库存锁定超时时间',
+	spec_date string comment '库存锁定的日期',
+	vst_order_id string comment 'vst  订单d',
+	vst_order_item_id string comment 'vst 订单子项id',
+	version bigint comment '版本号',
+	price_plan_id string comment '',
+	original_quantity bigint comment '',
+	share_stock_id string comment '共享库存id'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_goods_stock_lock';
+
+create external table
+if not exists ods.ods_lvmama_hotel_hotel_foreigh_time_price (
+	id string comment '主键',
+	supp_goods_id string comment '商品id',
+	spec_date string comment '日期',
+	currency_code string comment '货币类型',
+	sale_price bigint comment '新销售价',
+	sale_taxes bigint comment '税费',
+	sale_fee bigint comment '服务费',
+	sale_settlement_price bigint comment '新结算价',
+	settlement_taxes bigint comment '税费结算',
+	settlement_fee bigint comment '服务费结算',
+	update_time string comment '更新时间'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_hotel_foreigh_time_price';
+
+create external table
+if not exists ods.ods_lvmama_hotel_hotel_foreigh_time_price_jinjiang (
+	id string comment '主键',
+	supp_goods_id string comment '商品id',
+	spec_date string comment '日期',
+	currency_code string comment '货币类型',
+	sale_price bigint comment '新销售价',
+	sale_taxes bigint comment '税费',
+	sale_fee bigint comment '服务费',
+	sale_settlement_price bigint comment '新结算价',
+	settlement_taxes bigint comment '税费结算',
+	settlement_fee bigint comment '服务费结算',
+	update_time string comment '更新时间'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_hotel_foreigh_time_price_jinjiang';
+
+create external table
+if not exists ods.ods_lvmama_hotel_hotel_sale_plan (
+	hotel_sale_plan_id string comment '主键id',
+	sale_plan_code string comment '策略代码',
+	sale_plan_name string comment '策略名称',
+	parent_code string comment '父策略代码',
+	sale_plan_desc string comment '策略描述',
+	grade bigint comment '等级，顶层为1',
+	valid string comment '是否有效 y: 有效；n:无效',
+	update_time string comment '更新时间'
+) comment '酒店销售策略' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_hotel_sale_plan';
+
+create external table
+if not exists ods.ods_lvmama_hotel_line_route_date (
+	route_date_id string comment '',
+	line_route_id string comment '',
+	spec_date string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_line_route_date';
+
+create external table
+if not exists ods.ods_lvmama_hotel_mycat_sequence (
+	name string comment '',
+	current_value bigint comment '当前值',
+	increment bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_mycat_sequence';
+
+create external table
+if not exists ods.ods_lvmama_hotel_nodelist (
+	id string comment '',
+	nodename string comment '',
+	pid string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_nodelist';
+
+create external table
+if not exists ods.ods_lvmama_hotel_o_dest_cal_log (
+	dest_cal_log_id string comment '',
+	object_type string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	suppgoods_id string comment '',
+	supp_goods_time_price_id string comment '',
+	old_cancel_flag string comment '',
+	new_cancel_flag string comment '',
+	old_sale_flag string comment '',
+	new_sale_flag string comment '',
+	old_other string comment '',
+	new_other string comment '',
+	description string comment '',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_o_dest_cal_log';
+
+create external table
+if not exists ods.ods_lvmama_hotel_o_simple_supp_goods_time_price (
+	id string comment 'id',
+	supp_goods_id string comment '商品id',
+	product_id string comment '产品id（冗余）',
+	pre_sale_flag bigint comment '是否买断',
+	stock_flag bigint comment '是否保留',
+	sale_out bigint comment '是否订完',
+	overshell_flag bigint comment '是否可超卖',
+	spec_date bigint comment '价格时间(时间撮)',
+	breakfast bigint comment '早餐情况',
+	onsale_flag bigint comment '是否可售',
+	cancel_flag bigint comment '是否有效',
+	online_flag bigint comment '是否上架',
+	valid string comment '数据有效性',
+	create_time string comment '创建日期',
+	update_time string comment '更新日期',
+	bak1 bigint comment '备用字段1',
+	bak2 bigint comment '备用字段2',
+	bak3 string comment '备用字段3',
+	bak4 string comment '备用字段4',
+	bak5 string comment '备用字段5',
+	bak6 string comment '备用字段6'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_o_simple_supp_goods_time_price';
+
+create external table
+if not exists ods.ods_lvmama_hotel_play_method (
+	play_method_id string comment '',
+	name string comment '',
+	pinyin string comment '',
+	category_id string comment '',
+	sub_category_id string comment '',
+	red_flag string comment '',
+	valid_flag string comment '',
+	create_time string comment '',
+	update_time string comment '',
+	prod_bind_count bigint comment '',
+	play_method_type_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_play_method';
+
+create external table
+if not exists ods.ods_lvmama_hotel_poi_hotel_count (
+	id string comment '',
+	dest_id string comment '',
+	dest_name string comment '',
+	dest_type string comment '',
+	hotel_count bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_poi_hotel_count';
+
+create external table
+if not exists ods.ods_lvmama_hotel_price_plan (
+	price_plan_id string comment '',
+	plan_name string comment '',
+	stock_table_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_price_plan';
+
+create external table
+if not exists ods.ods_lvmama_hotel_price_plan_relation (
+	rela_id string comment '',
+	price_plan_id string comment '',
+	supp_goods_id string comment '',
+	line_route_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_price_plan_relation';
+
+create external table
+if not exists ods.ods_lvmama_hotel_productn_log (
+	log_id string comment '',
+	product_id string comment '',
+	log_date string comment '',
+	update_time string comment ''
+) comment '计算价格为不可出售产品记录表' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_productn_log';
+
+create external table
+if not exists ods.ods_lvmama_hotel_product_log (
+	log_id string comment '',
+	product_id string comment '',
+	log_date string comment '',
+	update_time string comment ''
+) comment '计算价格为可出售产品记录表' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_product_log';
+
+create external table
+if not exists ods.ods_lvmama_hotel_product_video (
+	video_id string comment '',
+	object_id string comment '',
+	object_type string comment '',
+	category_id string comment '',
+	status string comment '',
+	seq bigint comment '',
+	video_cc_id string comment '',
+	video_cc_jscode string comment '',
+	photo_url string comment '',
+	child_objectid string comment '',
+	child_categoryid string comment '',
+	child_videoid string comment '',
+	child_status string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_product_video';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_contract_detail (
+	detail_id string comment '',
+	product_id string comment '',
+	detail_type string comment '',
+	n_days bigint comment '',
+	address string comment '',
+	detail_name string comment '',
+	detail_value string comment '',
+	stay bigint comment '',
+	other string comment '',
+	line_route_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_contract_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_dest_re (
+	re_id string comment '',
+	product_id string comment '',
+	dest_id string comment '',
+	main_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_dest_re';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_econtract (
+	econtract_id string comment '',
+	product_id string comment '',
+	econtract_template string comment '',
+	guide_service string comment '',
+	group_type string comment '',
+	supplier_id string comment '',
+	travel_formalities string comment '',
+	other_travelformalities string comment '',
+	min_person bigint comment '',
+	group_supplier_name string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_econtract';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_group (
+	prod_re_id string comment '',
+	group_id string comment '',
+	product_id string comment '',
+	seq bigint comment '',
+	line_route_id string comment '',
+	route_num bigint comment '',
+	stay_num bigint comment '',
+	category_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_group';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_group_date (
+	group_date_id string comment '',
+	product_id string comment '产品id',
+	spec_date string comment '团期日期',
+	lowest_saled_price bigint comment '最低销售起价',
+	stock bigint comment '剩余库存',
+	line_route_id string comment '行程出发日期表主键',
+	update_time string comment '',
+	ahead_book_time bigint comment '提前预定时间'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_group_date';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_hotelcomb_branch (
+	relation_id string comment '',
+	hotelcomb_branch_id string comment '酒套餐产品规格id',
+	hotel_branch_id string comment '酒店产品规格id',
+	hotelcomb_id string comment '酒店产品规格id'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_hotelcomb_branch';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_hotelcomb_goods (
+	relation_id string comment '',
+	hotelcomb_branch_id string comment '',
+	hotelcomb_goods_id string comment '',
+	hotel_branch_id string comment '',
+	hotel_goods_id string comment '',
+	hotelcomb_id string comment '',
+	stay_num_seq bigint comment '酒套餐商品行程包含多晚酒店，这里的数字表示第几晚'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_hotelcomb_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_hotelcomb_goods_ext (
+	goods_ext_id string comment '',
+	hotelcomb_goods_id string comment '',
+	cost_include string comment '费用包含',
+	cost_exclude string comment '费用不包含'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_hotelcomb_goods_ext';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_hotelcomb_hotel (
+	relation_id string comment '',
+	hotelcomb_id string comment '',
+	hotel_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_hotelcomb_hotel';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_hotel_freebies (
+	freebie_id string comment '',
+	product_id string comment '',
+	product_name string comment '',
+	freebie_name string comment '',
+	exp_start_date string comment '',
+	stock_num bigint comment '',
+	freebie_desc string comment '',
+	exp_end_date string comment '',
+	use_notice string comment '',
+	consume bigint comment '',
+	over_sold string comment '',
+	effective string comment '',
+	version bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_hotel_freebies';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_hotel_group_date (
+	id string comment '',
+	product_id string comment '',
+	spec_date string comment '',
+	start_price bigint comment '',
+	stock bigint comment '',
+	stock_status string comment '',
+	ahead_tag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_hotel_group_date';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_line_route (
+	line_route_id string comment '',
+	product_id string comment '',
+	route_num bigint comment '',
+	stay_num bigint comment '',
+	traffic_num bigint comment '',
+	route_name string comment '',
+	route_feature string comment '',
+	cancle_flag string comment '',
+	cost_include string comment '',
+	cost_exclude string comment '',
+	create_time string comment '',
+	new_structure_flag string comment '',
+	warning_flag string comment '',
+	warning_text string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_line_route';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_line_route_detail (
+	detail_id string comment '',
+	route_id string comment '',
+	n_day bigint comment '',
+	title string comment '',
+	content string comment '',
+	stay_type string comment '',
+	stay_desc string comment '',
+	breakfast_flag string comment '',
+	breakfast_desc string comment '',
+	lunch_flag string comment '',
+	lunch_desc string comment '',
+	dinner_flag string comment '',
+	dinner_desc string comment '',
+	traffic_type string comment '',
+	traffic_other string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_line_route_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_notice_goods (
+	notice_goods_id string comment '',
+	notice_id string comment '',
+	supp_goods_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_notice_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_package_detail (
+	detail_id string comment '',
+	group_id string comment '',
+	object_type string comment '',
+	object_id string comment '',
+	price_type string comment '',
+	price bigint comment '',
+	package_count bigint comment '',
+	seq bigint comment '',
+	start_district_id string comment '',
+	update_time bigint comment '',
+	is_show_first string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_package_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_play_method_re (
+	pk_id string comment '',
+	product_id string comment '',
+	play_method_id string comment '',
+	seq bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_play_method_re';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product (
+	product_id string comment '',
+	category_id string comment '',
+	product_name string comment '',
+	cancel_flag string comment '',
+	recommend_level bigint comment '',
+	sale_flag string comment '',
+	district_id string comment '',
+	manager_id string comment '',
+	filiale string comment '',
+	url_id string comment '',
+	create_time string comment '',
+	create_user string comment '',
+	update_time string comment '',
+	update_user string comment '',
+	product_type string comment '',
+	package_type string comment '',
+	audit_status string comment '',
+	sensitive_flag string comment '',
+	supp_product_name string comment '',
+	source string comment '',
+	bu string comment '',
+	attribution_id string comment '',
+	company_type string comment '',
+	muilt_departure_flag string comment '',
+	abandon_flag string comment '',
+	manager_id_perm string comment '',
+	model_version bigint comment '',
+	sub_category_id string comment '',
+	traveller_delay_flag string comment '',
+	sync_detail_flag string comment '',
+	lowest_saled_price bigint comment
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_addtional (
+	product_id string comment '',
+	lowest_market_price bigint comment '',
+	lowest_saled_price bigint comment '',
+	to_traffic string comment '',
+	back_traffic string comment '',
+	change_traffic_flag string comment '',
+	hotel string comment '',
+	change_hotel_flag string comment '',
+	mobile_rebate bigint comment '',
+	pc_rebate bigint comment '',
+	child_min_quantity bigint comment '',
+	child_max_quantity bigint comment '',
+	adult_min_quantity bigint comment '',
+	adult_max_quantity bigint comment '',
+	settlement_price bigint comment '',
+	qrcode_path string comment '',
+	sale_type string comment '',
+	free_insurance_flag string comment '',
+	multi_route_flag string comment '',
+	brand_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_addtional';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_association (
+	product_association_id string comment '',
+	product_id string comment '',
+	feature_associated_id string comment '',
+	route_assocated_id string comment '',
+	fee_associated_id string comment '',
+	contract_associated_id string comment '',
+	update_time string comment '',
+	fee_include_extra string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_association';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_attr (
+	prod_product_attr_id string comment '主键id',
+	dest_type string comment '目的地标识：dest - 目的地，district_sign - 交通点',
+	object_id string comment '目的地id',
+	object_name string comment '目的地名称',
+	dict_id string comment '周边目的地类型,2000-商圈,2001-地标,2002-景区,2003-机场,2004-火车站,2005-汽车站,2006-地铁站,2007-景点',
+	product_id string comment '产品id',
+	add_flag string comment '初始化标识',
+	distance bigint comment '距离',
+	update_time bigint comment '更新时间'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_attr';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_branch (
+	product_branch_id string comment '',
+	branch_id string comment '',
+	product_id string comment '',
+	branch_name string comment '',
+	branch_en_name string comment '规格英文名',
+	cancel_flag string comment '',
+	recommend_level bigint comment '',
+	sale_flag string comment '',
+	max_visitor bigint comment '',
+	sensitive_flag string comment '',
+	update_time string comment '',
+	max_child_visitor bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_branch';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_branch_prop (
+	product_branch_prop_id string comment '',
+	prop_id string comment '',
+	product_branch_id string comment '',
+	prod_value string comment '',
+	add_value string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_branch_prop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_branch_prop_blob (
+	product_branch_prop_id string comment '',
+	prop_value string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_branch_prop_blob';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_brand (
+	product_id string comment '',
+	brand_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_brand';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_description (
+	prod_desc_id string comment '',
+	category_id string comment '',
+	product_id string comment '',
+	product_type string comment '',
+	content_type string comment '',
+	content string comment '',
+	clob_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_description';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_desc_clob (
+	prod_desc_id string comment '',
+	description_content string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_desc_clob';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_notice (
+	notice_id string comment '',
+	product_id string comment '',
+	content string comment '',
+	start_time string comment '',
+	end_time string comment '',
+	create_user bigint comment '',
+	create_time string comment '',
+	notice_type string comment '',
+	cancel_flag string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_notice';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_prop (
+	prod_prop_id string comment '',
+	product_id string comment '',
+	prop_id string comment '',
+	prop_value string comment '',
+	add_value string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_prop';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_prop_blob (
+	prod_prop_id string comment '',
+	prop_value string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_prop_blob';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_product_sale_re (
+	prod_sale_type_id string comment '',
+	product_id string comment '',
+	sale_type string comment '',
+	adult bigint comment '',
+	child bigint comment '',
+	house_diff_type string comment '',
+	house_diff_amount bigint comment '',
+	child_price_type string comment '',
+	child_price_amount bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_product_sale_re';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_refund (
+	refund_id string comment '',
+	product_id string comment '',
+	spec_date string comment '',
+	cancel_strategy string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_refund';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_refund_rule (
+	rule_id string comment '',
+	refund_id string comment '',
+	cancel_time bigint comment '',
+	apply_type string comment '',
+	deduct_type string comment '',
+	deduct_value bigint comment '',
+	cancel_time_type string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_refund_rule';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_route_detail_group (
+	group_id string comment '',
+	route_id string comment '',
+	detail_id string comment '',
+	module_type string comment '',
+	start_time string comment '',
+	local_time_flag string comment '',
+	sort_value bigint comment '',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_route_detail_group';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_route_feature (
+	feature_id string comment '',
+	product_id string comment '',
+	feat_prop_type string comment '',
+	feat_prop_value string comment '',
+	prop_sort bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_route_feature';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_subject (
+	re_id string comment '',
+	product_id string comment '',
+	subject_id string comment '',
+	seq bigint comment '',
+	add_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_subject';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prod_tag (
+	re_id string comment '',
+	object_type string comment '',
+	object_id string comment '',
+	tag_id string comment '',
+	start_time string comment '',
+	end_time string comment '',
+	display_type bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prod_tag';
+
+create external table
+if not exists ods.ods_lvmama_hotel_prom_presnet_goods (
+	prom_present_goods_id string comment '',
+	activity_id string comment '',
+	prod_goods_id string comment '',
+	prod_goods_type bigint comment '',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_prom_presnet_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_repair_hotel_district (district_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_repair_hotel_district';
+
+create external table
+if not exists ods.ods_lvmama_hotel_repair_prod_area_temp (
+	product_id string comment '',
+	product_type string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_repair_prod_area_temp';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_amount (
+	id string (11, 0) comment '',
+	precontrol_policy_id string (11, 0) comment '资源预控策略id',
+	quantity decimal (11, 0) comment '数量',
+	effectdate string comment '起效日期',
+	expirydate string comment '终止日期',
+	create_time string comment '',
+	update_time string comment ''
+) comment '预控日金额' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_amount';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_bind_goods (
+	id string (11, 0) comment '',
+	precontrolpolicy_id string (11, 0) comment '资源预控策略id',
+	supplier_id string (11, 0) comment '供应商id',
+	product_id string (11, 0) comment '产品id',
+	goods_id string (11, 0) comment '商品id',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_bind_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_inventory (
+	id string (11, 0) comment '',
+	precontrol_policy_id string (11, 0) comment '资源预控策略id',
+	quantity decimal (11, 0) comment '数量',
+	effectdate string comment '起效日期',
+	expirydate string comment '终止日期',
+	create_time string comment '',
+	update_time string comment ''
+) comment '预控日库存' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_inventory';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_policy (
+	id string (11, 0) comment 'id',
+	name string comment '预控名称',
+	supplier_id string (11, 0) comment '供应商id',
+	suppliername string comment '供应商名称',
+	controltype string comment '预控方式 amount:预控金额,inventory:预控库存',
+	saleeffectdate string comment '销售起日期',
+	saleexpirydate string comment '销售止日期',
+	tradeeffectdate string comment '游玩起日期',
+	tradeexpirydate string comment '游玩止日期',
+	controlclassification string comment '预控类型, daily:按日预控, cycle:按周期预控',
+	iscanreturn string comment '能否退还, t:是;n:否',
+	iscandelay string comment '能否延期,t: 是;n:否 ',
+	productmanager_id string (11, 0) comment '产品经理id',
+	productmanagername string comment '产品经理名称',
+	amount decimal (11, 0) comment '金额/库存数量',
+	state string comment '预控状态: new:新建; inuse:启用; termination:终止; expired:到期',
+	is_deleted decimal (8, 0) comment '删除标志: 1: 已删除; 0: 未删除',
+	bu_code st
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_policy';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_policy_item (
+	policy_item_id string (11, 0) comment '子预控id',
+	precontrol_policy_id string (11, 0) comment '资源预控策略id',
+	item_controltype string comment '子预控方式：amount:预控金额,inventory:预控库存',
+	item_controlclass string comment '子预控类型：add 追加,subtract 减少',
+	quantity decimal (11, 0) comment '数量(金额)',
+	memo string comment '备注',
+	res1 string comment '备用字段',
+	creat_time string comment '创建时间',
+	update_time string comment '更新时间'
+) comment '资源预控策略子表' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_policy_item';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_time_price (
+	id string (11, 0) comment '',
+	price_classification_code string comment '',
+	supplier_id string (11, 0) comment '供应商id',
+	category_id string (11, 0) comment '类品id',
+	goods_id string (11, 0) comment '商品id',
+	product_id string (11, 0) comment '产品id',
+
+value
+	decimal (11, 0) comment '价格',
+	apply_date string comment '可用日期',
+	pre_sale_flag string comment '该买断价格是否可用'
+) comment '买断资源预控时间价格表' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_time_price';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_precontrol_time_price_attr (
+	code string comment '',
+	name string comment '',
+
+value
+	string comment ''
+) comment '买断资源时间价格表属性' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_precontrol_time_price_attr';
+
+create external table
+if not exists ods.ods_lvmama_hotel_res_time_price_attr_relation (
+	time_price_attr_relation_seq decimal (11, 0) comment '',
+	precontrol_time_price_id string (11, 0) comment '买断资源预控时间价格id',
+	precontrol_time_price_attr_cod string comment '买断资源时间价格表属性编码'
+) comment '时间价格表属性关联' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_res_time_price_attr_relation';
+
+create external table
+if not exists ods.ods_lvmama_hotel_sql statement (
+	select
+		*
+	from
+		prom_presnet_goods string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_sql statement';
+
+create external table
+if not exists ods.ods_lvmama_hotel_stock_plan (
+	id string comment '',
+	stock_plan_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_stock_plan';
+
+create external table
+if not exists ods.ods_lvmama_hotel_stock_plan_relation (
+	id string comment '',
+	stock_plan_id string comment '',
+	supp_goods_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_stock_plan_relation';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_contact (
+	person_id string comment '',
+	supplier_id string comment '',
+	name string comment '',
+	tel string comment '',
+	sex string comment '',
+	mobile string comment '',
+	email string comment '',
+	other_address string comment '',
+	job string comment '',
+	person_desc string comment '',
+	cancel_flag string comment '',
+	address string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_contact';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_contact_relate (
+	relate_id string comment '',
+	object_id string comment '',
+	object_type string comment '',
+	person_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_contact_relate';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_contract (
+	contract_id string comment '',
+	supplier_id string comment '',
+	contract_name string comment '',
+	contract_no string comment '',
+	start_time string comment '',
+	end_time string comment '',
+	sign_time string comment '',
+	operator bigint comment '',
+	manager_id string comment '',
+	acc_subject string comment '',
+	cancel_flag string comment '',
+	attachment bigint comment '',
+	approve_time string comment '',
+	approve_user_id string comment '',
+	create_time string comment '',
+	create_user_id string comment '',
+	contract_status string comment '',
+	contract_type string comment '',
+	isabandon bigint comment '',
+	update_time string comment '',
+	extension_flag string comment '',
+	extension_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_contract';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_contract_attach (
+	attach_id string comment '',
+	contract_id string comment '',
+	file_name string comment '',
+	attachment bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_contract_attach';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_contract_change (
+	change_id string comment '',
+	contract_id string comment '',
+	supplier_id string comment '',
+	end_time string comment '',
+	approve_time string comment '',
+	approve_user_id string comment '',
+	create_time string comment '',
+	create_user_id string comment '',
+	change_status string comment '',
+	change_type string comment '',
+	attachment bigint comment '',
+	change_desc string comment '',
+	cancel_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_contract_change';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_fax_rule (
+	fax_rule_id string comment '',
+	supplier_id string comment '',
+	category_id string comment '',
+	fax_rule_name string comment '',
+	fax string comment '',
+	send_time string comment '',
+	show_settle_flag string comment '',
+	fax_desc string comment '',
+	cancel_flag string comment '',
+	show_price_flag string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_fax_rule';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods (
+	supp_goods_id string comment '',
+	contract_id string comment '',
+	supplier_id string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	goods_name string comment '',
+	goods_en_name string comment '商品英文名',
+	manager_id string comment '',
+	pay_target string comment '',
+	lvmama_flag string comment '',
+	distribute_flag string comment '',
+	package_flag string comment '',
+	fax_flag string comment '',
+	goods_type string comment '',
+	express_type string comment '',
+	notice_type string comment '',
+	cert_valid_day string comment '',
+	adult bigint comment '',
+	child bigint comment '',
+	cancel_flag string comment '',
+	online_flag string comment '',
+	goods_desc string comment '',
+	fax_rule_id string comment '',
+	filiale string comment '',
+	max_stay_day bigint comment '',
+	min_stay_day bigint comment '',
+	min_quantity bigint comment '',
+	max_quantity bigint comment '',
+	group_id string comment '',
+	content_manager_id string comment '',
+	org_id string comment '',
+	branch_id string c
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_addition (
+	supp_goods_id string comment '',
+	district_area bigint comment '',
+	ahead_book_time bigint comment '',
+	today_online_flag string comment '',
+	lowest_saled_price bigint comment '',
+	lowest_market_price bigint comment '',
+	sms_content string comment '',
+	free_insurance_flag string comment '',
+	pet_ahead_book_time bigint comment '',
+	settlement_price bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_addition';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_gross_margin (
+	supp_goods_gross_margin_id string comment '',
+	category_id string comment '',
+	bu string comment '',
+	filiale string comment '',
+	gross_margin_type string comment '',
+	gross_margin bigint comment '',
+	creator bigint comment '',
+	create_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_gross_margin';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_group (
+	group_id string comment '',
+	supplier_id string comment '',
+	group_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_group';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_group_date (
+	group_date_id string comment '',
+	supp_goods_id string comment '',
+	price bigint comment '',
+	spec_date string comment '',
+	stock bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_group_date';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_group_stock (
+	stock_id string comment '',
+	group_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_group_stock';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_prop_description (
+	supp_goods_id string comment '',
+	goods_prop_description_value string comment '商品布置描述信息',
+	reserved_field_one string comment '保留字段1',
+	reserved_field_two string comment '保留字段2',
+	reserved_field_three string comment '时间保留字段3',
+	reserved_field_four bigint comment '时间保留字段4',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_prop_description';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_rebate (
+	supp_goods_rebate_id string comment '',
+	supp_goods_id string comment '',
+	channel string comment '',
+	valid string comment '',
+	rebate_type string comment '',
+	fixed_amount bigint comment '',
+	rate_amount bigint comment '',
+	recently_rebate bigint comment '',
+	memo string comment '',
+	multiplying_power_amount bigint comment '',
+	more_amount bigint comment '',
+	object_type string comment '',
+	update_time string comment '',
+	create_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_rebate';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_relation (
+	relation_id string comment '',
+	main_goods_id string comment '',
+	sec_goods_id string comment '',
+	max_quantity bigint comment '',
+	relation_type string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_relation';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_route_detail (
+	supp_route_detail_id string comment '',
+	hotel_supp_id string comment '',
+	hotelcomb_supp_id string comment '',
+	root_date string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_route_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_sale_re (
+	re_id string comment '',
+	product_id string comment '',
+	re_branch_id string comment '',
+	re_type string comment '',
+	limit_days string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_sale_re';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_sale_re_detail (
+	detail_id string comment '',
+	re_id string comment '',
+	supp_goods_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_sale_re_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_time_p170425 (
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment '',
+	settlement_price bigint comment '',
+	price bigint comment '',
+	restore_flag string comment '',
+	latest_hold_time bigint comment '',
+	oversell_flag string comment '',
+	breakfast bigint comment '',
+	ahead_book_time bigint comment '',
+	guar_type string comment '',
+	deduct_type string comment '',
+	latest_cancel_time bigint comment '',
+	book_limit_type string comment '',
+	latest_unguar_time bigint comment '',
+	stock_status string comment '',
+	onsale_flag string comment '',
+	guar_quantity bigint comment '',
+	deduct_value bigint comment '',
+	freesale_flag string comment '',
+	stock_flag string comment '',
+	cancel_strategy string comment '',
+	init_stock bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_time_p170425';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_time_price (
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment '',
+	settlement_price bigint comment '',
+	price bigint comment '',
+	restore_flag string comment '',
+	latest_hold_time bigint comment '',
+	oversell_flag string comment '',
+	breakfast bigint comment '',
+	ahead_book_time bigint comment '',
+	guar_type string comment '',
+	deduct_type string comment '',
+	latest_cancel_time bigint comment '',
+	book_limit_type string comment '',
+	latest_unguar_time bigint comment '',
+	stock_status string comment '',
+	onsale_flag string comment '',
+	guar_quantity bigint comment '',
+	deduct_value bigint comment '',
+	freesale_flag string comment '',
+	stock_flag string comment '',
+	cancel_strategy string comment '',
+	init_stock bigint comment '',
+	update_time string comment '',
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	s
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_time_price';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_goods_time_stock (
+	time_stock_id string comment '',
+	supp_goods_id string comment '酒套餐商品id',
+	spec_date string comment '日期',
+	stock_type string comment '库存类型',
+	stock bigint comment '库存',
+	oversell_flag bigint comment '是否超卖',
+	stock_status string comment '房态',
+	init_stock bigint comment '初始库存',
+	total_stock bigint comment '总库存',
+	book_limit_type string comment '预定限制',
+	freesale_flag bigint comment '是否无限保留库存',
+	stock_flag bigint comment '是否保留库存',
+	stock_plan_id string comment '库存计划id'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_goods_time_stock';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_settlement_entities (
+	id string comment '结算规则id',
+	supp_settle_rule_id string comment '结算规则id',
+	contract_id string comment '合同id',
+	name string comment '结算对象名称',
+	code string comment '结算对象编码',
+	account_name string comment '开户名称',
+	bank_name string comment '开户银行',
+	bank_account_no string comment '开户账户',
+	settlement_clasification string comment '结算类型 ( 预存款:advance_deposits;买断:buyout;不定期结:周结)',
+	settle_cycle bigint comment '结算天数',
+	settlement_methods string comment '结算方式 （ 按结算价; 返佣 ）',
+	invoce string comment '发票情况：否(不提供发票):non',
+	supplier_guarantee_money bigint comment '收供应商质保金',
+	supplier_cash_pledge_payed bigint comment '付供应商押金',
+	cooperated_bu_nostro string comment '我方合作bu',
+	ebk_no string comment 'ebk账号',
+	status string comment '有效状态',
+	use_status string comment '可用状态',
+	audit_status string comment '审核状态',
+	effected_da
+) comment '结算对象实体信息表' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_settlement_entities';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_settle_entities_appendix (
+	id string comment '主键id',
+	supp_settlement_entity_id string comment '结算规则id',
+	supp_settlement_entity_code string comment '结算对象编码',
+	appendix_type string comment '证明文件类型（ invoice:发票; attachment:附件 )',
+	sub_type string comment '上传文件子类型 ( 如 有发票/无发票 )',
+	file_name string comment '文件名称',
+	file_storage_id string comment '文件存储id',
+	create_date string comment '创建日期',
+	update_date string comment '更新日期'
+) comment '供应商结算对象契约性文件/证明 附件' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_settle_entities_appendix';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_settle_rule (
+	settle_rule_id string (11, 0) comment '',
+	contract_id string (11, 0) comment '',
+	supplier_id string (11, 0) comment '',
+	account_name string comment '',
+	account_bank string comment '',
+	account_no string comment '',
+	alipay_no string comment '',
+	alipay_name string comment '',
+	lv_acc_subject string comment '',
+	settle_cycle decimal (5, 0) comment '',
+	settle_type string comment '',
+	rule_type string comment '',
+	pay_type string comment '',
+	union_bank_no string comment '',
+	settle_desc string comment '',
+	settle_name string comment '',
+	settlement_period string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_settle_rule';
+
+create external table
+if not exists ods.ods_lvmama_hotel_supp_supplier (
+	supplier_id string comment '',
+	father_id string comment '',
+	supplier_name string comment '',
+	district_id string comment '',
+	supplier_type string comment '',
+	address string comment '',
+	tel string comment '',
+	fax string comment '',
+	site string comment '',
+	zip string comment '',
+	legal_rep string comment '',
+	permit string comment '',
+	api_flag string comment '',
+	cancel_flag string comment '',
+	supplier_tel string comment '',
+	notintime_flag string comment '',
+	qualify_type string comment '',
+	subsidiary_flag string comment '',
+	supplier_level_type string comment '',
+	supplier_purchase_type string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_supp_supplier';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_20171027 (
+	prod_id_old string comment '',
+	prod_id_new string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_20171027';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_district_data (
+	product_id string comment '',
+	city_name string comment '',
+	district_name string comment '',
+	exe_status string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_district_data';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_disttict_info (
+	product_id string comment '',
+	disttict_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_disttict_info';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_dist_channel_goods (
+	id string comment '',
+	channel_ids string comment '',
+	supp_goods_id string comment '',
+	cancel_flag string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	category_id string comment '',
+	sub_category_id string comment '',
+	bak1 bigint comment '',
+	bak2 string comment '',
+	bak3 string comment '',
+	bak4 string comment '',
+	create_time string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_dist_channel_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_dist_distributor_goods0720 (
+	dist_goods_id string comment '',
+	distributor_id string comment '',
+	supp_goods_id string comment '',
+	cancel_flag string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_dist_distributor_goods0720';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_perm_user (
+	user_id string comment '',
+	user_name string comment '',
+	real_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_perm_user';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod20180208 (product_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod20180208';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod20180306 (
+	product_id string comment '',
+	manager_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod20180306';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_branch20180132 (
+	product_branch_id string comment '',
+	branch_id string comment '',
+	product_id string comment '',
+	branch_name string comment '',
+	branch_en_name string comment '规格英文名',
+	cancel_flag string comment '',
+	recommend_level bigint comment '',
+	sale_flag string comment '',
+	max_visitor bigint comment '',
+	sensitive_flag string comment '',
+	update_time string comment '',
+	max_child_visitor bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_branch20180132';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_package_detail (object_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_package_detail';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product (product_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product0908 (
+	product_id string comment '',
+	cancel_flag string comment '',
+	sale_flag string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product0908';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product20130312 (
+	product_id string comment '',
+	district_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product20130312';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product20180510 (product_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product20180510';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_20180322 (product_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_20180322';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_20180327 (product_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_20180327';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_attr_0601 (
+	prod_product_attr_id string comment '',
+	dest_type string comment '',
+	object_id string comment '',
+	dict_id string comment '',
+	product_id string comment '',
+	add_flag string comment '',
+	distance bigint comment '',
+	update_time string comment '',
+	object_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_attr_0601';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_branch0908 (
+	product_id string comment '',
+	product_branch_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_branch0908';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_br_ppbak (
+	product_branch_prop_id string comment '',
+	prop_id string comment '',
+	product_branch_id string comment '',
+	prod_value string comment '',
+	add_value string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_br_ppbak';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_prop0428 (
+	prod_prop_id string comment '',
+	prop_value string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_prop0428';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_product_prop_ctrip (
+	prod_prop_id string comment '',
+	product_id string comment '',
+	prop_id string comment '',
+	prop_value string comment '',
+	add_value string comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_product_prop_ctrip';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_prod_tag1018 (
+	re_id string comment '',
+	object_type string comment '',
+	object_id string comment '',
+	tag_id string comment '',
+	start_time string comment '',
+	end_time string comment '',
+	display_type bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_prod_tag1018';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp1204 (
+	time_price_id string comment '',
+	ahead_book_time bigint comment '',
+	cancel_strategy string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp1204';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_suppgoods20180306 (
+	product_id string comment '',
+	manager_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_suppgoods20180306';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goo0731 (
+	supp_goods_id string comment '',
+	goods_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goo0731';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_good0728 (
+	supp_goods_id string comment '',
+	supp_settlement_entity_code string comment '结算对象编码'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_good0728';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_good1016 (
+	supp_goods_id string comment '',
+	contract_id string comment '',
+	supplier_id string comment '',
+	product_id string comment '',
+	product_branch_id string comment '',
+	goods_name string comment '',
+	goods_en_name string comment '商品英文名',
+	manager_id string comment '',
+	pay_target string comment '',
+	lvmama_flag string comment '',
+	distribute_flag string comment '',
+	package_flag string comment '',
+	fax_flag string comment '',
+	goods_type string comment '',
+	express_type string comment '',
+	notice_type string comment '',
+	cert_valid_day string comment '',
+	adult bigint comment '',
+	child bigint comment '',
+	cancel_flag string comment '',
+	online_flag string comment '',
+	goods_desc string comment '',
+	fax_rule_id string comment '',
+	filiale string comment '',
+	max_stay_day bigint comment '',
+	min_stay_day bigint comment '',
+	min_quantity bigint comment '',
+	max_quantity bigint comment '',
+	group_id string comment '',
+	content_manager_id string comment '',
+	org_id string comment '',
+	branch_id string c
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_good1016';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_good20180115 (
+	supp_goods_id string comment '',
+	content_manager_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_good20180115';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods (
+	supp_goods_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods0908 (
+	product_id string comment '',
+	supp_goods_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods0908';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods20180508 (
+	supp_goods_id string comment '',
+	supp_settlement_entity_code string comment '结算对象编码',
+	supp_buyout_settlement_entity_code string comment '买断结算对象code'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods20180508';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods20180510 (
+	supp_goods_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods20180510';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_0527 (
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment '',
+	settlement_price bigint comment '',
+	price bigint comment '',
+	restore_flag string comment '',
+	latest_hold_time bigint comment '',
+	oversell_flag string comment '',
+	breakfast bigint comment '',
+	ahead_book_time bigint comment '',
+	guar_type string comment '',
+	deduct_type string comment '',
+	latest_cancel_time bigint comment '',
+	book_limit_type string comment '',
+	latest_unguar_time bigint comment '',
+	stock_status string comment '',
+	onsale_flag string comment '',
+	guar_quantity bigint comment '',
+	deduct_value bigint comment '',
+	freesale_flag string comment '',
+	stock_flag string comment '',
+	cancel_strategy string comment '',
+	init_stock bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_0527';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_0527_del (
+	time_price_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_0527_del';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_180607 (
+	supp_goods_id string comment '',
+	supp_settlement_entity_code string comment '结算对象编码'
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_180607';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_time_p0527 (
+	time_price_id string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_time_p0527';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_time_price0803 (
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment '',
+	settlement_price bigint comment '',
+	price bigint comment '',
+	restore_flag string comment '',
+	latest_hold_time bigint comment '',
+	oversell_flag string comment '',
+	breakfast bigint comment '',
+	ahead_book_time bigint comment '',
+	guar_type string comment '',
+	deduct_type string comment '',
+	latest_cancel_time bigint comment '',
+	book_limit_type string comment '',
+	latest_unguar_time bigint comment '',
+	stock_status string comment '',
+	onsale_flag string comment '',
+	guar_quantity bigint comment '',
+	deduct_value bigint comment '',
+	freesale_flag string comment '',
+	stock_flag string comment '',
+	cancel_strategy string comment '',
+	init_stock bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_time_price0803';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_time_price20180516 (
+	time_price_id string comment '',
+	price bigint comment '',
+	db_name string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_time_price20180516';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_goods_time_price_1030 (
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment '',
+	settlement_price bigint comment '',
+	price bigint comment '',
+	restore_flag string comment '',
+	latest_hold_time bigint comment '',
+	oversell_flag string comment '',
+	breakfast bigint comment '',
+	ahead_book_time bigint comment '',
+	guar_type string comment '',
+	deduct_type string comment '',
+	latest_cancel_time bigint comment '',
+	book_limit_type string comment '',
+	latest_unguar_time bigint comment '',
+	stock_status string comment '',
+	onsale_flag string comment '',
+	guar_quantity bigint comment '',
+	deduct_value bigint comment '',
+	freesale_flag string comment '',
+	stock_flag string comment '',
+	cancel_strategy string comment '',
+	init_stock bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_goods_time_price_1030';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_supp_settlement_code20180508 (code string comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_supp_settlement_code20180508';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_time_price0622 (
+	time_price_id string comment '',
+	supp_goods_id string comment '',
+	supplier_id string comment '',
+	spec_date string comment '',
+	stock bigint comment '',
+	total_stock bigint comment '',
+	settlement_price bigint comment '',
+	price bigint comment '',
+	restore_flag string comment '',
+	latest_hold_time bigint comment '',
+	oversell_flag string comment '',
+	breakfast bigint comment '',
+	ahead_book_time bigint comment '',
+	guar_type string comment '',
+	deduct_type string comment '',
+	latest_cancel_time bigint comment '',
+	book_limit_type string comment '',
+	latest_unguar_time bigint comment '',
+	stock_status string comment '',
+	onsale_flag string comment '',
+	guar_quantity bigint comment '',
+	deduct_value bigint comment '',
+	freesale_flag string comment '',
+	stock_flag string comment '',
+	cancel_strategy string comment '',
+	init_stock bigint comment '',
+	update_time string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_time_price0622';
+
+create external table
+if not exists ods.ods_lvmama_hotel_temp_update_prod1023 (product_id bigint comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_temp_update_prod1023';
+
+create external table
+if not exists ods.ods_lvmama_hotel_time_price_plan (
+	time_plan_id string comment '',
+	price_plan_id string comment '价格计划id',
+	supp_goods_id string comment '酒套餐商品id',
+	sale_price bigint comment '销售价',
+	settlement_price bigint comment '结算价格',
+	spec_date string comment '日期',
+	onsale_flag bigint comment '1可售 0禁售',
+	ahead_book_time bigint comment '提前预订时间',
+	book_limit_type string comment '预订限制',
+	stock_version bigint comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_time_price_plan';
+
+create external table
+if not exists ods.ods_lvmama_hotel_tmp_package_hotel_rel (
+	detail_id string (11, 0) comment '',
+	group_id string (11, 0) comment '',
+	branch_id string (11, 0) comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_tmp_package_hotel_rel';
+
+create external table
+if not exists ods.ods_lvmama_hotel_xc_branch_temp (
+	prod_branch_id string comment '',
+	prod_id_old string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_xc_branch_temp';
+
+create external table
+if not exists ods.ods_lvmama_hotel_xc_data_repair (
+	prod_id_old string comment '',
+	prod_id_new string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_xc_data_repair';
+
+create external table
+if not exists ods.ods_lvmama_hotel_xc_prod_data_temp (
+	prod_id_direct string comment '',
+	prod_id_dock string comment ''
+) comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_xc_prod_data_temp';
+
+create external table
+if not exists ods.ods_lvmama_hotel_xc_repeat_data (prod_ids string comment '') comment '' partitioned by (
+	par_day string comment '当前时间，用于分区字段'
+) row format delimited fields terminated by '\u0001' location '/user/hive/warehouse/ods/ods_lvmama_user_xc_repeat_data';

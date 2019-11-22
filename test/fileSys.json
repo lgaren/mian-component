@@ -1,0 +1,16 @@
+{
+  //基于目录
+  "accesskey": "...",
+  "time":"timestmp",
+  "host":"hostname",
+  "accessType":[],
+  "target":[{
+      "accessType":[],
+      "servername":"hdfs",
+      "host":  "ftp必须，hdfs忽略",
+      "useer":".......",
+      "path": " /lvmama/lvmama/....",
+      "filename": "......"
+    }
+  ]
+}

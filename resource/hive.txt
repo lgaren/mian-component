@@ -1,0 +1,545 @@
+设置数据库权限
+	all privileges：允许所有操作	*.*：所有的表	identified by：密码
+	grant all privileges on *.* to 'root'@'DSG' identified by '123456';
+	flush privileges;
+	netstat -an
+	hive --service hiveserver2
+	show functions;
+	YESTERDAY=$(date --date="1 day ago" +%Y%m%d)
+	从字符串里面拿出部分字符串DATE=${LOG_HOUR:6:4} 表示重6开始向后取4位
+	
+基本语法
+	建表 create [external] tableName (columnname columnType,.....) row format delimited fie  terminated by '\t'
+		 create table student(id int,name string,age int ) row format delimited fields terminated by '\t';
+		
+	加载数据
+		1、load/hdfs -put
+			load data local inpath '/opt/data/dept' into table db01.dept;（本地加载）
+			load data inpath '/nicole/input/dept' into table db01.dept; ##（从hdfs加载）
+			##上面两种方式复加载会导致数据叠加，文件会重新复制并且改名。会把hdfs上原来的数据拷贝到表目录下，删除hdfs上原来的文件数据，
+			
+			load data local inpath "/home/ligeng/test/dept.txt" overwrite into table dept;
+			这种方式会覆盖原来的数据
+		
+		2、like + load 数据/ hdfs -put
+			create table tableName like tableName;复制表结构，但是不会复制表数据。
+			load data
+			
+		3、as 
+			create table tableName1 row format delimited fields terminated by '\t' as select * from tableName2 
+			create table tableName1 as select * from tableName2 这种方式在hive里面可以正常查看，但是在文件里面已经没有分割符了，
+		
+		4、insert into 普遍用于创建中间表
+			先创建空表：create [external] tableName (columnname columnType,.....) row format delimited fie  terminated by '\t'
+			insert into 插入数据；不能有as 
+				insert into table tableName select "语句。。。。。。"
+				insert overwrite table tableName select "语句。。。。。。"
+				
+		5、hdfs -put
+			使用hdfs的 -put命令
+			
+	到出数据
+		inster overwrite local directory '/opt/data/dept/....' rowformat delimited fields torminated select * from tableName;
+		目录不一定预选创建,不加分隔符，就没有分隔符
+		
+		inster overwrite local directory '/opt/data/dept/....' rowformat delimited fields torminated select * from tableName;
+		
+	管理表和外部表
+		EXTERNAL TABLE 外部表 
+			create external table emp_ext(.............) row format delimited fields terminated by '\t' location '/nicole/input/emp';
+			location法创建，只是在mysql中保存元数据，数据有hdfs管理，他的表指向一个hdfs路径，在hdfs://host:8020/user/hive/warehouse/db01.db也没有文件夹。
+			当然，既然没有表目录也无法使用load方式加载数据，会报 Table not found。值得注意的是location后面只能跟一个目录，不能跟一个文件的具体目录。
+			但是他支持从hdfs路径load数据，他会把原来的数据移动到 location 后的目录中，删除原来的数据。其实只是不表目录移动到指定的目录下而已。
+			
+			create external table emp_ext2(.............) row format delimited fields terminated by '\t';
+			load data input ..............
+			这种方式和上面的方式不同的是他会在hdfs /user/hive/warehouse/db01.db目录下创建目录，当加载数据的时候，也会把数据上传到/user/hive/warehouse/db01.db的目录下
+			这种方式和管理表的唯一不同的就是，删除表的时候，只会删除表的元数据，及时把数据加载到表目录下，但是删除的时候并不会删除表文件夹和表数据
+			
+	分区表	
+		创建分区表
+			一级：create external table emp_par(.............) partitioned by (partcol1 "类型") row format delimited fields terminated by '\t';
+			多级：create external table emp_par(.............) partitioned by (partcol1=val1, partcol2=val2 ...) row format delimited fields terminated by '\t';
+		
+		创建分区表放式2 
+			1、创建普通的表；2、然后手动添加文件夹；3、手动添加 alter table tableNmae add partition (partcol1 "类型",partcol2 "类型"...)
+				如果这种方式先上传数据，则查不到数据，需要手动添加分区数据然后才能产看数据
+		
+		删除添加分区信息
+			删除:alter table tableNmae drop partition (fenqu="分区名称",fenqu="分区名称"...)管理表不会删除数据，删除上级分区，下级分区会自动删除。
+			添加:alter table tableNmae add partition (fenqu="分区名称",fenqu="分区名称"...)
+		
+		加载数据
+			格式：LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]
+			实例：load data local inpath '/opt/data/emp.txt' into table db01.emp_par partition (province='shanghai');
+		
+			数据加载的时候会在表目录下创建一个 "分区字段"="分区名称"/ 的目录，当 select * from table 的时候会在查询结果中添加一个分区字段，
+			在操作表的时候完全把分区字段当做普通字段使用。
+		
+			如果是external表，且用location方式，就会在指定的目录下创建分区目录。
+			其余的和上面的基本一样。
+			
+		部分操作 
+			show partitions <tableName> ;
+			desc <tableName>;
+	HQL（hive中的sql比Mysql中的更加严格，下面【】中的语句在MySQL中可以，但是在hive中就是不行）
+		distinct： select distinct(deptno) from emp ;
+		between：select *  from emp where salary between 8 and 1500
+		
+		group by:(group by :先走后面的对数据进行分组，返回给前面select 然后前面再去处理。)
+			select max(salary) from emp group by deptno; 
+			select deptno,max(salary) from emp group by deptno; 
+			select deptno,deptname,max(salary) from emp group by deptno,deptname; 
+			
+			【select deptno,deptname,max(salary) from emp group by deptno; 】
+		
+		join：(有join和group by 的时候先 join)
+			select d.deptno,max(e.salary) as salary,d.deptname from emp as e join dept as d on deptno = d.deptno group by d.deptno,d.deptname 
+			
+	自定义函数
+		相当于是把字段值转化为了另外一个东西。
+		hive> add jar "jar路径"
+		hive> create temporary functions (函数名称) as 'com.ibeifeng.hive.Salary UDF';(临时函数)
+		hive> create functions (函数名称) as 'com.ibeifeng.hive.Salary UDF';(永久函数)
+	
+	压缩
+		压缩格式bzip2,gzip,lzo,snappy等
+		压缩比：bzip2>gzip>lzo bizp2最节省空间
+		解压速度：lzo>gzip>bzip2 lzo最快
+		MR中有三个地方可以使用压缩，inputSpilt之前，mapOut,reduceOut
+		
+		## hive开启压缩
+		## 配置mapred-site.xml
+		<property>
+			<name>mapreduce.map.output.compress</name>
+			<value>true</value>
+		</property>		
+		<property>
+			<name>mapreduce.map.output.compress.codec</name>
+			<value>org.apache.hadoop.io.compress.SnappyCodec</value>
+		</property>
+
+		
+		set hive.exec.compress.intermediate=true;
+		set mapreduce.map.output.compress = true;（这个属性读取了mapred-site.xml文件的配置）
+		set hive.exec.map.output.compression.codec=org.apache.hadoop.io.compress.SnappyCodec ;
+		
+		create table if not exists file_text(
+			t_time string,
+			t_url string,
+			t_uuid string,
+			t_refered_url string,
+			t_ip string,
+			t_user string,
+			t_city string
+		)
+		row format delimited fields terminated by '\t'
+		stored as textfile;
+
+		## orc
+		create table if not exists file_orc
+		row format delimited fields terminated by '\t'
+		STORED AS ORC
+		as select * from file_text;
+
+Hive优化
+		外部表，分区表
+		
+		数据存储格式(textfile、orcfile、parquet),数据压缩（snappy...）
+		
+		jvm重用 可以在mapre-site.xml中设置mapred.job.reuse.jvm.num.tasks   5~10
+		
+		减少job数量，设置合理的map/rduce task 数据，比如10W+级别的数据量一个足够 
+		
+		自己动手写SQL语句  设置 set hive.groupby.skewindata=true;
+		
+		hive中设置 set mapred.job.reuse.jvm.num.tasks=6
+	
+		推测执行speculative，map执行的时候服务器会在其他空闲的服务器中启用相同的map来同事哦运行，那个运行那个结束就用那个的结果
+			mapred.map.tasks.speculative.execution=true
+			mapred.reduce.tasks.speculative.execution=true
+			hive.mapred.reduce.tasks.speculative.execution=true
+			
+		
+	
+	数据倾斜：常见的数据倾斜出现在groupby和join.on语句中
+		小表在左大表在右。
+		map join ：set hive.auto.convert.join=true;map端join的优势在于没有shuffle,在内存中完成，没有MR程序。
+		reduce join不需用配置
+		
+	SMB join (sort merge bucket)主要是解决大表和大表之间的join问题，分桶其实就是把大表化成小表，然后Map-Side Join
+	 
+hive -e 
+	use database 命令不起作用 
+	查看某个数据库的表：show tables from database
+	在某个数据库下创建表：create table if not exists database.tableName....
+	select: select * from database.tableNmae
+	查看分区信息：show partitions db01.emp03_extr
+	不可执行：hive -e "alter table db01.emp03_part2 add partition(province='jiangsu',city='nanjing')"
+		
+hive -f 
+	里面的
+		
+select * from table limit 1;
+		
+hive数据倾斜
+	可能发生数据倾斜的操作
+		group by (某个分组多，某个分组少),Distinct在实现原理上与Group By类似
+			set hive.map.aggr=true;开启map端聚合
+			
+			hive.groupby.skewindata=true;开启两个Job
+				第一道作业：Map随机分发，按gby key部分聚合?
+				第二道作业：第一道作业结果Map倾斜的key分发，按gbk key进行最终聚合
+				所谓代数聚合函数，就是由部分结果可以汇总出整体结果的函数，如count，sum。
+				所谓整体聚合函数，就是无法由部分结果汇总出整体结果的函数，如avg，mean。比如，sum, count，知道部分结果可以加和得到最终结果。
+	
+		Join  ：INSERT INTO TABLE pv_users SELECT pv.pageid, u.age FROM page_view pv JOIN user u ON (pv.userid = u.userid);
+			使用 Map Join 全过程数据非常均匀，不会使用Reduce,
+			set hive.auto.convert.join=true 使用MapJoin，默认为true. 
+			
+			set hive.optimize.skewjoin = true; 
+			set hive.skewjoin.key = skew_key_threshold （default = 100000）
+				其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了。
+					
+Hive动态分区
+
+	hive.exec.dynamic.partition
+		默认值：false
+		是否开启动态分区功能，默认false关闭。
+		使用动态分区时候，该参数必须设置成true;
+	
+	hive.exec.dynamic.partition.mode
+		默认值：strict
+		动态分区的模式，默认strict，表示必须指定至少一个分区为静态分区，nonstrict模式表示允许所有的分区字段都可以使用动态分区。
+		一般需要设置为nonstrict
+	
+	hive.exec.max.dynamic.partitions.pernode
+		默认值：100
+		在每个执行MR的节点上，最大可以创建多少个动态分区。
+		该参数需要根据实际的数据来设定。
+		比如：源数据中包含了一年的数据，即day字段有365个值，那么该参数就需要设置成大于365，如果使用默认值100，则会报错。
+	
+	hive.exec.max.dynamic.partitions
+		默认值：1000
+		在所有执行MR的节点上，最大一共可以创建多少个动态分区。
+		同上参数解释。
+	
+	hive.exec.max.created.files
+		默认值：100000
+		整个MR Job中，最大可以创建多少个HDFS文件。
+		一般默认值足够了，除非你的数据量非常大，需要创建的文件数大于100000，可根据实际情况加以调整。
+	
+	hive.error.on.empty.partition
+		默认值：false
+		当有空分区生成时，是否抛出异常。
+		一般不需要设置。			
+	
+	demo:
+		SQL:   SELECT day,url FROM t_lxw1234;
+		数据：
+			2015-05-10      url1
+			2015-05-10      url2
+			2015-06-14      url1
+			2015-06-14      url2
+			2015-06-15      url1
+			2015-06-15      url2
+		
+		目标SQL：  INSERT overwrite TABLE t_lxw1234_partitioned PARTITION (month,day) SELECT url,substr(day,1,7) AS month,day FROM t_lxw1234;
+		
+		设置动态分区后
+			SET hive.exec.dynamic.partition=true;  
+			SET hive.exec.dynamic.partition.mode=nonstrict; 
+			SET hive.exec.max.dynamic.partitions.pernode = 1000;
+			SET hive.exec.max.dynamic.partitions=1000;
+			
+		目标SQL：  INSERT overwrite TABLE t_lxw1234_partitioned PARTITION (month,day) SELECT url,substr(day,1,7) AS month,day FROM t_lxw1234;
+		
+map 数量
+	同个一下参数即可合并小文件数。减少Hive中map的数量；
+		set mapred.max.split.size=100000000;
+		set mapred.min.split.size.per.node=100000000;
+		set mapred.min.split.size.per.rack=100000000;
+		set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat;
+		
+		100000000表示100M
+		
+	增加Hive map数量	
+		set mapred.reduce.tasks=10;
+		
+		demo 
+			Select data_desc,count(1),count(distinct id),sum(case when …),sum(case when …),sum(…) from a group by data_desc;
+			如果表a只有一个文件，大小为120M，但包含几千万的记录，如果用1个map去完成这个任务，肯定是比较耗时的，这种情况下，我们要考虑将这一个文件合理的拆分成多个，
+		
+		set mapred.reduce.tasks=10;
+		create table a_1 asselect * from a distribute by rand(123);
+		这样会将a表的记录，随机的分散到包含10个文件的a_1表中，再用a_1代替上面sql中的a表，则会用10个map任务去完成。
+		
+Reduce 数量控制
+	默认情况下Hive是根据map的数据输出量来确定reduce的数量，默认1G数据一个Reduce。
+	set hive.exec.reducers.bytes.per.reducer=500000000; （500M）改为1G
+	set mapred.reduce.tasks = 15;直接指定Reduce的数量。	
+		
+join Hive中Join的关联键必须在ON ()中指定，不能在Where中指定，否则就会先做笛卡尔积，再过滤。	
+	select 。。。。from table1 （left 。。right。。。）join table2 ON (...=...)
+	
+	数据准备	
+	hive> desc lxw1234_a;
+	OK
+	id                      string                                      
+	name                    string                                      
+	Time taken: 0.094 seconds, Fetched: 2 row(s)
+	
+	hive> select * from lxw1234_a;
+	OK
+	1       zhangsan
+	2       lisi
+	3       wangwu
+	Time taken: 0.116 seconds, Fetched: 3 row(s)
+	
+	hive> desc lxw1234_b;
+	OK
+	id                      string                                      
+	age                     int                                         
+	Time taken: 0.159 seconds, Fetched: 2 row(s)
+
+	hive> select * from lxw1234_b;
+	OK
+	1       30
+	2       29
+	4       21
+	Time taken: 0.09 seconds, Fetched: 3 row(s)
+		
+	内关联（JOIN）只返回能关联上的结果。
+		SELECT a.id,a.name,b.age FROM lxw1234_a a join lxw1234_b b ON (a.id = b.id);
+
+		--执行结果
+		1       zhangsan        30
+		2       lisi    	29
+		
+	左外关联（LEFT [OUTER] JOIN）以LEFT [OUTER] JOIN关键字前面的表作为主表，和其他表进行关联，返回记录和主表的记录数一致，关联不上的字段置为NULL。是否指定OUTER关键字，貌似对查询结果无影响。
+		SELECT a.id,a.name,b.age FROM lxw1234_a a left join lxw1234_b b ON (a.id = b.id);
+
+		--执行结果：
+		1   zhangsan   30
+		2   lisi        29
+		3   wangwu    NULL
+		
+	右外关联（RIGHT [OUTER] JOIN）和左外关联相反，以RIGTH [OUTER] JOIN关键词后面的表作为主表，和前面的表做关联，返回记录数和主表一致，关联不上的字段为NULL。
+		SELECT a.id,a.name,b.age FROM lxw1234_a a RIGHT OUTER JOIN lxw1234_b b ON (a.id = b.id);
+		
+		--执行结果：
+		1   zhangsan   30
+		2   lisi        29
+		3   wangwu    NULL
+		
+	全外关联（FULL [OUTER] JOIN）以两个表的记录为基准，返回两个表的记录去重之和，关联不上的字段为NULL。
+		SELECT a.id,a.name,b.age FROM lxw1234_a a FULL OUTER JOIN lxw1234_b b ON (a.id = b.id);
+		
+		--执行结果：
+		1       zhangsan        	30
+		2       lisi    		29
+		3       wangwu  		NULL
+		NULL    NULL    		21
+		
+	LEFT SEMI JOIN	关键字前面的表为主表，返回主表的KEY也在副表中的记录。
+		SELECT a.id,a.name FROM lxw1234_a a LEFT SEMI JOIN lxw1234_b b ON (a.id = b.id);
+
+		--执行结果：
+		1       zhangsan
+		2       lisi
+
+		--等价于：
+		SELECT a.id,a.name FROM lxw1234_a a WHERE a.id IN (SELECT id FROM lxw1234_b);
+
+		--也等价于：
+		SELECT a.id,a.name FROM lxw1234_a a join lxw1234_b b ON (a.id = b.id);
+
+		--也等价于：
+		SELECT a.id,a.name FROM lxw1234_a a WHERE EXISTS (SELECT 1 FROM lxw1234_b b WHERE a.id = b.id);
+	
+	SMB	 join	
+		create table bucketed_user(id int,name string)cluster by (id) sorted by(name) into 4 buckets row fromat delimited fields terminated by '\t' stored as textfile;
+		create table bucketed_user2(id int,name string)clustered by (id) into 4 buckets;
+		对于每一个表或者分区，Hive可以进一步组织成桶,分桶根据指定的字段，通过该字段对映的每一行数据的哈希值，然后除以桶的个数，然后根据余数就是对映的桶,将整行的数据都放在这个桶里面，然后每个桶里面的数据自行join,然后全局join
+		两个表的桶数量一般要想等，或者一个是另外一个的
+		
+	笛卡尔积关联（CROSS JOIN）
+		SELECT a.id,a.name,b.age FROM lxw1234_a a CROSS JOIN lxw1234_b b;
+		
+		--执行结果：
+		1       zhangsan        30
+		1       zhangsan        29
+		1       zhangsan        21
+		2       lisi    30
+		2       lisi    29
+		2       lisi    21
+		3       wangwu  30
+		3       wangwu  29
+		3	    wangwu  21
+		
+join 原理
+	Hive Common Join
+	如果不指定MapJoin或者不符合MapJoin的条件，那么Hive解析器会将Join操作转换成Common Join,即：在Reduce阶段完成join.
+	整个过程包含Map、Shuffle、Reduce阶段。
+			
+笛卡尔集(全连接)
+	表a								
+	a	b							a   b   e   f 
+	c	d							a   b   g   h 
+	表b		  笛卡尔集之后的数据 	c   d   e   f 
+	e	f							c   d   g   h 
+	g   h
+
+sort by 全局排序
+order by 分区排序，
+distrust by 分为多个区，然后使用order by分区排序，
+当distrust by 和order by操作的字段一样的时候可以用cluster by 替代上面的组合。
+order by
+	hive (db_emp)> select * from emp order by deptno;		## 正序排序
+	hive (db_emp)> select * from emp order by deptno desc;	## 倒序排序
+	
+sort by和distribute by
+	这两个一般结合使用,distribute by 相当于分区的作用,而sort by是在每个分区中进行排序.
+	## 在使用distribute by的时候，应该设置reduce的数量和分区的数量一致.
+	## set mapreduce.job.reduces;	
+	hive (db_emp)> insert overwrite local directory '/opt/data/emp001' row format delimited fields terminated by '\t' select * from emp distribute by deptno sort by empno;		
+	hive (db_emp)> insert overwrite local directory '/opt/data/emp001' row format delimited fields terminated by '\t' select * from emp distribute by deptno sort by empno desc;	
+
+hive优化
+长期观察hadoop处理数据的过程，有几个显著的特征:
+1.不怕数据多，就怕数据倾斜。
+2．对jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十几个jobs，没半小时是跑不完的。map reduce作业初始化的时间是比较长的。
+3.对sum，count来说，不存在数据倾斜问题。
+4.对count(distinct xxx),效率较低，数据量一多，准出问题，如果是多count(distinct xxx)效率更低。
+
+优化可以从几个方面着手：
+1. 好的模型设计事半功倍。
+2. 解决数据倾斜问题。
+3. 减少job数。
+4. 设置合理的map reduce的task数，能有效提升性能。(比如，10w+级别的计算，用160个reduce，那是相当的浪费，1个足够)。
+5. 自己动手写sql解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true;这是通用的算法优化，但算法优化总是漠视业务，习惯性提供通用的解决方法。 ETL开发人员更了解业务，更了解数据，所以通过业务逻辑解决倾斜的方法往往更精确，更有效。
+6. 对count(distinct)采取漠视的方法，尤其数据大的时候很容易产生倾斜问题，不抱侥幸心理。自己动手，丰衣足食。
+7. 对小文件进行合并，是行至有效的提高调度效率的方法，假如我们的作业设置合理的文件数，对云梯的整体调度效率也会产生积极的影响。
+8. 优化时把握整体，单个作业最优不如整体最优。
+
+4.5.1	JVM重用
+JVM重用是Hadoop调优参数的内容，对Hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job包含有成千上万个task任务的情况。
+JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml文件中进行设置（建议参考5~10）
+mapred.job.reuse.jvm.num.tasks
+也可在hive的执行设置：
+set mapred.job.reuse.jvm.num.tasks=10;
+
+JVM重用的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结束了才会释放。
+
+4.5.2	推测执行（默认开启）
+启用speculative最大的好处是，一个map执行的时候，系统会在其他空闲的服务器上启动相同的map来同时运行，哪个运行的快就使用哪个的结果，另一个运行慢的在有了结果之后就会被kill。
+mapred.map.tasks.speculative.execution=true
+mapred.reduce.tasks.speculative.execution=true
+hive.mapred.reduce.tasks.speculative.execution=true;
+
+4.5.3	数据倾斜
+对于普通的join操作，会在map端根据key的hash值，shuffle到某一个reduce上去，在reduce端做join连接操作，内存中缓存join左边的表，遍历右边的表，依次做join操作。所以在做join操作时候，将数据量多的表放在join的右边。
+当数据量比较大，并且key分布不均匀，大量的key都shuffle到一个reduce上了，就出现了数据的倾斜。
+常见的数据倾斜出现在groupby和join..on..语句中。
+
+4.5.4	join（数据倾斜）
+在进行两个表join的过程中，由于hive都是从左向右执行，要注意讲小表在前，大表在后（小表会先进行缓存）。
+http://blog.csdn.net/liyaohhh/article/details/50697519
+
+4.5.4.1	Map-side Join
+mapJoin的主要意思就是，当链接的两个表是一个比较小的表和一个特别大的表的时候，我们把比较小的table直接放到内存中去，然后再对比较大的表格进行map操作。join就发生在map操作的时候，每当扫描一个大的table中的数据，就要去去查看小表的数据，哪条与之相符，继而进行连接。这里的join并不会涉及reduce操作。map端join的优势就是在于没有shuffle，真好。在实际的应用中，我们这样设置：
+1.	set hive.auto.convert.join=true;
+这样设置，hive就会自动的识别比较小的表，继而用mapJoin来实现两个表的联合。看看下面的两个表格的连接。这里的dept相对来讲是比较小的。我们看看会发生什么，如图所示：
+ 
+这里的第一句话就是运行本地的map join任务，继而转存文件到XXX.hashtable下面，在给这个文件里面上传一个文件进行map join，之后才运行了MR代码去运行计数任务。说白了，在本质上mapjoin根本就没有运行MR进程，仅仅是在内存就进行了两个表的联合。
+4.5.4.2	Reduce-side Join
+hive join操作默认使用的就是reduce join
+Reduce-side Join原理上要简单得多，它也不能保证相同key但分散在不同dataset中的数据能够进入同一个Mapper，整个数据集合的排序在Mapper之后的shuffle过程中完成。相对于Map-side Join，它不需要每个Mapper都去读取所有的dataset，这是好处，但也有坏处，即这样一来Mapper之后需要排序的数据集合会非常大，因此shuffle阶段的效率要低于Map-side Join。
+reduce side join是一种最简单的join方式，其主要思想如下：
+在map阶段，map函数同时读取两个文件File1和File2，为了区分两种来源的key/value数据对，对每条数据打一个标签（tag）,比如：tag=0表示来自文件File1，tag=2表示来自文件File2。即：map阶段的主要任务是对不同文件中的数据打标签。
+在reduce阶段，reduce函数获取key相同的来自File1和File2文件的value list， 然后对于同一个key，对File1和File2中的数据进行join（笛卡尔乘积）。即：reduce阶段进行实际的连接操作。
+ 
+4.5.4.3	SMB Join（sort merge bucket）
+SMB 存在的目的主要是为了解决大表与大表间的 Join 问题，分桶其实就是把大表化成了“小表”，然后 Map-Side Join 解决之，这是典型的分而治之的思想。
+对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方式决定该条记录存放在哪个桶当中。
+smb是sort merge bucket操作，首先进行排序，继而合并，然后放到所对应的bucket中去，bucket是hive中和分区表类似的技术，就是按照key进行hash，相同的hash值都放到相同的buck中去。在进行两个表联合的时候。我们首先进行分桶，在join会大幅度的对性能进行优化。也就是说，在进行联合的时候，是table1中的一小部分和table2中的一小部分进行联合，table联合都是等值连接，相同的key都放到了同一个bucket中去了，那么在联合的时候就会大幅度的减小无关项的扫描。
+
+已发布的消息保存在一组服务器中，他们被称为Broker或者Kafka, Kafka与Zookeeper，一个kafka节点就是一个Broker,负责处理消息读，写请求，存储消息，多个broker可以组成一个kafka集群。
+kafka基于文件存储，通过分区可以将日志分散到多个server上，来避免文件尺寸达到上限，一个topic有多个分区，每个分区的读写由分区所在server(Kafka实例控制)，分区可备份，读写由zookeeper选举的leader决定，
+
+hive优化
+长期观察hadoop处理数据的过程，有几个显著的特征:
+1.不怕数据多，就怕数据倾斜。
+2．对jobs数比较多的作业运行效率相对比较低，比如即使有几百行的表，如果多次关联多次汇总，产生十几个jobs，没半小时是跑不完的。map reduce作业初始化的时间是比较长的。
+3.对sum，count来说，不存在数据倾斜问题。
+4.对count(distinct xxx),效率较低，数据量一多，准出问题，如果是多count(distinct xxx)效率更低。
+
+优化可以从几个方面着手：
+1. 好的模型设计事半功倍。
+2. 解决数据倾斜问题。
+3. 减少job数。
+4. 设置合理的map reduce的task数，能有效提升性能。(比如，10w+级别的计算，用160个reduce，那是相当的浪费，1个足够)。
+5. 自己动手写sql解决数据倾斜问题是个不错的选择。set hive.groupby.skewindata=true;这是通用的算法优化，但算法优化总是漠视业务，习惯性提供通用的解决方法。 ETL开发人员更了解业务，更了解数据，所以通过业务逻辑解决倾斜的方法往往更精确，更有效。
+6. 对count(distinct)采取漠视的方法，尤其数据大的时候很容易产生倾斜问题，不抱侥幸心理。自己动手，丰衣足食。
+7. 对小文件进行合并，是行至有效的提高调度效率的方法，假如我们的作业设置合理的文件数，对云梯的整体调度效率也会产生积极的影响。
+8. 优化时把握整体，单个作业最优不如整体最优。
+
+4.5.1	JVM重用
+JVM重用是Hadoop调优参数的内容，对Hive的性能具有非常大的影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生JVM来执行map和reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job包含有成千上万个task任务的情况。
+JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml文件中进行设置（建议参考5~10）
+mapred.job.reuse.jvm.num.tasks
+也可在hive的执行设置：
+set mapred.job.reuse.jvm.num.tasks=10;
+
+JVM重用的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成后才能释放。如果某个“不平衡“的job中有几个reduce task 执行的时间要比其他reduce task消耗的时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结束了才会释放。
+
+4.5.2	推测执行（默认开启）
+启用speculative最大的好处是，一个map执行的时候，系统会在其他空闲的服务器上启动相同的map来同时运行，哪个运行的快就使用哪个的结果，另一个运行慢的在有了结果之后就会被kill。
+mapred.map.tasks.speculative.execution=true
+mapred.reduce.tasks.speculative.execution=true
+hive.mapred.reduce.tasks.speculative.execution=true;
+
+4.5.3	数据倾斜
+对于普通的join操作，会在map端根据key的hash值，shuffle到某一个reduce上去，在reduce端做join连接操作，内存中缓存join左边的表，遍历右边的表，依次做join操作。所以在做join操作时候，将数据量多的表放在join的右边。
+当数据量比较大，并且key分布不均匀，大量的key都shuffle到一个reduce上了，就出现了数据的倾斜。
+常见的数据倾斜出现在groupby和join..on..语句中。
+
+4.5.4	join（数据倾斜）
+在进行两个表join的过程中，由于hive都是从左向右执行，要注意讲小表在前，大表在后（小表会先进行缓存）。
+http://blog.csdn.net/liyaohhh/article/details/50697519
+
+4.5.4.1	Map-side Join
+mapJoin的主要意思就是，当链接的两个表是一个比较小的表和一个特别大的表的时候，我们把比较小的table直接放到内存中去，然后再对比较大的表格进行map操作。join就发生在map操作的时候，每当扫描一个大的table中的数据，就要去去查看小表的数据，哪条与之相符，继而进行连接。这里的join并不会涉及reduce操作。map端join的优势就是在于没有shuffle，真好。在实际的应用中，我们这样设置：
+1.	set hive.auto.convert.join=true;
+这样设置，hive就会自动的识别比较小的表，继而用mapJoin来实现两个表的联合。看看下面的两个表格的连接。这里的dept相对来讲是比较小的。我们看看会发生什么，如图所示：
+
+这里的第一句话就是运行本地的map join任务，继而转存文件到XXX.hashtable下面，在给这个文件里面上传一个文件进行map join，之后才运行了MR代码去运行计数任务。说白了，在本质上mapjoin根本就没有运行MR进程，仅仅是在内存就进行了两个表的联合。
+4.5.4.2	Reduce-side Join
+hive join操作默认使用的就是reduce join
+Reduce-side Join原理上要简单得多，它也不能保证相同key但分散在不同dataset中的数据能够进入同一个Mapper，整个数据集合的排序在Mapper之后的shuffle过程中完成。相对于Map-side Join，它不需要每个Mapper都去读取所有的dataset，这是好处，但也有坏处，即这样一来Mapper之后需要排序的数据集合会非常大，因此shuffle阶段的效率要低于Map-side Join。
+reduce side join是一种最简单的join方式，其主要思想如下：
+在map阶段，map函数同时读取两个文件File1和File2，为了区分两种来源的key/value数据对，对每条数据打一个标签（tag）,比如：tag=0表示来自文件File1，tag=2表示来自文件File2。即：map阶段的主要任务是对不同文件中的数据打标签。
+在reduce阶段，reduce函数获取key相同的来自File1和File2文件的value list， 然后对于同一个key，对File1和File2中的数据进行join（笛卡尔乘积）。即：reduce阶段进行实际的连接操作。
+
+4.5.4.3	SMB Join（sort merge bucket）
+SMB 存在的目的主要是为了解决大表与大表间的 Join 问题，分桶其实就是把大表化成了“小表”，然后 Map-Side Join 解决之，这是典型的分而治之的思想。
+对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方式决定该条记录存放在哪个桶当中。
+smb是sort merge bucket操作，首先进行排序，继而合并，然后放到所对应的bucket中去，bucket是hive中和分区表类似的技术，就是按照key进行hash，相同的hash值都放到相同的buck中去。在进行两个表联合的时候。我们首先进行分桶，在join会大幅度的对性能进行优化。也就是说，在进行联合的时候，是table1中的一小部分和table2中的一小部分进行联合，table联合都是等值连接，相同的key都放到了同一个bucket中去了，那么在联合的时候就会大幅度的减小无关项的扫描。
+
+Join
+1.map Join
+	适用场景:一个大表、一个小表的情况
+	在map端，小表会被加载到处理大表的block的map方法所在的NodeManager的内存中，具体方式是重写Mapper类的setup()方法，将小表的数据从HDFS读出来，保存到某一个变量中，在map()方法中，就可以读取到小表的数据和大表的数据，然后先进行join，join的结果大大减小，这样，就可以减小网络和磁盘的IO，降低reduce()方法处理数据的压力。
+
+2.reduce Join
+	适用场景:两个大表的情况
+	两张表通常都是大文件，Join的操作是在Reduce端执行，由于文件过大，载入内存是不现实的，可以在发送到reduce之后再进行join.
+每次在map端得到数据之后，就打一个标签将标签和数据一起发送到reduce，在reduce端根据标签和具体的业务需求完成join
+
+
+3.semi Join(半连接)
+	适用场景:一张小表、一张大表
+	将小表加载到map端执行大表所在的NodeManager的内存中,在map()方法执行的时候，会过滤掉无用的数据，将参与join的数据传输到reduce端，在reduce端完成真正的join过程，这种方式就是semi join
+
+
+

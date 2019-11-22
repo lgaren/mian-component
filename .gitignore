@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+*.iml
+*/*.iml
+.idea
+*/target
+/auto_deployment/auto_deployment.iml
+/ApiDemo/ApiDemo.iml
+/common/common.iml
+/framework/framework.iml
+/running/*
+/mian-component.iml
+/on_jvm/on_jvm.iml
+

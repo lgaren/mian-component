@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mian-component</artifactId>
+        <groupId>com.dsglyy</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>jvm_test</artifactId>
+    <repositories>
+        <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>com.dsglyy</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.hive</groupId>-->
+            <!--<artifactId>hive-jdbc</artifactId>-->
+            <!--<version>1.1.0-cdh5.7.2</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.hive</groupId>-->
+            <!--<artifactId>hive-beeline</artifactId>-->
+            <!--<version>1.1.0-cdh5.7.2</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.poi</groupId>-->
+            <!--<artifactId>poi-ooxml</artifactId>-->
+            <!--<version>3.17</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.poi</groupId>-->
+            <!--<artifactId>poi-ooxml-schemas</artifactId>-->
+            <!--<version>3.17</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.hive/hive-common &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.hive</groupId>-->
+            <!--<artifactId>hive-common</artifactId>-->
+            <!--<version>1.1.0-cdh5.7.2</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.hive</groupId>-->
+            <!--<artifactId>hive-service</artifactId>-->
+            <!--<version>1.1.0-cdh5.7.2</version>-->
+        <!--</dependency>-->
+
+    </dependencies>
+</project>

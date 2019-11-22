@@ -1,0 +1,179 @@
+Master
+	为Region server分配region
+	负责Region server的负载均衡
+	发现失效的Region server并重新分配其上的region
+	管理用户对table的增删改操作
+	
+Region
+	1、Hbase自动把表水平划分成多个区域（region）,每个region会保存一个表里面某个字段连续的数据;每个表一开始有一个region,
+	随这数据不断插入表，region不断增大，当增大到一个阀值的时候，region就会分成两个行的region(裂变)；
+	2、每张表刚开始都只有一个Region,当table中的行不断增多（10G），就会有越来越多的regon。这样一张完整的表被保存在多个RegionServer上，
+	当Region达到阀值得时候等分
+	
+Hbase的物理模型
+	1、Hbase是按照列进行存储，应为是按照列(簇)存储的，所以每个Columm family存储在单独的一个HDFS文件上。
+	2、表格中的行都是按照RowKey字典进行排序的，并且表格在行的方向上被分割为多个Region（按行进行分割的 ）
+	3、每个表按照行被分为多个 ，可以被不同的Region server管理，每个Region server可以管理不同的表，
+	
+	region是分布式存储的和负载均衡的最小单元，但不是数据的最小存储单元。
+	
+	一个Region由一个或多个store组成,每一个store对应一个column family
+	每一个store由一个memstore和0个到多个storefile组成
+	
+RegionServer
+	HLog:预写式日志,WAL(write ahead log)一个Region server只有一个
+	Region
+		Store:对应一个column family
+			memstore:存储在内存中的(写入缓冲区)
+			storefile(HFile):存储在hdfs上的
+				
+数据写：
+	当写数据的时候只有当把数据写入到WAL（HLOG预写日志write ahead log WAL）和每个Store中的memStore才算成功。
+	先写HLOG为了安全备份（hdfs上），然后写入memStore，当内存达到128(默认)是flsuh下，把memStore溢出到storeFile，
+	如果storeFile满了就下个storeFile,当store的文件数量增大到一定的数值后会进行一系列的合并（版本的合并和删除），
+	在hdfs上自带备份为什么还要HLOG,在内存中还没有溢出的时候。compaction），在合并过程中会进行版本合并和删除工作，
+	形成更大的storefilecompaction），在合并过程中会进行版本合并和删除工作，形成更大的storefile
+	当一个region所有storefile的大小和超过一定阈值后，会把当前的region分割为两个，
+	并由hmaster分配到相应的regionserver服务器，实现负载均衡
+	
+	一个store对应一个CF（列簇）
+	数据写到filestore上之后，就会从hLog中移除
+	
+数据读：		
+
+Compact的作用
+（1）合并文件
+（2）清除删除、过期、多余版本的数据
+（3）提高读写数据的效率
+    在写请求的这篇文章里，已经介绍过对于每个写请求，都必须写入MemStore以及HLog才算完成事务提交。
+    当MemStore超过阀值的时候，就要flush到HDFS上生成一个HFile。因此随着不断写入，HFile的数量将会越来越多，
+    根据前面所述，HFile数量过多会降低读性能。为了避免对读性能的影响，可以对这些HFile进行compact操作，
+    把多个HFile合并成一个HFile。compact操作需要对HBase的数据进行多次的重新读写，因此这个过程会产生大量的IO。
+    可以看到compact操作的本质就是以IO操作换取后续的读性能的提高。
+Compact的流程
+    HBase的compact是针对HRegion的HStore进行操作的。compact操作分为major和minor两种，
+    major会把HStore所有的HFile都compact为一个HFile，并同时忽略标记为delete的KeyValue（被删除的KeyValue只有在compact过程中才真正被"删除"），
+    可以想象major会产生大量的IO操作，对HBase的读写性能产生影响。minor则只会选择数个HFile文件compact为一个HFile，
+    minor的过程一般较快，而且IO相对较低。在日常任务时间，都会禁止mjaor操作，只在空闲的时段定时执行。
+
+compact入口
+    可以请求compact的地方有很多，包括在open region、MemStore flush等都会判断是否需要进行compact操作
+    （单个HStore的MemStore flush之后，如果触发compact操作，则会对所属HRegion下的所有HStore分别进行compact）。除此之外，
+    HRegionServer.CompactionChecker负责定期10 * 1000s针对所有HRegion的HStore检测是否需要进行compact操作。
+    CompactionChecker判断是否需要进行compact操作的条件如下：
+1、HStore下还没有进行compact的HFile的总数 >= hbase.hstore.compaction.min（默认为3），则需要进行compact。
+2、如果1不成立，则判断是否需要执行major compact。主要是查看一下是否太久没有执行compact操作。具体判断过程：
+    1）获得compact时间间隔。hbase.hregion.majorcompaction（默认7天）为base基准时间，hbase.hregion.majorcompaction.jitter
+    （默认5.0）为jitter，公式base + jitter - Math.round(2 * jitter * randomNum) 计算出一个会每次自动抖动的数值作为major compact的时间间隔。
+    之所以要一个自动抖动，就是避免在HRegionServer重启的时候大量的major compact出现造成大量的IO。
+    2）所有HFile最老（时间戳最小）的那个HFile的时间间隔大于这个major compact的时间间隔，则执行major compact。另外如果HRegion只有一个HFile，
+    并且这个HFile的所有KeyValue的时间戳都没有超过TTL，则表示无须进行major compact，会跳过这次major compact。
+    当1或2成立都会分别对CompactSplitThread发送compact请求，不同的是，1会异步选择需要进行compact的HFile，2则会进行同步选择。
+
+预分区（手动将同一张表不同的RK划分到不同的region. ）
+	
+	create 'ns1:t1','f1',SPLIIS=>{'10','20','30','40'}
+	region被分为了5份，
+			rk范围	第一个		1-10
+					第二个		10-20
+					第三个		20-30
+					第四个		30-40
+					第五个		40- ~
+	
+	create 't3','info',SPLIIS_FILE =>'/opt/data/splits.txt'
+	
+zookeeper
+	1. 负责Master的主备
+	2. 负责存储region的寻址入口
+	3. 实时监控Region server的上线和下线信息,及时通知master
+	4. 存储HBase的元数据
+	
+RPC 
+	动态代理
+		要代理的接口
+		一个实现了InvocationHandler，并且重写invoke(的方法)的类。然后在这个类里面执行要代理的方法，
+		当然这个方法只是这个invoke方法里面的一行代码。
+		Proxy.newProxyInstance()即可以获得一个代理对象，这个对象可以被转成上面的接口对象，之后用这个接口调用方法，
+	RPC 
+		在客户端没有那个接口的具体实现把这个接口的全名，要调用的方法以及，还有参数，传到服务器，
+		服务器根据这个这个类名以及方法名构建出来依噶Method
+		
+		
+	MyService sdf = Proxy.newProxyInstance(serviceClass.getClassLoader(),new Class[]{serviceClass},new InvocationHandler(@Overwrite invoke(){ TCP  + 代理方法 }))
+	sdf.hello();
+		
+HBase的读写流程--依赖于HBase的4大组件：分别是客户端、Zookeeper、HMaster和HRegionServer。
+HBase的读写都是由客户端进行发起的。首先是读的过程：客户端根据用户提供的表名、行键去客户端里的缓存进行查询，没有查询到，
+就去Zookeeper进行查询。Zookeeper在HBase中用来存储ROOT表的地址。HBase中有两张重要的表，分别是ROOT表和META表，
+ROOT表记录META表的region信息，而META表记录的是用户表的region信息。简单来说，META表的行键是由Region所属表的表名、
+以及该region在表中的开始行键和时间戳组成，列族info定义了三个列，分别是regionInfo存储了region中开始结束行键，
+server列存储了region所在的服务器地址，serverstartcode存储了regionServer的状态。由于META表也是一张普通的HBASE表，
+因此当META表的数据越来越多的时候，也会分裂成多个meta region，每个meta region也会被不同的regionServer管理。
+
+因此就需要有一张表存储meta region的信息，这张表就是ROOT表，ROOT表只存储了一个region信息，那就是meta region。
+按照这个过程，理论上还需要一张表存储ROOT表的信息，但是这样就会产生无穷无尽的表存储类似的信息，针对于这种情况，
+因此HBase的开发人员认为ROOT表数据量不会很大，因此不会数据分裂，所以就不需要其他表存储ROOT表的region信息了。
+客户端通过Zookeeper获得了ROOT表的地址，通过RPC连接到ROOT表所在的RegionServer，根据ROOT表查询META表，
+然后根据用户所提供的表名和行键，组成一个XXXXXXX（），通过这个行键去META表查询，拿到info列族中的regionInfo和server列的值之后，
+根据server列的值，客户端与RegionServer建立连接，将regionInfo列的数据提交给RegionServer。
+
+RegionServer接收客户端的查询请求之后，首先创建RegionScanner对象，通过该对象定位到HRegion，然后HRegin对象创建StoreScanner，
+通过StoreScanner定位到HStore，HStore对象创建1个MemStoreScanner对象，这个对象负责去MemStore查询有没有相关数据，有则返回，
+没有就创建多个StoreFileScanner对象，每个对象否则去不同的HFile中查询数据，如果找到了则返回，如果没有就返回null。
+
+HBase写的过程：当客户端进行put操作时，数据会自动保存到HRegion上，在HRegionServer中，找到对应要写入的HRegion之后，
+数据会写入到HLog中并同时写入到HStore的MemStore内存中，会在内存中按照行键对数据进行排序，当内存中的数据达到一定阈值后，会触发flush操作。
+Flush操作主要就是把MemStore内存中的数据写入到StoreFile中，当HDFS中的StoreFile个数达到一定的阈值后，会触发compact（合并）操作，
+将HDFS中所有的StoreFile合并成一个新的SotreFile，在合并的时候会按照行键进行排序，并且会进行版本合并和数据删除。
+当StoreFile通过不断的合并操作后，StoreFile文件会变得越来越大，当这个StoreFile达到一定的阈值后，会触发Split（切分）操作，
+同时把当前region拆分成两个新的region，原有的region会下线，新的两个region会被HMaster分配到相应的HRegionServer上，
+使得原来一个Region的压力得以分流到两个Region上，其实，HBase只是增加数据，更新和删除操作都是compact阶段做的，所以，
+客户端写入成功的标志是HLog和MemStore中都有数据。先写HLog，但是如果显示MemSotre也是没问题的，
+因为MemStore的MVCC（多版本并发控制）不会向前滚动，这些变化在更新MVCC之前，Scan是无法看到的，
+所以在写入HLog之前，即使MemStore有数据，客户端也查询不到。
+
+HBASE的优化
+1.?对行键、列族、列名称长度优化，HBase引入block的原因是block中包含了很多的key/value，每个key中包含rowkey、列族、列、时间戳，
+减少rowkey、列族、列的长度就能减少block的数量，否则会增加region server、region、索引、内存、查询范围。
+2.?当进行批量处理数据时，客户端会将数据先保存到客户端的缓存中，HBASE默认是开启隐式刷写的，当关闭隐式刷写时，
+put的数据也会保存到客户端的缓存中，直到调用刷写命令时，才会保存到HRegion中。
+
+3.查询优化：
+*设置scan缓存。
+*查询时指定列。
+*使用完ResultScanner后及时关闭。
+*查询时尽量使用过滤器或协处理器，减少数据量。
+*将查询频率较高的数据缓存起来。例如缓存到redis中。
+*使用HtableTool查询。
+*使用批量读取Htable.get(List<Get>)。
+4.写入优化：
+*关闭WAL日志，如果开启了WAL日志，可以修改日志写入hdfs的时间。(存在数据丢失的风险优化)
+*设置AutoFlush为false。(存在数据丢失的风险优化)
+*Region预分区，两种方式，hbase自带的RegionSplitter，和自己实现，一般使用hbase自带的。
+*通过HtableTool写入。
+*使用批量写入Htable.put(List<Put>)。
+?
+5.配置方面优化：
+*设置RegionServer的处理线程数量，但是需要先进行测试。
+*调整BlockChche或者MemStore内存大小大小，如果读的较多则将BlockChche增大，如果写的较多则MemStore调大。但两者之和不能超过
+?一个RegionServer总内存大小的80%。(StoreFile的flush)
+*调整StoreFile合并的数量限制，太少则合并次数频繁严重影响性能，太大会到这查询变慢。(StoreFile的compart)
+*设置单个StoreFile的大小，调整分裂的性能。(StoreFile的spill)
+6.行键设计：最大长度64KB
+*因为hbase会的rowkey按照字节顺序由小到大排序，因此需要保持rowkey松散性，避免单调递增，防止出现region热点。
+*因为hbase只对rowkey建立索引，所以要保证行键的唯一性。
+*因为行键是不可变的，所以在设计之初要满足业务需求。
+*因为rowkey是冗余存储，所以只要满足以上要求，行键长度尽量短。
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
