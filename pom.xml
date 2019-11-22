@@ -14,6 +14,53 @@
         <module>jvm_test</module>
         <module>common</module>
         <module>ApiDemo</module>
+<<<<<<< HEAD
+        <module>spark-examples_2.4.0</module>
+    </modules>
+
+
+    <properties>
+
+        <project.parent.basedir>${project.basedir}</project.parent.basedir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <PermGen>512m</PermGen>
+        <CodeCacheSize>512m</CodeCacheSize>
+        <MaxPermGen>1024m</MaxPermGen>
+
+        <java.version>1.8</java.version>
+
+        <mysqllib.version>5.1.25</mysqllib.version>
+        <!--<maven.version>3.5.0</maven.version>-->
+        <scala.version>2.11.12</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+
+        <spark.version>2.2.0.cloudera1</spark.version>
+        <hadoop.version>2.6.0-cdh5.10.2</hadoop.version>
+        <hive.version>1.1.0-cdh5.10.2</hive.version>
+        <!--<scala.provided>provided</scala.provided>-->
+
+        <ansj_seg.version>5.1.6</ansj_seg.version>
+
+        <fastjson.version>1.2.13</fastjson.version>
+        <jedis.version>2.9.0</jedis.version>
+
+
+    </properties>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <!-- This should be at top, it makes maven try the central repo first and then others and hence faster dep resolution -->
+            <name>Maven Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+=======
         <!--<module>spark-examples_2.11</module>-->
     </modules>
     <!-- 版本控制 -->
@@ -34,10 +81,28 @@
     </properties>
     <repositories>
         <repository>
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
             <id>cloudera</id>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
         </repository>
     </repositories>
+<<<<<<< HEAD
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+=======
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.scalanlp/breeze-natives_2.11 -->
         <dependency>
@@ -126,11 +191,19 @@
             <version>0.13</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+<<<<<<< HEAD
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-math3</artifactId>-->
+            <!--<version>3.4.1</version>-->
+        <!--</dependency>-->
+=======
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>

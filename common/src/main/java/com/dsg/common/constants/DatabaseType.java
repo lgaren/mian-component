@@ -25,7 +25,11 @@ public enum DatabaseType {
 
     MYSQL("jdbc:mysql://",
             Constants.URL_PARAMS_SPLIT,
+<<<<<<< HEAD
+            "com.mysql.cj.jdbc.Driver",
+=======
             "com.mysql.jdbc.Driver",
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
             "?characterEncoding=utf-8&useSSL=false",
             DSGConfig.ConfVars.DATABASE_USER,
             DSGConfig.ConfVars.DATABASE_PASSWORD,

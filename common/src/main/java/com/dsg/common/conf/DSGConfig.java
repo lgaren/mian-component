@@ -142,9 +142,15 @@ public class DSGConfig extends Configuration {
         		"项目中有一个后台线程来管理资源，管理资源对象" +
                         "的获取，消亡，清理，不管理资源对象的创建，这个配置是线程的工作间隔时间，默认每隔10秒工作一次"),
         DATABASE_USER("javax.jdo.option.ConnectionUserName", "bigdata_admin", "关系行数据库访问用户名, (包括mysql和 oracle )"),
+<<<<<<< HEAD
+        DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "BIGdata12345688", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
+        DATABASE_HOST("javax.jdo.option.host", "10.17.1.7", "关系行数据库HOST， (包括mysql和 oracle )"),
+        DATABASE_PORT("javax.jdo.option.port", 1433, "关系行数据库PORT， (包括mysql和 oracle )"),
+=======
         DATABASE_PASSWORD("javax.jdo.option.ConnectionPassword", "hU3JB6tdEyierKTF8GMA", "关系行数据库访问用户密码， (包括mysql和 oracle )"),
         DATABASE_HOST("javax.jdo.option.host", "172.20.7.124", "关系行数据库HOST， (包括mysql和 oracle )"),
         DATABASE_PORT("javax.jdo.option.port", 3306, "关系行数据库PORT， (包括mysql和 oracle )"),
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
         HIVE_SERVER2_PORT("hive.server2.thrift.port", 10000, "hive server2的访问端口"),
         HIVE_SERVER2_HOST("hive.server2.thrift.bind.host", "10.201.4.51", "hive server2的主机"),
         HIVE_SERVER2_USER("hive.server2.thrift.client.user", "deploy_man", "hive server2客户端访问用户"),

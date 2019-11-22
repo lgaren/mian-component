@@ -40,6 +40,17 @@ public class DataTest {
     static String sql_coln_min = "select min(?) from {table}  ";
     static String sql_coln_null_count = "select count(1) from {table} where ? is null " ;
     static int index = 0;
+<<<<<<< HEAD
+    //        String sql_get_table = "select table_name from TABLES where TABLE_SCHEMA='?' ";
+    /**
+     * 获取一个库的所有表格的语句
+     */
+    static String sql_get_table = "select name from sysobjects where xtype='u' ";
+//  SELECT t.table_name FROM all_tables  t WHERE   t.OWNER='BI_USER'
+
+    //        多个db 用逗号隔开；
+    static String db = "joyu,ewtweg" ;
+=======
     static String sql_get_table = "select table_name from information_schema.TABLES where TABLE_SCHEMA='?' ";
     /**
      * 获取一个库的所有表格的语句
@@ -49,6 +60,7 @@ public class DataTest {
 
     //        多个db 用逗号隔开；
     static String db = "lvmama_cmt" ;
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
 
     /**
      *支持一个正则表达式，被此正则表达式匹配到的表格，将不做统计
@@ -62,7 +74,11 @@ public class DataTest {
         //新建工作表
         sheet = workbook.createSheet("data_test1");
 
+<<<<<<< HEAD
+        String cols = "update,create";
+=======
         String cols = "update_time,create_time";
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
 
         ((Function10<String>)  DataTest::getDataSum).apply(cols);
         FileOutputStream fos = null;
@@ -107,10 +123,16 @@ public class DataTest {
         int i = 1;
         for (String dbname : db.split(Constants.COMMA)) {
             try {
+<<<<<<< HEAD
+                JdbcFactory.JDBC table = JdbcFactory.get(DatabaseType.SQL_SERVER, dbname);
+                ResultSet rstab = table.executeQuery(sql_get_table, dbname);
+                final JdbcFactory.JDBC info = JdbcFactory.get(DatabaseType.SQL_SERVER, dbname);
+=======
                 JdbcFactory.JDBC table = JdbcFactory.get(DatabaseType.MYSQL, "information_schema");
                 final JdbcFactory.JDBC info = JdbcFactory.get(DatabaseType.MYSQL, dbname);
                 ResultSet rstab = table.executeQuery(sql_get_table, dbname);
 
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
                 while (rstab.next()) {
                     String table_name = rstab.getString(1);
                     Pattern r = Pattern.compile(tableFilter);
@@ -124,8 +146,13 @@ public class DataTest {
                     parseValue(colList,row, (col,value) -> get(value.replace("{table}",table_name) ,  info, col), sql_coln_max,sql_coln_min,sql_coln_null_count);
                     i++;
                 }
+<<<<<<< HEAD
+                table.close();
+                info.close();
+=======
 //                table.close();
 //                info.close();
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -143,7 +170,14 @@ public class DataTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+<<<<<<< HEAD
+            try {
+                result.close();
+            } catch (SQLException e) {
+            }
+=======
 
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
         }
         return "";
     }

@@ -36,7 +36,11 @@ public class JdbcFactory implements Serializable {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 jdbcPool.forEach((key, jdbc) -> {
+<<<<<<< HEAD
+                    jdbc.close0();
+=======
 //                    jdbc.close0();
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
                 });
             }
         });
