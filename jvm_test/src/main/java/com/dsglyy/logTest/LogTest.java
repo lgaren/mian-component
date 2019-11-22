@@ -18,8 +18,12 @@ public class LogTest {
     private final static Logger logger = LoggerFactory.getLogger(LogTest.class);
 
     public static void main(String[] args){
+<<<<<<< HEAD
 //
 //
+=======
+//        -Dlog4j.configuration=file:${KYLIN_HOME}/conf/kylin-server-log4j.properties
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
 //        -Dproject.configuration=../conf/dsg-site.xml
         logger.info(" info hahahahaASFh");
         logger.warn("warn hahahah");

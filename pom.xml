@@ -14,6 +14,7 @@
         <module>jvm_test</module>
         <module>common</module>
         <module>ApiDemo</module>
+<<<<<<< HEAD
         <module>spark-examples_2.4.0</module>
     </modules>
 
@@ -59,10 +60,33 @@
             </snapshots>
         </repository>
         <repository>
+=======
+        <!--<module>spark-examples_2.11</module>-->
+    </modules>
+    <!-- 版本控制 -->
+    <properties>
+        <spark.version>2.2.0.cloudera1</spark.version>
+        <java.version>1.8</java.version>
+        <maven.version>3.5.0</maven.version>
+        <scala.version>2.11.8</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+        <fastjson.version>1.2.13</fastjson.version>
+        <jedis.version>2.9.0</jedis.version>
+        <hive.version>1.1.0-cdh5.10.2</hive.version>
+        <hadoop.version>2.6.0-cdh5.10.2</hadoop.version>
+        <redis.version>2.9.0</redis.version>
+        <PermGen>512m</PermGen>
+        <MaxPermGen>1024m</MaxPermGen>
+        <CodeCacheSize>512m</CodeCacheSize>
+    </properties>
+    <repositories>
+        <repository>
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
             <id>cloudera</id>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
         </repository>
     </repositories>
+<<<<<<< HEAD
     <pluginRepositories>
         <pluginRepository>
             <id>central</id>
@@ -77,6 +101,8 @@
     </pluginRepositories>
 
 
+=======
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.scalanlp/breeze-natives_2.11 -->
         <dependency>
@@ -165,11 +191,19 @@
             <version>0.13</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+<<<<<<< HEAD
         <!--<dependency>-->
             <!--<groupId>org.apache.commons</groupId>-->
             <!--<artifactId>commons-math3</artifactId>-->
             <!--<version>3.4.1</version>-->
         <!--</dependency>-->
+=======
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+>>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
