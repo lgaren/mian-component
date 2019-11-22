@@ -28,7 +28,6 @@ public class MethodFunctional {
         void  accept(T o1, T o2);
     }
 
-
     @FunctionalInterface
     public interface Functional3<T> {
         void  accept(T o1, String o2);
