@@ -12,6 +12,6 @@
 /on_jvm/on_jvm.iml
 /.vs/
 */*/target
-./venv/
-./logs/
+venv
+logs
 venv/Include/
