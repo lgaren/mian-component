@@ -21,5 +21,5 @@ input = mat(input)
 sqInput = power(input, 2)
 
 # output size, mean, mean(square values)
-print "%d\t%f\t%f" % (numInputs, mean(input), mean(sqInput))  # calc mean of columns
+print ("%d\t%f\t%f" % (numInputs, mean(input), mean(sqInput)) ) # calc mean of columns
 print >> sys.stderr, "report: still alive"

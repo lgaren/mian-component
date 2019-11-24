@@ -26,7 +26,7 @@ def standRegres(xArr, yArr):
     yMat = mat(yArr).T
     xTx = xMat.T * xMat
     if linalg.det(xTx) == 0.0:
-        print "This matrix is singular, cannot do inverse"
+        print ("This matrix is singular, cannot do inverse")
         return
     ws = xTx.I * (xMat.T * yMat)
     return ws
@@ -42,7 +42,7 @@ def lwlr(testPoint, xArr, yArr, k=1.0):
         weights[j, j] = exp(diffMat * diffMat.T / (-2.0 * k ** 2))
     xTx = xMat.T * (weights * xMat)
     if linalg.det(xTx) == 0.0:
-        print "This matrix is singular, cannot do inverse"
+        print ("This matrix is singular, cannot do inverse")
         return
     ws = xTx.I * (xMat.T * (weights * yMat))
     return testPoint * ws
@@ -73,7 +73,7 @@ def ridgeRegres(xMat, yMat, lam=0.2):
     xTx = xMat.T * xMat
     denom = xTx + eye(shape(xMat)[1]) * lam
     if linalg.det(denom) == 0.0:
-        print "This matrix is singular, cannot do inverse"
+        print ("This matrix is singular, cannot do inverse")
         return
     ws = denom.I * (xMat.T * yMat)
     return ws
@@ -116,7 +116,7 @@ def stageWise(xArr, yArr, eps=0.01, numIt=100):
     wsTest = ws.copy();
     wsMax = ws.copy()
     for i in range(numIt):
-        print ws.T
+        print (ws.T)
         lowestError = inf;
         for j in range(n):
             for sign in [-1, 1]:
@@ -184,11 +184,11 @@ def searchForSet(retX, retY, setNum, yr, numPce, origPrc):
             for item in listOfInv:
                 sellingPrice = item['price']
                 if sellingPrice > origPrc * 0.5:
-                    print "%d\t%d\t%d\t%f\t%f" % (yr, numPce, newFlag, origPrc, sellingPrice)
+                    print ("%d\t%d\t%d\t%f\t%f" % (yr, numPce, newFlag, origPrc, sellingPrice))
                     retX.append([yr, numPce, newFlag, origPrc])
                     retY.append(sellingPrice)
         except:
-            print 'problem with item %d' % i
+            print ('problem with item %d' % i)
 
 
 def setDataCollect(retX, retY):
@@ -238,5 +238,5 @@ def crossValidation(xArr, yArr, numVal=10):
     meanX = mean(xMat, 0);
     varX = var(xMat, 0)
     unReg = bestWeights / varX
-    print "the best model from Ridge Regression is:\n", unReg
-    print "with constant term: ", -1 * sum(multiply(meanX, unReg)) + mean(yMat)
+    print( "the best model from Ridge Regression is:\n", unReg)
+    print ("with constant term: ", -1 * sum(multiply(meanX, unReg)) + mean(yMat))

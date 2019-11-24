@@ -90,9 +90,9 @@ par = re.compile(re1 + re2 + re3 + re8 + re_0 + re4 + re_0 + re5 + re_0  + re6+ 
 print (par.pattern)
 kylinLB = re.findall(par,str1)
 # print lbConf
-print re.findall(par,str1)
+print (re.findall(par,str1))
 if len(kylinLB) !=0 :
-    print kylinLB[0].replace('\n','\n#')
+    print (kylinLB[0].replace('\n','\n#'))
 else :
-    print kylinLB
+    print (kylinLB)
 

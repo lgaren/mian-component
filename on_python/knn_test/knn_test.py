@@ -16,4 +16,4 @@ labels = ['A', 'A', 'B', 'B']
 
 KNN.classify0([2, 2], group, labels, 3)  # B
 result = KNN.classify0([2, 2], group, labels, 4)  # A
-print result
+print (result)

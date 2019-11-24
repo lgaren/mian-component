@@ -75,16 +75,16 @@ def adaBoostTrainDS(dataArr,classLabels,numIt=40):
     D = mat(ones((m,1))/m)
     aggClassEst = mat(zeros((m,1)))
     for i in range(numIt):
-        print "D : ", D.T
+        print ("D : ", D.T)
         bestStump,error,classEst = buildStump(dataArr,classLabels,D)
         alpha = float(0.5*log((1.0 - error)/max(error,1e-16)))
-        print alpha
+        print (alpha)
         bestStump['alpha'] = alpha
         weakClassArr.append(bestStump)
-        print "classEst:" ,classEst.T
+        print ("classEst:" ,classEst.T)
 
 D = mat(ones((5,1))/5)  #  权重
-print type(D.T)
+print (type(D.T))
 
 dataMat,classLabels= loadSimpData()
-print buildStump(dataMat,classLabels,D)
+print (buildStump(dataMat,classLabels,D))

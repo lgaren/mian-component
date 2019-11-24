@@ -24,8 +24,8 @@ def cal():
     while (x_new - x_old) > presision:
         x_old = x_new
         x_new = x_old + eps * f_prime(x_old)
-        print x_old, x_new
+        print (x_old, x_new)
     return x_new
 
 
-print cal()
+print (cal())

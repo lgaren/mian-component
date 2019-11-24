@@ -53,7 +53,7 @@ if __name__ == '__main__':
         classNum = int(fileName.split('_')[0])
         imgVector = img2vector(path + '/' + fileName)
         classifierResult = kNN.classify0(imgVector, trainingMat, hwlabels, 3)
-        print "the classifier came back with: %d, the real answer is: %d" % (classifierResult, classNum)
+        print ("the classifier came back with: %d, the real answer is: %d" % (classifierResult, classNum))
         if (classifierResult != classNum): errorCount += 1.0
-    print "\nthe total number of errors is: %d" % errorCount
-    print "\nthe total error rate is: %f" % (errorCount / float(mTest))
+    print ("\nthe total number of errors is: %d" % errorCount)
+    print ("\nthe total error rate is: %f" % (errorCount / float(mTest)))

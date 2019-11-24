@@ -106,7 +106,7 @@ def createPlot(inTree):
     plotTree.totalD = float(getTreeDepth(inTree))
     plotTree.xOff = -0.5 / plotTree.totalW;
     plotTree.yOff = 1.0;
-    print plotTree.totalW
+    print (plotTree.totalW)
     plotTree(inTree, (0.5, 1.0), '')
     plt.show()
 
@@ -114,6 +114,6 @@ def createPlot(inTree):
 if __name__ == '__main__':
     myData, labels = trees.createDataSet()
     myTree = trees.createTree(myData, labels)
-    print myTree
+    print (myTree)
     myTree['no surfacing'][3] = 'maybe'
     createPlot(myTree)

@@ -52,4 +52,4 @@ for _, value in values:
     # note: omega = result[:-1] and gamma = result[-1]
     # but printing entire vector as output
     result = sumETE.I * sumETDe
-    print "%s\t%s" % (key, str(result.tolist()))
+    print ("%s\t%s" % (key, str(result.tolist())))

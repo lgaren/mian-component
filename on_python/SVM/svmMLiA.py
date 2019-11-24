@@ -153,7 +153,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
 
                 # 更新计数器
                 alphaPairsChanged += 1
-                print "iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged)
+                print ("iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged))
 
         # 如果内循环alpha没有更新，则把计数器加 1 ，有更新就把计数器归 0 ，直到 40 时外循环就会跳出
         # 连续40 次没有alpha更新说明alpha已经收敛不需要在继续更新，达到退出目的
@@ -164,7 +164,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
         else:
             iter = 0
         # print "iteration number: %d" % iter
-    print g
+    print (g)
     return b, alphas
 
 
@@ -219,7 +219,7 @@ def calcEk(oS, k):
 
 
 # 6902 + 1600 + 20 17 20 66 52 20 14 50 30 20 50 50 200 100 52  52 13 61 50 200 150 60 200 50 10
-print 6902 + 1600 + 20 + 17 + 20 + 66 + 52 + 20 + 14 + 50 + 30 + 20 + 50 + 50 + 200 + 100 + 52 + 52 + 13 + 61 + 50 + 200 + 150 + 60 + 200 + 50 + 10
+print (6902 + 1600 + 20 + 17 + 20 + 66 + 52 + 20 + 14 + 50 + 30 + 20 + 50 + 50 + 200 + 100 + 52 + 52 + 13 + 61 + 50 + 200 + 150 + 60 + 200 + 50 + 10)
 
 
 # 参数，估计误差第一个alpha，以及 OS对象
@@ -290,15 +290,15 @@ def innerL(i, oS):
         else:
             L = max(0, oS.alphas[j] + oS.alphas[i] - oS.C)
             H = min(oS.C, oS.alphas[j] + oS.alphas[i])
-        if L == H: print "L==H"; return 0
+        if L == H: print ("L==H"); return 0
         eta = 2.0 * oS.K[i, j] - oS.K[i, i] - oS.K[j, j]  # changed for kernel
-        if eta >= 0: print "eta>=0"; return 0
+        if eta >= 0: print ("eta>=0"); return 0
         oS.alphas[j] -= oS.labelMat[j] * (Ei - Ej) / eta
         oS.alphas[j] = clipAlpha(oS.alphas[j], H, L)
 
         # 更新完alpha后重新记录缓存
         updateEk(oS, j)  # added this for the Ecache
-        if (abs(oS.alphas[j] - alphaJold) < 0.00001): print "j not moving enough"; return 0
+        if (abs(oS.alphas[j] - alphaJold) < 0.00001): print ("j not moving enough"); return 0
         oS.alphas[i] += oS.labelMat[j] * oS.labelMat[i] * (alphaJold - oS.alphas[j])  # update i by the same amount as j
         updateEk(oS, i)  # added this for the Ecache                    #the update is in the oppostie direction
         b1 = oS.b - Ei - oS.labelMat[i] * (oS.alphas[i] - alphaIold) * oS.K[i, i] - oS.labelMat[j] * (
@@ -333,13 +333,13 @@ def smoP(dataMatIn, classLabels, C, toler, maxIter, kTup=('lin', 0)):  # full Pl
             for i in range(oS.m):
                 # 仅当两个alpha都已经更新过后才返回1
                 alphaPairsChanged += innerL(i, oS)
-                print "fullSet, iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged)
+                print ("fullSet, iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged))
             iter += 1
         else:  # go over non-bound (railed) alphas
             nonBoundIs = nonzero((oS.alphas.A > 0) * (oS.alphas.A < C))[0]
             for i in nonBoundIs:
                 alphaPairsChanged += innerL(i, oS)
-                print "non-bound, iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged)
+                print ("non-bound, iter: %d i:%d, pairs changed %d" % (iter, i, alphaPairsChanged))
             iter += 1
         # 每一轮内循环结束就切换entireSet的值
         # 当为True时改为False
@@ -350,7 +350,7 @@ def smoP(dataMatIn, classLabels, C, toler, maxIter, kTup=('lin', 0)):  # full Pl
         # 当为没有更新任何alpha时改为True
         elif (alphaPairsChanged == 0):
             entireSet = True
-        print "iteration number: %d" % iter
+        print ("iteration number: %d" % iter)
     return oS.b, oS.alphas
 
 
@@ -372,14 +372,14 @@ def testRbf(k1=1.3):
     svInd = nonzero(alphas.A > 0)[0]
     sVs = datMat[svInd]  # get matrix of only support vectors
     labelSV = labelMat[svInd];
-    print "there are %d Support Vectors" % shape(sVs)[0]
+    print ("there are %d Support Vectors" % shape(sVs)[0])
     m, n = shape(datMat)
     errorCount = 0
     for i in range(m):
         kernelEval = kernelTrans(sVs, datMat[i, :], ('rbf', k1))
         predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b
         if sign(predict) != sign(labelArr[i]): errorCount += 1
-    print "the training error rate is: %f" % (float(errorCount) / m)
+    print ("the training error rate is: %f" % (float(errorCount) / m))
     dataArr, labelArr = loadDataSet(path + 'testSetRBF2.txt')
     errorCount = 0
     datMat = mat(dataArr);
@@ -389,7 +389,7 @@ def testRbf(k1=1.3):
         kernelEval = kernelTrans(sVs, datMat[i, :], ('rbf', k1))
         predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b
         if sign(predict) != sign(labelArr[i]): errorCount += 1
-    print "the test error rate is: %f" % (float(errorCount) / m)
+    print ("the test error rate is: %f" % (float(errorCount) / m))
 
 
 def img2vector(filename):
@@ -429,14 +429,14 @@ def testDigits(kTup=('rbf', 10)):
     svInd = nonzero(alphas.A > 0)[0]
     sVs = datMat[svInd]
     labelSV = labelMat[svInd];
-    print "there are %d Support Vectors" % shape(sVs)[0]
+    print ("there are %d Support Vectors" % shape(sVs)[0])
     m, n = shape(datMat)
     errorCount = 0
     for i in range(m):
         kernelEval = kernelTrans(sVs, datMat[i, :], kTup)
         predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b
         if sign(predict) != sign(labelArr[i]): errorCount += 1
-    print "the training error rate is: %f" % (float(errorCount) / m)
+    print ("the training error rate is: %f" % (float(errorCount) / m))
     dataArr, labelArr = loadImages(path + 'digits/testDigits')
     errorCount = 0
     datMat = mat(dataArr);
@@ -446,12 +446,12 @@ def testDigits(kTup=('rbf', 10)):
         kernelEval = kernelTrans(sVs, datMat[i, :], kTup)
         predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b
         if sign(predict) != sign(labelArr[i]): errorCount += 1
-    print "the test error rate is: %f" % (float(errorCount) / m)
+    print ("the test error rate is: %f" % (float(errorCount) / m))
 
 
 dataArr, labelArr = loadDataSet(path + 'testSet.txt')
-print  mat(dataArr)[1, :]
-print  mat(dataArr)[:, 1]
+print ( mat(dataArr)[1, :])
+print  (mat(dataArr)[:, 1])
 # b, alphas = smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
 # b, alphas = smoP(dataArr, labelArr, 0.6, 0.001, 40)
 # w = calcWs(alphas, dataArr, labelArr)

@@ -175,18 +175,18 @@ if __name__ == '__main__':
     # 香农熵越大，数据越混乱
     # print calcShannonEnt(myData)
     # print splitDataSet(myData,0,1)
-    print chooseBestFeatureToSplit(myData)
+    print (chooseBestFeatureToSplit(myData))
     #
     myTree = createTree(myData, labels)
-    print myTree
-    print classify(myTree, ['no surfacing', 'flippers'], [0, 0])
+    print (myTree)
+    print (classify(myTree, ['no surfacing', 'flippers'], [0, 0]))
     storeTree(myTree, '../../../resource/decision/decision')
-    print grabTree('../../../resource/decision/decision')
+    print (grabTree('../../../resource/decision/decision'))
 
     # ========================test===========================
     fr = open('../../../resource/decision/lenses.txt')
     lense = [line.strip().split('\t') for line in fr.readlines()]
     lenseLabels = ['age', 'perscript', 'astigmatic', 'tearRate']
     lenseTree = createTree(lense, lenseLabels)
-    print lenseTree
+    print (lenseTree)
     treePlotter.createPlot(lenseTree)

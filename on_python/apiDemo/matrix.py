@@ -27,12 +27,12 @@ adc=mat(ones((5,1))/5).T
 
 asd=ones((5,1))
 
-print max(1e - 16)
+print (max(e - 16))
 
 
-print adc *asd
+print (adc *asd)
 # print type(adc)0
 # print type(ones((5,1)))
 # print type(adc * asd)
 if matrix([[2]]) >= 3.0 :
-    print "sdfsggs"
+    print("sdfsggs")

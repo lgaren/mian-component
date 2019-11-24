@@ -69,7 +69,7 @@ def setOfWords2Vec(vocabList, inputSet):
         if word in vocabList:
             returnVec[vocabList.index(word)] = 1
         else:
-            print "the word : s% is not in my Vocabulary!" % word
+            print ("the word : s% is not in my Vocabulary!" % word)
     return returnVec
 
 
@@ -128,7 +128,7 @@ p(Ci) = p(W|Ci)p(Ci) / p(W)  在这里因为最终结果只需要知道所属的
 
 def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
     # 因为采用了避免下溢出措施，对概率去自然对数，所以在这里乘法就会变成加法
-    print sum(vec2Classify * p1Vec)
+    print (sum(vec2Classify * p1Vec))
     p1 = sum(vec2Classify * p1Vec) + log(pClass1)  # element-wise mult
     p0 = sum(vec2Classify * p0Vec) + log(1.0 - pClass1)
     if p1 > p0:
@@ -146,10 +146,10 @@ def testingNB():
     p0V, p1V, pAb = trainNB0(array(trainMat), array(classVec))
     testEntry = ['love', 'my', 'dalmation']
     thisDoc = array(setOfWords2Vec(myVocabList, testEntry))
-    print testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb)
+    print (testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb))
     testEntry = ['stupid', 'garbage']
     thisDoc = array(setOfWords2Vec(myVocabList, testEntry))
-    print testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb)
+    print (testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb))
 
 
 """
@@ -165,7 +165,7 @@ def bagOfWords2Vec(vocabList, inputSet):
         if word in vocabList:
             returnVec[vocabList.index(word)] += 1
         else:
-            print "the word : %s is not in my Vocabulary!" % word
+            print ("the word : %s is not in my Vocabulary!" % word)
     return returnVec
 
 
@@ -211,7 +211,7 @@ def spamTest():
         wordVector = setOfWords2Vec(vocabList, docList[docIndex])  # 计算文档词汇的向量
         if classifyNB(array(wordVector), p0V, p1V, psPam) != classList[docIndex]:  # 测试数据分类
             errorCount += 1
-    print 'the error rate is: ', float(errorCount) / len(testSet)
+    print ('the error rate is: ', float(errorCount) / len(testSet))
 
 
 """
@@ -267,10 +267,10 @@ def localWords(feed1, feed0):
     errorCount = 0;
     for docIndex in testSet:
         wordVector = bagOfWords2Vec(vocabList, docList[docIndex])
-        print wordVector
+        print (wordVector)
         if classifyNB(array(wordVector), p0V, p1V, pSpam) != classList[docIndex]:
             errorCount += 1
-    print 'the error rate is :', float(errorCount) / len(testSet)
+    print ('the error rate is :', float(errorCount) / len(testSet))
     return vocabList, p0V, p1V
 
 
@@ -285,11 +285,11 @@ def getTopWords(ny, sf):
         if p0V[i] > -6.0: topNY.append((vocabList[i], p0V[i]))
     sortedSF = sorted(topSF, key=lambda pair: pair[1], reverse=True)
     for item in sortedSF:
-        print item[0]
+        print (item[0])
 
     sortedNY = sorted(topNY, key=lambda pair: pair[1], reverse=True)
     for item in sortedNY:
-        print item[0]
+        print (item[0])
 
 
 dataSet, classVec = loadDtaSet()

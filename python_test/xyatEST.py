@@ -74,7 +74,7 @@ if __name__ == "__main__":
         x[0] = x[1] + x[2]
         x[1] = x[0] / 2 - x[2]
         x[2] = x[0] / 3 - 2 * x[1] / 3
-        print x
+        print (x)
         f_t = f(x)
 
         if (abs(f_t - f_0) < err):
@@ -82,5 +82,5 @@ if __name__ == "__main__":
 
         f_0 = f_t
 
-    print "max: " + str(f_0)
-    print x
+    print ("max: " + str(f_0))
+    print (x)

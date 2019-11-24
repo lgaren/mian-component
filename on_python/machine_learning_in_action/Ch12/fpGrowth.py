@@ -149,7 +149,7 @@ def getLotsOfTweets(searchStr):
     # you can get 1500 results 15 pages * 100 per page
     resultsPages = []
     for i in range(1, 15):
-        print "fetching page %d" % i
+        print ("fetching page %d" % i)
         searchResults = api.GetSearch(searchStr, per_page=100, page=i)
         resultsPages.append(searchResults)
         sleep(6)

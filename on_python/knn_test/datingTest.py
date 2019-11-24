@@ -67,9 +67,9 @@ def datingClassTest(normMat, label, hoRatio, k):
         # normMat[i,:] 拿第行数据
         # normMat[numTestVecs:m,:]拿取  numTestVecs 到m 行数据
         calssifierResult = kNN.classify0(normMat[i, :], normMat[numTestVecs:m, :], label[numTestVecs:m], k)
-        print "the classifier came back with: %d, the real answer is: %d" % (calssifierResult, label[i])
+        print ("the classifier came back with: %d, the real answer is: %d" % (calssifierResult, label[i]))
         if (calssifierResult != label[i]): errorCount += 1.0
-    print "\nthe total error rate is: %f" % (errorCount / float(numTestVecs))
+    print ("\nthe total error rate is: %f" % (errorCount / float(numTestVecs)))
 
 
 def datingClass():
@@ -84,9 +84,9 @@ def datingClass():
         # normMat[i,:] 拿第行数据
         # normMat[numTestVecs:m,:]拿取  numTestVecs 到m 行数据
         calssifierResult = kNN.classify0(normMat[i, :], normMat[numTestVecs:m, :], label[numTestVecs:m], 3)
-        print "the classifier came back with: %d, the real answer is: %d" % (calssifierResult, label[i])
+        print ("the classifier came back with: %d, the real answer is: %d" % (calssifierResult, label[i]))
         if (calssifierResult != label[i]): errorCount += 1.0
-    print "\nthe total error rate is: %f" % (errorCount / float(numTestVecs))
+    print ("\nthe total error rate is: %f" % (errorCount / float(numTestVecs)))
 
 
 if __name__ == '__main__':

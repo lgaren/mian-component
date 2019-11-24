@@ -60,7 +60,7 @@ def standEst(dataMat, user, simMeas, item):
         else:
             similarity = simMeas(dataMat[overLap, item], \
                                  dataMat[overLap, j])
-        print 'the %d and %d similarity is: %f' % (item, j, similarity)
+        print ('the %d and %d similarity is: %f' % (item, j, similarity))
         simTotal += similarity
         ratSimTotal += similarity * userRating
     if simTotal == 0:
@@ -81,7 +81,7 @@ def svdEst(dataMat, user, simMeas, item):
         if userRating == 0 or j == item: continue
         similarity = simMeas(xformedItems[item, :].T, \
                              xformedItems[j, :].T)
-        print 'the %d and %d similarity is: %f' % (item, j, similarity)
+        print ('the %d and %d similarity is: %f' % (item, j, similarity))
         simTotal += similarity
         ratSimTotal += similarity * userRating
     if simTotal == 0:
@@ -104,10 +104,10 @@ def printMat(inMat, thresh=0.8):
     for i in range(32):
         for k in range(32):
             if float(inMat[i, k]) > thresh:
-                print 1,
+                print (1),
             else:
-                print 0,
-        print ''
+                print (0),
+        print ('')
 
 
 def imgCompress(numSV=3, thresh=0.8):
@@ -118,12 +118,12 @@ def imgCompress(numSV=3, thresh=0.8):
             newRow.append(int(line[i]))
         myl.append(newRow)
     myMat = mat(myl)
-    print "****original matrix******"
+    print ("****original matrix******")
     printMat(myMat, thresh)
     U, Sigma, VT = la.svd(myMat)
     SigRecon = mat(zeros((numSV, numSV)))
     for k in range(numSV):  # construct diagonal matrix from vector
         SigRecon[k, k] = Sigma[k]
     reconMat = U[:, :numSV] * SigRecon * VT[:numSV, :]
-    print "****reconstructed matrix using %d singular values******" % numSV
+    print ("****reconstructed matrix using %d singular values******" % numSV)
     printMat(reconMat, thresh)
