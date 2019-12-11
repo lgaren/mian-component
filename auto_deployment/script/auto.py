@@ -50,7 +50,7 @@ for name in list:
     try:
         # out.write(
             # '###########################################################\n' + name + '\n==================================\n\n\n')
-        outs = os.system("python -m pip install " + name)
+        outs = os.system("C:\Program_data\project\mian-component\py_env3.7\python -m pip install " + name)
     except:
         pass
         # out.write(traceback.format_exc())

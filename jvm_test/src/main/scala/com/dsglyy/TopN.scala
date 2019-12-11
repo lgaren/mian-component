@@ -1,7 +1,7 @@
 //package com.dsglyy
 
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
+//import org.apache.spark.SparkConf
+//import org.apache.spark.SparkContext
 /**
   * Created by admin on 2017/8/21.
   */

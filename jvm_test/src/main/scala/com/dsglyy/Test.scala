@@ -9,7 +9,7 @@ object testFun {
   def main(args: Array[String]) {
 
     //    把函数赋值给变量注意后面的  _ ，没有 _ 会报错
-<<<<<<< HEAD
+
 //        val asd = layout _
 //        println(asd(12,13))
 
@@ -17,7 +17,7 @@ object testFun {
     //    当 apply 返回值不为空的时候，就会不会打印出一个空tuple
     //    println(apply(layout,10))
     //    println(matchTest1(2))
-=======
+
         val asd = layout _
         println(asd(12,13))
 
@@ -25,7 +25,7 @@ object testFun {
     //    当 apply 返回值不为空的时候，就会不会打印出一个空tuple
 //        println(apply(layout,10))
 //        println(matchTest1(2))
->>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
+
 
 
     //    静态返回一个函数

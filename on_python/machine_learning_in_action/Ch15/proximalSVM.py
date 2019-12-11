@@ -26,9 +26,9 @@ def map(key, value):
 
     # note: a single constant key "producedkey" sends to only one reducer
     # somewhat "atypical" due to low degree of parallism on reducer side
-    print "producedkey\t%s" % (producedvalue)
+    print ("producedkey\t%s" % (producedvalue))
 
-    def reduce(key, values, mu=0.1):
+    # def reduce(key, values, mu=0.1):
 
 
 sumETE = None

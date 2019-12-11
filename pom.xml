@@ -35,7 +35,7 @@
         <ansj_seg.version>5.1.6</ansj_seg.version>
         <fastjson.version>1.2.13</fastjson.version>
         <jedis.version>2.9.0</jedis.version>
-        <spark.version>2.2.0.cloudera1</spark.version>
+
         <java.version>1.8</java.version>
 
         <scala.version>2.11.8</scala.version>
@@ -141,7 +141,7 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
-            <!--<scope>${spark.scope}</scope>-->
+            <scope>${spark.scope}</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql_2.10 -->
         <dependency>
@@ -185,7 +185,7 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
-            <version>2.10.5</version>
+            <version>${scala.binary.version}</version>
             <!--<scope>provided</scope>-->
         </dependency>
         <!-- scala end -->

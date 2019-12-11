@@ -23,13 +23,11 @@ public class BaiduBaikeUtil {
     public static String regEx_script = "<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>";
     public static String regEx_style = "<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>";
     public static String regEx_html = "<[^>]+>";
-<<<<<<< HEAD
-    public static String format = "(\\(\\d+张\\))*[ ]*\t*(&nbsp;)*(\\[\\d*\\])*(&gt)*";
-=======
-    public static String format = " ";
->>>>>>> f515e2b1fd02cb3af610c9d249efc5732d1c37eb
+
+//    public static String format = "(\\(\\d+张\\))*[ ]*\\t*(&nbsp;)*(\\[\\d*\\])*(&gt)*";
+public static String format = "";
     public static String tarin = "乘车路线</h2>((?!<h2 class=\"title-text\"><span class=\"title-prefix\">).)*";
-    public static String mutl = "\n*\t*[ ]*";
+    public static String mutl = "\\n*\\t*[ ]*";
 
     public static Pattern p_script = Pattern.compile(regEx_script, Pattern.CASE_INSENSITIVE);
     public static java.util.regex.Matcher m_script;
