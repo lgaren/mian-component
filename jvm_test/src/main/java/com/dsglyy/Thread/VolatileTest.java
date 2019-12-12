@@ -36,7 +36,7 @@ public class VolatileTest  extends Thread {
   }
 
     public static void main(String[] args) {
-//        方法很多人翻译成线程让步，就是说当一个线程使用了这个方法之后，它就会把自己CPU执行的时间让掉，
+
         final VolatileTest test = new VolatileTest();
         for(int i = 0 ; i < 10 ; i ++ ){
             new Thread(){
@@ -47,8 +47,9 @@ public class VolatileTest  extends Thread {
             }.start();
 
         }
-
+       //Thread.activeCount() 返回当前线程组的还在活动的线程数  ，在这里所有被创建的线程都属于main线程组 ， 当Thread.activeCount() 返回1 时，表明上面所有被创建的线程全部执行完成就剩下一个main线程
         while(Thread.activeCount() > 1 )
+            //        方法很多人翻译成线程让步，就是说当一个线程使用了这个方法之后，它就会把自己CPU执行的时间让掉，后面等待操作系统重新调度；
             Thread.yield();
         System.out.println(test.inc);
     }
